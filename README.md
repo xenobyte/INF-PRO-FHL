@@ -9,5 +9,5 @@ Repository structure
 * doc - documentation
 * prot - meeting protocols
 * sigproc - octave / python programs for signal processing
-* src - source code
+* code - source code, VisualStudio Projects etc.
 * userprofiles - epoc user profiles
