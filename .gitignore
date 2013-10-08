@@ -20,5 +20,9 @@
 *~
 *.bak
 
+# VisualStudio dead weight
+*.ncb
+*.sdf
+
 # OSX-specific stuff
 .DS_STORE
