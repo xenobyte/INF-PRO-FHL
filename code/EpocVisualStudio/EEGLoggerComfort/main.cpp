@@ -54,7 +54,7 @@ int main(int argc, char** argv) {
 	try {
 
         if (argc != 2) {
-            throw std::exception("Please supply the log file name.\nUsage: EEGLogger [log_file_name].");
+            throw std::exception("Please supply the log file name.\nUsage: EEGLoggerComfort [log_file_theme].");
         }
 
 
