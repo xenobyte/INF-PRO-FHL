@@ -5,9 +5,9 @@
  * Aenderungen:
  * 1. Keine Auswahl zwischen EmoEngine und EmoComposer. Beim Sammeln echter Daten (von
  *    der EmoEngine) bremste diese Eingabeaufforderung nur den Workflow.
- *    -> Aenderung ist implementiert
+ *    -> Aenderung ist implementiert.
  * 2. Automatisches Einfuegen eines Timestamps (Datum, Uhrzeit) in den Dateinamen.
- *    -> Implementierung ist noch TODO
+ *    -> ist implementiert.
  */
 
 
@@ -62,10 +62,27 @@ int main(int argc, char** argv) {
             throw std::exception("Emotiv Engine start up failed.");
         }
 		
-		
+
+        // auto-generation of filename with timestamp:
+        SYSTEMTIME lt;
+        GetLocalTime(&lt);
+
+        int filenameLength = strlen(argv[1]) + strlen("_YYYYMMDD_HHMMSS.txt") + 1;
+        char * filename = new char[filenameLength];
+
+        int rv = sprintf_s(filename, filenameLength, "%s_%04d%02d%02d_%02d%02d%02d.txt", argv[1], lt.wYear, lt.wMonth, lt.wDay,
+            lt.wHour, lt.wMinute, lt.wSecond);
+
+        if (rv < 0){
+            throw std::exception("Generation of filename failed.");
+        }
+
+
 		std::cout << "Start receiving EEG Data! Press any key to stop logging...\n" << std::endl;
-    	std::ofstream ofs(argv[1],std::ios::trunc);
+        std::ofstream ofs(filename, std::ios::trunc);
 		ofs << header << std::endl;
+
+        delete filename;
 		
 		DataHandle hData = EE_DataCreate();
 		EE_DataSetBufferSizeInSec(secs);
