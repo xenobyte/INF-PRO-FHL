@@ -21,10 +21,11 @@ timestamps = eegMatrix(:, CsvIndices.TIMESTAMP);
 %% Daten zweidimensional plotten:
 plot(timestamps,af3, 'b');  % b wie blue
 hold on;                    % ins selbe Diagramm plotten
-plot(timestamps, f7, 'r');  % r wie red       
+plot(timestamps, f7, 'r');  % r wie red
+plot(timestamps, eegMatrix(:, CsvIndices.F3), 'g'); % green
 hold off;
 
-legend('af3', 'f7');        % Legende
+legend('af3', 'f7', 'f3');    % Legende
 title('Beispielplot');
 xlabel('t in s');
 ylabel('eeg-Pegel - Einheit???');
