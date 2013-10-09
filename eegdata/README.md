@@ -17,4 +17,4 @@ or more precisely: nameOfAssociatedAction_YYMMDD_HHMMSS.txt
 Folder structure
 ----------------
 Folder structure is:
-/nameOfTestPerson/dateOfTest/
+/nameOfTestPerson/
