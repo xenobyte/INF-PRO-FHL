@@ -8,6 +8,6 @@ Repository structure
 * eegdata - eeg data samples
 * doc - documentation
 * prot - meeting protocols
-* sigproc - octave / python programs for signal processing
-* code - source code, VisualStudio Projects etc.
+* sigproc - Matlab / octave / python programs for signal processing
+* src - source code, VisualStudio Projects etc.
 * userprofiles - epoc user profiles
