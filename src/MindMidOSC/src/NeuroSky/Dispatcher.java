@@ -17,7 +17,8 @@ import org.json.JSONObject;
 
 
 /*
- * Diese Klase verbindet Sich mit der BCI, die Parser klasse
+ * Diese Klase verbindet sich mit der BCI 
+ * sie benutzt die Parser klasse um die Methden aufzurufen wenn ein Ereignis auftretet
  */
 public class Dispatcher implements Runnable{
 
