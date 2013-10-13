@@ -12,8 +12,8 @@ import oscSender.OSC_Sender;
 
 /*
  * Diese Klasse stellt Methoden bereit. 
- * Die Methoden werden beim auftreten der Jeweiligen Ereigniss Aufgerufen
- * eine Osc Nachricht wird bei jedem aufruf geschickt. 
+ * Die Methoden werden beim auftreten der jeweiligen Ereigniss aufgerufen
+ * eine Osc Nachricht wird bei jedem Aufruf geschickt. 
  */
 
 public class OscControl implements Control{

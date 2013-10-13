@@ -12,8 +12,8 @@ import NeuroSky.Dispatcher;
 
 /*
  * Diese Klasse stellt Methoden bereit. 
- * Die Methoden werden beim auftreten der Jeweiligen Ereigniss Aufgerufen
- * eine Midi Nachricht wird bei jedem aufruf geschickt. 
+ * Die Methoden werden beim auftreten der jeweiligen Ereigniss aufgerufen.
+ * eine Midi Nachricht wird bei jedem Aufruf geschickt. 
  */
 
 public class MidiControl  implements Control{
