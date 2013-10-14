@@ -4,7 +4,7 @@
 %  csvread(filename, row, column) -> wir starten bei Zeile 1, da Zeile 0
 %  den CSV-Header enthaelt:
 
-eegMatrix = csvread('../../eegdata/Martin/RandomThoughts_20131009_111253.txt',1,0);
+eegMatrix = csvread('../../../eegdata/Timo/Push_20131014_120744.txt',1,0);
 
 %% Zugriff auf eine Zeile:
 %  Die erste Zeile wird als Vektor der Variable x zugewiesen:
