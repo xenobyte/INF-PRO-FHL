@@ -1,14 +1,26 @@
-/*
- * Eine kleine Variante des EEGLoggers (mitgeliefertes Example 5) fuer den alltaeglichen
- * Datenerfassungs-Gebrauch.
+/*******************************************************************************
+ * EmologgerComfort.cpp
+ * Version: 0.2
+ *******************************************************************************
+ * Eine Variante des EEGLoggers (mitgeliefertes Example 5) fuer den
+ * alltaeglichen Datenerfassungs-Gebrauch.
  *
  * Aenderungen:
- * 1. Keine Auswahl zwischen EmoEngine und EmoComposer. Beim Sammeln echter Daten (von
- *    der EmoEngine) bremste diese Eingabeaufforderung nur den Workflow.
+ * 1. Keine Auswahl zwischen EmoEngine und EmoComposer. Beim Sammeln echter
+ *	  Daten (von der EmoEngine) bremste diese Eingabeaufforderung nur den
+ *    Workflow.
  *    -> Aenderung ist implementiert.
- * 2. Automatisches Einfuegen eines Timestamps (Datum, Uhrzeit) in den Dateinamen.
+ * 2. Automatisches Einfuegen eines Timestamps (Datum, Uhrzeit) in den
+ *	  Dateinamen.
  *    -> ist implementiert.
- */
+ * 3. Zwei zusaetzliche csv-Spalten fuer die Werte der "Cognitiv Suite"
+ *    (Cognitiv Action, Cognitiv Power)
+ *	  -> ist implementiert (seit Version 0.2).
+ *******************************************************************************
+ * Versionshistorie:
+ * v0.1: erste Implementation (Aenderungen 1 & 2) 
+ * v0.2: csv-Spalten fuer "Cognitiv Suite", Dateinamen jetzt .eeg (v0.1: .txt)
+ ******************************************************************************/
 
 
 #include <iostream>
@@ -34,7 +46,8 @@ EE_DataChannel_t targetChannelList[] = {
 
 const char header[] = "COUNTER,AF3,F7,F3, FC5, T7, P7, O1, O2,P8" 
                       ", T8, FC6, F4,F8, AF4,GYROX, GYROY, TIMESTAMP, "   
-                      "FUNC_ID, FUNC_VALUE, MARKER, SYNC_SIGNAL,";
+                      "FUNC_ID, FUNC_VALUE, MARKER, SYNC_SIGNAL, "
+                      "Cognitiv Action, Cognitiv Power,";
 
 int main(int argc, char** argv) {
 
@@ -52,11 +65,9 @@ int main(int argc, char** argv) {
 	std::string input;
 
 	try {
-
         if (argc != 2) {
             throw std::exception("Please supply the log file name.\nUsage: EEGLoggerComfort [log_file_theme].");
         }
-
 
         if (EE_EngineConnect() != EDK_OK) {
             throw std::exception("Emotiv Engine start up failed.");
@@ -67,12 +78,11 @@ int main(int argc, char** argv) {
         SYSTEMTIME lt;
         GetLocalTime(&lt);
 
-        int filenameLength = strlen(argv[1]) + strlen("_YYYYMMDD_HHMMSS.txt") + 1;
+        int filenameLength = strlen(argv[1]) + strlen("_YYYYMMDD_HHMMSS.eeg") + 1;
         char * filename = new char[filenameLength];
 
-        int rv = sprintf_s(filename, filenameLength, "%s_%04d%02d%02d_%02d%02d%02d.txt", argv[1], lt.wYear, lt.wMonth, lt.wDay,
+        int rv = sprintf_s(filename, filenameLength, "%s_%04d%02d%02d_%02d%02d%02d.eeg", argv[1], lt.wYear, lt.wMonth, lt.wDay,
             lt.wHour, lt.wMinute, lt.wSecond);
-
         if (rv < 0){
             throw std::exception("Generation of filename failed.");
         }
@@ -104,33 +114,37 @@ int main(int argc, char** argv) {
 					EE_DataAcquisitionEnable(userID,true);
 					readytocollect = true;
 				}
-			}
+			
 
-			if (readytocollect) {
-						
-						EE_DataUpdateHandle(0, hData);
+				if (readytocollect && (eventType == EE_EmoStateUpdated)) {
+							
+					EE_DataUpdateHandle(0, hData);
 
-						unsigned int nSamplesTaken=0;
-						EE_DataGetNumberOfSample(hData,&nSamplesTaken);
-		
-						std::cout << "Updated " << nSamplesTaken << std::endl;
-
-						if (nSamplesTaken != 0) {
-
-							double* data = new double[nSamplesTaken];
-							for (int sampleIdx=0 ; sampleIdx<(int)nSamplesTaken ; ++ sampleIdx) {
-								for (int i = 0 ; i<sizeof(targetChannelList)/sizeof(EE_DataChannel_t) ; i++) {
-
-									EE_DataGet(hData, targetChannelList[i], data, nSamplesTaken);
-									ofs << data[sampleIdx] << ",";
-								}	
-								ofs << std::endl;
+					unsigned int nSamplesTaken=0;
+					EE_DataGetNumberOfSample(hData,&nSamplesTaken);
+			
+					std::cout << "Updated " << nSamplesTaken << std::endl;
+	
+					if (nSamplesTaken != 0) {
+	
+						double* data = new double[nSamplesTaken];
+						for (int sampleIdx=0 ; sampleIdx<(int)nSamplesTaken ; ++ sampleIdx) {
+							for (int i = 0 ; i<sizeof(targetChannelList)/sizeof(EE_DataChannel_t) ; i++) {
+	
+								EE_DataGet(hData, targetChannelList[i], data, nSamplesTaken);
+								ofs << data[sampleIdx] << ",";
 							}
-							delete[] data;
+	
+							// Cognitiv Suite results:
+							ofs << static_cast<int>(ES_CognitivGetCurrentAction(eState)) << ",";
+							ofs << ES_CognitivGetCurrentActionPower(eState) << ",";
+							ofs << std::endl;
 						}
+						delete[] data;
+					}
 
+				}
 			}
-
 			Sleep(100);
 		}
 
