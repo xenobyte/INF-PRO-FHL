@@ -102,11 +102,13 @@ int main(int argc, char** argv) {
 		while (!_kbhit()) {
 
 			state = EE_EngineGetNextEvent(eEvent);
+			EE_Event_t eventType;
 
 			if (state == EDK_OK) {
 
-				EE_Event_t eventType = EE_EmoEngineEventGetType(eEvent);
+				eventType = EE_EmoEngineEventGetType(eEvent);
 				EE_EmoEngineEventGetUserId(eEvent, &userID);
+				EE_EmoEngineEventGetEmoState(eEvent, eState);
 
 				// Log the EmoState if it has been updated
 				if (eventType == EE_UserAdded) {
@@ -127,6 +129,9 @@ int main(int argc, char** argv) {
 	
 					if (nSamplesTaken != 0) {
 	
+						int currentAction = static_cast<int>(ES_CognitivGetCurrentAction(eState));
+						float currentActionPower = ES_CognitivGetCurrentActionPower(eState);
+
 						double* data = new double[nSamplesTaken];
 						for (int sampleIdx=0 ; sampleIdx<(int)nSamplesTaken ; ++ sampleIdx) {
 							for (int i = 0 ; i<sizeof(targetChannelList)/sizeof(EE_DataChannel_t) ; i++) {
@@ -136,8 +141,8 @@ int main(int argc, char** argv) {
 							}
 	
 							// Cognitiv Suite results:
-							ofs << static_cast<int>(ES_CognitivGetCurrentAction(eState)) << ",";
-							ofs << ES_CognitivGetCurrentActionPower(eState) << ",";
+							ofs << currentAction << ",";
+							ofs << currentActionPower << ",";
 							ofs << std::endl;
 						}
 						delete[] data;
