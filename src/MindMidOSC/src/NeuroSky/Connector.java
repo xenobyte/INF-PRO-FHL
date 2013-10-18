@@ -29,7 +29,7 @@ public class Connector{
 
 	
 	/**
-	 * @return int -> 0 wenn die Socketinitialisierung  erfolgreich war
+	 * @return int -> 0 wenn die Socketinitialisierung erfolgreich war
 	 * sonst  -1
 	 */
 	public int connect(){
