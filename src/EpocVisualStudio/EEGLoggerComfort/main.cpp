@@ -1,5 +1,5 @@
 /*******************************************************************************
- * EmologgerComfort.cpp
+ * EEGloggerComfort.cpp
  * Version: 0.2
  *******************************************************************************
  * Eine Variante des EEGLoggers (mitgeliefertes Example 5) fuer den
