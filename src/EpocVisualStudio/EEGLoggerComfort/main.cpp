@@ -44,7 +44,7 @@ EE_DataChannel_t targetChannelList[] = {
 		ED_FUNC_ID, ED_FUNC_VALUE, ED_MARKER, ED_SYNC_SIGNAL
 	};
 
-const char header[] = "COUNTER,AF3,F7,F3, FC5, T7, P7, O1, O2,P8" 
+const char header[] = "eeg data - format version 0.2: COUNTER,AF3,F7,F3, FC5, T7, P7, O1, O2,P8" 
                       ", T8, FC6, F4,F8, AF4,GYROX, GYROY, TIMESTAMP, "   
                       "FUNC_ID, FUNC_VALUE, MARKER, SYNC_SIGNAL, "
                       "Cognitiv Action, Cognitiv Power,";
