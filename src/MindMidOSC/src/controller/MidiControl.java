@@ -1,8 +1,8 @@
 package controller;
-
-import midiSender.MidiSender;
+import java.util.Scanner;
 import NeuroSky.Control;
 import NeuroSky.Dispatcher;
+import promidi.*;
 
 /**
  * INF-PRO-FHL 
@@ -17,39 +17,74 @@ import NeuroSky.Dispatcher;
  */
 
 public class MidiControl  implements Control{
-	MidiSender _midiSender;
 	
-	public MidiControl(String  _Port){
-		_midiSender = new MidiSender(_Port);
+	private MidiIO midiIO;
+	private MidiOut midiOut;
+	private int channel;
+	private int port;
+	private Scanner in; 
+	private int poorsignal = 200;
+	private int meditation = 0;
+	private int attention = 0;
+	public MidiControl(){
+		in = new Scanner(System.in);
+		
+		 //Alle Midi Instanzen holen
+		  midiIO = MidiIO.getInstance();
+		
+		  System.out.println("\t\t Midi Ports");
+		  System.out.println("******************************************");
+		  //print Midi Intanzen
+		  midiIO.printDevices();
+
+		  System.out.println("\t\t User input");
+		  System.out.println("******************************************");
+		  //User Eingabe
+		  System.out.println("Enter Midi port :");
+		  port = in.nextInt();
+		  
+		  System.out.println("Enter Midi Channel :");
+		  channel = in.nextInt();
+		   
+		 //open Device
+		  midiOut = midiIO.getMidiOut(channel,port);
+		 
 	}
 	
 	@Override
 	public void poorSignal_Event(int level) {
-		// TODO Auto-generated method stub
-		
+		poorsignal = level;
+		if (level == 200 ){
+			System.out.println("poorsignal"+ level);	
+		}
 	}
 
 	@Override
 	public void attention_Event(int level) {
-		_midiSender.send(1, 60, 93);
+		attention = level;
+		//System.out.println(attention);
+		
+		if (poorsignal != 200 ){
+			playNote(64,meditation,500);
+			playNote(68,meditation,500);
+			playNote(71,meditation,500);	
+		}
 		
 	}
 
 	@Override
 	public void meditation_Event(int level) {
-		_midiSender.send(1, 60, 93);
-		
+		meditation = level;
+		//System.out.println(meditation);
 	}
 
 	@Override
 	public void delta_Event(int level) {
-		// TODO Auto-generated method stub
-		
+	
 	}
 
 	@Override
 	public void theta_Event(int level) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -101,11 +136,17 @@ public class MidiControl  implements Control{
 		
 	}
 	
+	  void playNote(int pitch, int velo, int duration){
+		   Note  note = new Note(pitch,velo,duration);
+		    midiOut.sendNote(note);
+		  }
+	
 	public static void main(String[] args) {
-		MidiControl _midiControl = new MidiControl("portIn");
+		MidiControl _midiControl = new MidiControl();
 		Dispatcher _dispatcher = new Dispatcher(_midiControl);
 		Thread th = new Thread(_dispatcher);
-		th.start();
+		th.start();	
+
 	}
 
 
