@@ -11,3 +11,4 @@ Repository structure
 * sigproc - Matlab / octave / python programs for signal processing
 * src - source code, VisualStudio Projects etc.
 * userprofiles - epoc user profiles
+* torcs-driver Torcs robots based on the tutorial, slightly improved
