@@ -22,6 +22,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include <pthread.h>
 
 #include <tgf.h>
 #include <track.h>
@@ -41,7 +42,6 @@
 class Opponents;
 class Opponent;
 class Pit;
-
 
 class Driver {
   public:
@@ -137,6 +137,15 @@ class Driver {
 
    /* track variables */
    tTrack* track;
+
+   /* Communication thread */
+   pthread_t tid_driver_comm;
 };	
+
+/* The communication thread method */
+void* driver_comm(void* arg);
+
+
+
 
 #endif // _DRIVER_H_

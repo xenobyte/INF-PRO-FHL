@@ -44,11 +44,24 @@ const float Driver::FUEL_PER_KM = 0.8;          /* [l/km] */
 
 Driver::Driver(int index)
 {
+   int res = 0;
    INDEX = index;
+   res = pthread_create(&tid_driver_comm, NULL, driver_comm, NULL);
+   if(res != 0){
+      perror("Thread creation failed");
+      exit(EXIT_FAILURE);
+   }
 }
 
 Driver::~Driver()
 {
+   int res = 0;
+   res = pthread_join(tid_driver_comm,NULL);
+   if (res != 0) {
+      perror("Thread join failed");
+      exit(EXIT_FAILURE);
+   }
+  
    delete opponents;
    delete pit;
 }
@@ -592,3 +605,11 @@ float Driver::getOvertakeOffset()
     return myoffset;
 }
        
+/* The communication thread method */
+void* driver_comm(void* arg)
+{
+   pthread_exit(EXIT_SUCCESS);
+}
+
+
+
