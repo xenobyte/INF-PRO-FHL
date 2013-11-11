@@ -52,6 +52,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\Leon\Documents\GitHub\INF-PRO-FHL\src\EEG_Handler2\EEG_Handler2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -76,12 +77,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\EEG Handler\edk.h" />
-    <ClInclude Include="..\..\EEG Handler\edkErrorCode.h" />
-    <ClInclude Include="..\..\EEG Handler\EEG Handler\EpocHandler.h" />
+    <ClInclude Include="edk.h" />
+    <ClInclude Include="edkErrorCode.h" />
+    <ClInclude Include="EpocHandler.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\EEG Handler\EEG Handler\EpocHandler.cpp" />
+    <ClCompile Include="ConsoleApplication1.cpp" />
+    <ClCompile Include="EpocHandler.cpp" />
+    <ClCompile Include="stdafx.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
