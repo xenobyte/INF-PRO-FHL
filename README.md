@@ -12,3 +12,4 @@ Repository structure
 * src - source code, VisualStudio Projects etc.
 * userprofiles - epoc user profiles
 * torcs-driver - Torcs robots based on the tutorial, slightly improved
+* praesentation - presentation drafts
