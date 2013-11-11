@@ -6,21 +6,20 @@
 #pragma comment(lib, "lib/edk.lib")
 
 
-class EPOC
+class EpocHandler
 {
 public:
-	EPOC();
-	~EPOC();
+	EpocHandler();
+	~EpocHandler();
 
-	void updateData();
-	bool getUpdate();
+	bool updateData();
 	std::map<EE_DataChannel_t, double*> getAllData();
-	double* getChannelData;
 	double* getChannelData(EE_DataChannel_t channel);
 	double getEngagement();
 	double getFrustration();
 	double getMeditation();
 	double getExcitment();
+
 private:
 	bool connect();
 	bool disconnect();

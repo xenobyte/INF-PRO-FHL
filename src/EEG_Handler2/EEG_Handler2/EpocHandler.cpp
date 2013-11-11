@@ -1,18 +1,27 @@
-#include "stdafx.h"
 #include "EpocHandler.h"
-#include "EpocData.h"
 #include <iostream>
-#include "EEGHandler.h"
 #include <map>
 
+#include "EmoStateDLL.h"
+#include "edk.h"
+#include "edkErrorCode.h"
 
 
+
+
+	static const EE_DataChannel_t dataChannels[] = {
+		ED_COUNTER, ED_GYROX, ED_GYROY, ED_TIMESTAMP,
+		ED_FUNC_ID, ED_FUNC_VALUE, ED_MARKER, ED_SYNC_SIGNAL,
+		ED_AF3, ED_F7, ED_F3, ED_FC5, ED_T7,
+		ED_P7, ED_O1, ED_O2, ED_P8, ED_T8,
+		ED_FC6, ED_F4, ED_F8, ED_AF4
+	};
 
 
 class EpocHandler{
 	EmoEngineEventHandle eEvent;
 	EmoStateHandle eState;
-	const unsigned short composerPort = 1726;
+	static const unsigned short composerPort = 1726;
 	unsigned int userID;
 	float secs;
 	unsigned int datarate;
@@ -31,13 +40,7 @@ class EpocHandler{
 	double pMeditation;
 	double pExcitement;
 
-	EE_DataChannel_t dataChannels[] = {
-		ED_COUNTER, ED_GYROX, ED_GYROY, ED_TIMESTAMP,
-		ED_FUNC_ID, ED_FUNC_VALUE, ED_MARKER, ED_SYNC_SIGNAL,
-		ED_AF3, ED_F7, ED_F3, ED_FC5, ED_T7,
-		ED_P7, ED_O1, ED_O2, ED_P8, ED_T8,
-		ED_FC6, ED_F4, ED_F8, ED_AF4
-	};
+
 
 
 	EpocHandler::EpocHandler()
@@ -80,7 +83,12 @@ class EpocHandler{
 
 	void updateData()
 	{
-		connect();
+		if(connect()){
+			std::cout << "Erfolgreich verbunden"  << std::endl;
+		}else{
+			std::cout << "Verbindung fehlgeschlagen"  << std::endl;
+			exit(-1);
+		}
 
 
 		DataHandle hData = EE_DataCreate();
