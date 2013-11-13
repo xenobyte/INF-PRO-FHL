@@ -1,0 +1,5 @@
+0.8
+#################################
+Eingabe der Befehle über eine Gui
+Threads pollen mit der angegeben Frequenz
+Threads überprüfen die Bedingung und schicken dementsprechen die OSC Nachrichten 

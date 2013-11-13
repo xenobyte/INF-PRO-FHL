@@ -35,8 +35,7 @@ private:
     EPOCClient epoc;
 
     void respondFacialExpression();
-    void respondEmoState();
-    void respondRawData();
+    void respondEEGData();
 
 
 };

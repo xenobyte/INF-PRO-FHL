@@ -1,0 +1,16 @@
+1.0
+#################################
+Entfernung der Gui
+OSC Eingabe hinzugefügt
+Code aufgeräumt und verbessert
+Die Package Struktur angepasst
+RawData werden nun empfangen
+Es gibt nur noch einen Thread der pollt die anderen arbeiten mit seinen Ergebnis
+VersionInf Datei wurde angepasst
+
+
+0.8
+#################################
+Eingabe der Befehle über eine Gui
+Threads pollen mit der angegeben Frequenz
+Threads überprüfen die Bedingung und schicken dementsprechen die OSC Nachrichten 

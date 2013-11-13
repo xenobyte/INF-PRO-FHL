@@ -1,0 +1,55 @@
+i 32 Bit Integer
+f 32 Bit Float
+s Ascii String
+
+Abkürzungen:
+c Condition steht für sss, ssi oder ssf  leftOperator        Condition    rightOperator
+                                         EmoState.Meditation     <             5
+
+Besondere Strings für Condition
+EmoState.Meditation
+EmoState.Frustration
+EmoState.Excitement
+EmoState.Engagement
+                                          
+m message steht für ss, si oder sf   address        message
+                                     /Ziel/Start     EmoState
+
+Besondere Strings für Message 
+EmoState
+EmoState.Meditation
+EmoState.Frustration
+EmoState.Excitement
+EmoState.Engagement
+:RawData                 Die RawData werden in extra OSCMessages
+=>RawDatea               Die RawData werden in einer OSCMessage versendet                       
+Man kann String auch aneinanderreihen in dem man sie durch ein ',' trennt                           
+                           
+                                     
+/Server/createThread   ssif name, ip, port, frequency
+/Server/blockThread    s    name
+/Server/unblockThread  s    name
+/Server/startThread    s    name
+/Server/killThread     s    name
+
+
+Es gibt zwei Arten von Events die das Sendeverhalten beeinflussen
+AlwaysSend sendet immer wenn die Bedingung erfüllt ist
+OneTime sendet immer wenn ein Wechsel von Bedingung nicht erfüllt zu erfüllt stattfindet
+
+/Server/addEvent/AlwaySend scm    address condition message
+/Server/addEvent/OneTime   scm    address condition message
+/Server/addEvent/OneTime   sccm   address condition condition message
+/Server/addEvent/OneTime   scmm   address condition message message
+/Server/addEvent/OneTime   sccmm  address condition condition message message
+
+Jedes Event kann aus beliebig vielen conditions und messages bestehen dabei werden die conditions verundet  
+
+Hier bei handelt es sich um ein Event ohne condition es kann auch beliebig viele Messages enthalten
+/Server/addPackages sm name address message
+
+EmoStateMessage
+iffff nSamplesTaken engagement frustration meditation excitement
+
+RawDataMessage
+iiiiiiiiffffffffffffff counter gyroX gyroY timeStamp func_ID func_Value marker sync_Signal AF3 F7 F3 FC5 T7 P7 O1 O2 P8 T8 FC6 F4 F8 AF4

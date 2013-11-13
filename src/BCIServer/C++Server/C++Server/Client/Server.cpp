@@ -49,10 +49,9 @@ int Server::start(void){
                 respondFacialExpression();
                 break;
             case EMOSTATE:
-                respondEmoState();
+                respondEEGData();
                 break;
             case RAWDATA:
-                respondRawData();
                 break;
         }
     }
@@ -76,10 +75,11 @@ inline void Server::respondFacialExpression(){
     }
 }
 
-inline void Server::respondEmoState(){
+inline void Server::respondEEGData(){
     int rc = 0;
     struct EMOSTATEPACKAGE responsePackage;
     rc = epoc.getDataEmoState(&responsePackage);
+    struct RAWDATAPACKAGE rawDataResponse;
     if(rc != 0){
         printf("Fehler: respondEmoState, Fehlercode %d\n, rc");
     }else{
@@ -89,22 +89,13 @@ inline void Server::respondEmoState(){
             return;
         }
     }
+    for(int i = 0; i < responsePackage.nSamplesTaken; i++){
+        epoc.getDataRawData(&rawDataResponse,i);
+        rc = sendto (udpSocket, (char*)&rawDataResponse, sizeof(RAWDATAPACKAGE), 0, (SOCKADDR*)&remoteAddr, sizeof(SOCKADDR_IN));
+    }
+
 }
 
-inline void Server::respondRawData(){
-    int rc = 0;
-    struct RAWDATAPACKAGE responsePackage;
-    rc = epoc.getDataRawData(&responsePackage);
-    if(rc != 0){
-        printf("Fehler: respondRawData, Fehlercode %d\n, rc");
-    }else{
-        rc = sendto (udpSocket, (char*)&responsePackage, sizeof(RAWDATAPACKAGE), 0, (SOCKADDR*)&remoteAddr, sizeof(SOCKADDR_IN));
-        if(rc == SOCKET_ERROR){
-            printf("Fehler: recvfrom, Fehlercode: %d\n",WSAGetLastError());
-            return;
-        }
-    }
-}
 
 Server::~Server(void)
 {
