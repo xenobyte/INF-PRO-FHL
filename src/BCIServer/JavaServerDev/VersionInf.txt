@@ -1,3 +1,7 @@
+1.1
+#################################
+Wrapperklasse für die OSC Befehle eingefügt
+
 1.0
 #################################
 Entfernung der Gui

@@ -10,9 +10,11 @@ import osc.OSCMessage;
 public class StringMessage implements Message {
     private final String address;
     private final String[] data;
+    private final String unsplitData;
 
     public StringMessage(String add, String d) {
         address = add;
+        unsplitData = d;
         data = d.split(",");
     }
 
@@ -67,6 +69,14 @@ public class StringMessage implements Message {
         if (!o.isEmpty()) {
             l.add(new OSCMessage(address, o.toArray()));
         }
+        return l;
+    }
+
+    @Override
+    public LinkedList<Object> toOSCData() {
+        LinkedList<Object> l = new LinkedList<Object>();
+        l.add(address);
+        l.add(unsplitData);
         return l;
     }
 

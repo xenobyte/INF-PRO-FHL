@@ -1,10 +1,12 @@
 package event.condition;
 
+import java.util.LinkedList;
+
 import dataPackages.EEGData;
 
 public abstract class Condition {
     public abstract boolean checkCondition(EEGData eeg);
-    
+    public abstract LinkedList<Object> toOSCData();
     
     
     public double getVariableValue(EEGData e, String s){

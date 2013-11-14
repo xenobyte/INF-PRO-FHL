@@ -16,6 +16,19 @@ import osc.OSCMessage;
 public abstract class Event {
     private LinkedList<Condition> conditions;
     private LinkedList<Message> message;
+    
+    public Object[] toOSCData(){
+        LinkedList<Object> l = new LinkedList<Object>();
+        Iterator<Condition> c = conditions.iterator();
+        while(c.hasNext()){
+            l.addAll(c.next().toOSCData());
+        }
+        Iterator<Message> m = message.iterator();
+        while(m.hasNext()){
+            l.addAll(m.next().toOSCData());
+        }
+        return l.toArray();
+    }   
 
     public Event(LinkedList<Condition> c, LinkedList<Message> m) {
         conditions = c;

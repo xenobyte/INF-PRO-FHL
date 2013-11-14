@@ -1,19 +1,5 @@
 #pragma once
-#include <winsock2.h>
-#include <stdio.h>
-#include <stdlib.h>
-#pragma comment( lib, "ws2_32.lib" )
 #include <stdint.h>
-#define STDPORT 5000
-#define IP "127.0.0.1"
-#define DEBUG 1
-#define FACIALEXPRESSION 0
-#define EEGDATA 1
-
-struct REQUESTPACKAGE{
-    char mode;
-};
-
 struct FACIALEXPRESSIONPACKAGE{
     char errorCode;
 };
@@ -26,6 +12,7 @@ struct EMOSTATEPACKAGE{
 	double pMeditation;
 	double pExcitement;
 };
+
 
 struct RAWDATAPACKAGE{
     int32_t errorCode;
@@ -53,17 +40,13 @@ struct RAWDATAPACKAGE{
     double AF4;
 };
 
-class Client{
+class EPOCClient
+{
 public:
-    int getFacialExpression(struct FACIALEXPRESSIONPACKAGE * rPackage);
-    int getEEGData(struct EMOSTATEPACKAGE * rPackage);
-    Client(void);
-    ~Client(void);
-private:
-    SOCKET udpSocket;
-    SOCKADDR_IN addr;
-    SOCKADDR_IN remoteAddr;
-    int remoteAddrLen;
-    WSADATA wsaData;
+    EPOCClient(void);
+    int getDataFacialExpression(struct FACIALEXPRESSIONPACKAGE * package);
+    int getDataEmoState(struct EMOSTATEPACKAGE * package);
+    int getDataRawData(struct RAWDATAPACKAGE * package, int index);
+    ~EPOCClient(void);
 };
 

@@ -37,7 +37,7 @@ Es gibt zwei Arten von Events die das Sendeverhalten beeinflussen
 AlwaysSend sendet immer wenn die Bedingung erfüllt ist
 OneTime sendet immer wenn ein Wechsel von Bedingung nicht erfüllt zu erfüllt stattfindet
 
-/Server/addEvent/AlwaySend scm    address condition message
+/Server/addEvent/AlwaysSend scm    address condition message
 /Server/addEvent/OneTime   scm    address condition message
 /Server/addEvent/OneTime   sccm   address condition condition message
 /Server/addEvent/OneTime   scmm   address condition message message
