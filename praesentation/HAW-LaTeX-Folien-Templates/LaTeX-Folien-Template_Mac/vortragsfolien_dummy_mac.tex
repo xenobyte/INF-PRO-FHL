@@ -1,0 +1,345 @@
+\documentclass[german,ignorenonframetext]{beamer}
+
+\usepackage[ngerman]{babel} % für deutsche Spracheinstellungen
+\usepackage{graphics} % um Bilder einbinden zu können
+\usepackage[dvips]{epsfig} % um Bilder zu skalieren
+\usepackage[applemac]{inputenc} % inputencoding (MacOS) für Umlaute und Akzente
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%% Die folgenden Befehle definieren das Grundlayout, blenden auf der
+%%%%%%% Titelseite die HAW-Infos ein und setzen das 
+%%%%%%% HAW-Logo in die Ecke
+\mode<presentation>{\usetheme{Berkeley}}
+\logo{\pgfimage[height=1.5cm]{HAW_wuerfel+}}
+\institute[MT -- HAW Hamburg]{HAW Hamburg\\ Fakultät DMI, Dept.\ Medientechnik}
+
+%%%%%%% der folgende Befehl lässt die mit "\pause" verdeckten Teile der Folien 
+%%%%%%% transparent erscheinen.  
+\setbeamercovered{transparent}  
+
+%%%%%%% die folgende Sequenz blendet mit jeder neuen Section einmal das 
+%%%%%%% Inhaltsverzeichnis mit dem Titel "Übersicht" ein und markiert den
+%%%%%%% jeweils aktuellen Gliederungspunkt
+\AtBeginSection[]{
+\begin{frame}<beamer>
+\frametitle{Übersicht} 
+\tableofcontents[currentsection,currentsubsection]
+\end{frame}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%% jeder dieser Titelseiten-Befehle kennt eine in eckige Klammern gesetzte 
+%%%%%%% Kurzform, die im Rand benutzt wird
+\title[Überschrift]{Die Hauptüberschrift}
+\subtitle{Und eine Unter--Überschrift}
+\author[Name]{Vorname Nachname}
+\date{\today}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+%%%%%% dieser Befehl erzeugt das Deckblatt. 
+%%%%%% Mit der Option plain wird das Layout für das Deckblatt abgeschaltet
+%\frame[plain]{\titlepage}
+\frame{\titlepage}
+
+\begin{frame}
+  \frametitle{Übersicht}
+  \tableofcontents
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Erster Abschnitt} % die sections sind hier nur zum Strukturieren des Vortrags!!
+%% der Name der section taucht nur im Inhaltsverzeichnis und im linken Rand auf.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Erste Folie im ersten Abschnitt}
+Der sukzessive Aufbau einer Folie aus Teil--Folien geht am einfachsten mit dem pause--Befehl.
+
+\pause
+\begin{itemize}
+\item Bla blabla
+    \begin{itemize} 
+    \item und gleich mal eine verschachtelte
+    \item Aufzählung
+    \end{itemize}
+\pause
+\item Blabla bla blabla
+\pause
+\item Blabla
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Zweite Folie im ersten Abschnitt}
+\pause 
+\begin{itemize}
+\item \pause \textbf{Ha\pause nu\pause ta} \pause(Haselnusstafel):\\ \pause
+    {\em der pause-Befehl kann überall gesetzt werden!}
+\pause
+\item \textbf{UKW} (Ultrakurzwelle):\\
+    {\em Hier kommt noch Text rein}
+\pause
+\item \textbf{TEE} (Trans Europa Express): \\
+    {\em Hier kommt noch Text rein} 
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Dritte Folie im ersten Abschnitt}
+Diese Folie ist mit der columns--Umgebung mehrspaltig gesetzt. Die Spaltenbreite kann frei gewählt werden (hier: linke Spalte \texttt{0.3}$\backslash$\texttt{textwidth}, rechte Spalte \texttt{0.6}$\backslash$\texttt{textwidth}). Die Schriftgröße in den zwei Listen ist ausnahmsweise $\backslash$\texttt{small}.
+
+\pause
+\begin{columns}\small\em 
+% Umschaltung auf small und emphasize innerhalb der columns-Umgebung 
+\column{.3\textwidth}
+\begin{itemize}
+\item Booklettext
+\item Übersetzung
+\item Künstlerfotos 
+\item Trackliste 
+\item Labelpass
+\item Textredaktion
+\end{itemize}
+\column{.6\textwidth}
+\begin{itemize}
+\item Coverdesign
+\item Booklet--Layout
+\item CD--Label--Design
+\item Digitalproof
+\item GEMA--Anmeldung
+\item \bfseries{und ab ans Presswerk!}
+\end{itemize}
+\end{columns}
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{Die letzte Folie im ersten Abschnitt}
+...mit Bildern im zweispaltigen Satz. Die Einbindung der Bilder wird hier mit dem Befehl pgfimage realisiert. Die Maßangabe $\backslash$\texttt{textwidth} ist relativ: außerhalb des zweispaltigen Satzes bezieht sie sich auf die gesamte zur Verfügung stehende Breite, innerhalb auf die aktuelle Spaltenbreite.
+
+\medskip %mittelgroßer vertikaler Abstand zwischen Text und Bildern
+
+\begin{columns}
+
+\column{.4\textwidth}
+\begin{center}
+\pgfimage[width=0.9\textwidth]{Barcode} \\
+Ein skaliertes JPG--Bild 
+\end{center}
+
+\column{.4\textwidth}
+\begin{center}
+\pgfimage[width=0.6\textwidth]{CD_Audio_logo}  \\
+Ein skaliertes PDF--Bild
+\end{center}
+
+\end{columns}
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Zweiter Abschnitt}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Erste Folie im zweiten Abschnitt}
+
+\pause
+\begin{block}{Diese Folie}
+wird aus Standard-Blöcken (Umgebung block) zusammengesetzt:
+\end{block}
+
+\pause
+\begin{block}{Noch ein Block}
+Hier kommt noch Text rein
+\end{block}
+
+\pause
+\begin{block}{Und der letzte Block} 
+Hier kommt noch Text rein
+\end{block}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Zweite Folie im zweiten Abschnitt}
+
+...mit einem exampleblock (grün) und einem alertblock (rot):
+
+\pause
+\begin{exampleblock}{Beispiel: exampleblock}
+...Neuigkeiten zum Merken\\
+...mehr Neuigkeiten zum Merken
+\end{exampleblock}
+
+\pause
+\begin{alertblock}{Beispiel: alertblock} 
+wichtige Dinge auf die mal hingewiesen werden muss
+\end{alertblock}
+
+\pause
+Mehr als drei Farben (Standardfarbe --- hier Blau --- plus Grün plus Rot für besonders wichtige Punkte) sollten nicht benutzt werde, sonst wirds zu bunt.
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Dritter Abschnitt}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Erste Folie im dritten Abschnitt}
+Ein bisschen Mathematik, und dabei der pause-Befehl:
+\pause
+\begin{eqnarray}\nonumber
+\xi_1(t) + \xi_2(t) &=& \xi_0\,\left(\sin(\omega_1 t)+\sin(\omega_2 t)\right) \\ \nonumber
+    &=& 2\xi_0\, \underbrace{\sin\left(\frac{(\omega_1+\omega_2)\, t}{2}\right)}_{\mbox{\scriptsize Schwingung mit $\frac{\omega_1+\omega_2}{2}$}}\cdot \underbrace{\cos\left(\frac{(\omega_1-\omega_2)\, t}{2}\right)}_{\mbox{\scriptsize Modulation mit $\frac{\omega_1-\omega_2}{2}$}}
+\end{eqnarray}
+Text, der hinter der Gleichung steht.
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{Zweite Folie im dritten Abschnitt}
+Innerhalb der Formel ist der uncover-Befehl eleganter:
+\begin{eqnarray}\nonumber
+\uncover<2->{\xi_1(t) + \xi_2(t)} &\uncover<2->{=}& \uncover<2->{\xi_0\,\left(\sin(\omega_1 t)+\sin(\omega_2
+t)\right)} \\ \nonumber
+    &\uncover<3->{=}& \uncover<3->{2\xi_0\, \underbrace{\sin\left(\frac{(\omega_1+\omega_2)\, t}{2}\right)}_{\mbox{\scriptsize\uncover<4->{Schwingung mit $\frac{\omega_1+\omega_2}{2}$}}}\cdot
+    \underbrace{\cos\left(\frac{(\omega_1-\omega_2)\, t}{2}\right)}_{\mbox{\scriptsize\uncover<5->{Modulation mit $\frac{\omega_1-\omega_2}{2}$}}}}
+\end{eqnarray}
+
+$\backslash$\texttt{uncover}$<$nr-$>$$\{$...$\}$ bekommt als Parameter die Nummer der Teil--Folie übergeben, ab der der geklammerte Bereich sichtbar wird. $\backslash$\texttt{uncover}$<$nr$>$$\{$...$\}$ enthüllt den Text nur auf einer Teilfolie, $\backslash$\texttt{uncover}$<$nr1-nr2$>$$\{$...$\}$ von der Teil--Folie nr1 bis zur Teil--Folie nr2.
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{Dritte Folie im dritten Abschnitt}
+Der only-Befehl funktioniert ähnlich wie uncover:
+\begin{eqnarray}\nonumber
+\only<2->{\xi_1(t) + \xi_2(t)} &\only<2->{=}& \only<2->{\xi_0\,\left(\sin(\omega_1 t)+\sin(\omega_2
+t)\right)} \\ \nonumber
+    &\only<3->{=}& \only<3->{2\xi_0\, \underbrace{\sin\left(\frac{(\omega_1+\omega_2)\, t}{2}\right)}_{\mbox{\scriptsize\only<4->{Schwingung mit $\frac{\omega_1+\omega_2}{2}$}}}\cdot
+    \underbrace{\cos\left(\frac{(\omega_1-\omega_2)\, t}{2}\right)}_{\mbox{\scriptsize\only<5>{Modulation mit $\frac{\omega_1-\omega_2}{2}$}}}}
+\end{eqnarray}
+
+Allerdings lässt $\backslash$\texttt{only}$<$nr-$>$$\{$...$\}$ den verborgenen Text komplett verschwinden; damit wird auch kein Platz reserviert. 
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{Vierte Folie im dritten Abschnitt}
+Und hier die Wirkung des (komplementären) invisible--Befehls:
+\begin{eqnarray}\nonumber
+\only<2->{\xi_1(t) + \xi_2(t)} &\only<2->{=}& \only<2->{\xi_0\,\left(\sin(\omega_1 t)+\sin(\omega_2
+t)\right)} \\ \nonumber
+    &\invisible<1-2>{=}& \invisible<1-2>{2\xi_0\, \underbrace{\sin\left(\frac{(\omega_1+\omega_2)\, t}{2}\right)}_{\mbox{\scriptsize\alert<4>{Schwingung mit $\frac{\omega_1+\omega_2}{2}$}}}\cdot
+    \underbrace{\cos\left(\frac{(\omega_1-\omega_2)\, t}{2}\right)}_{\mbox{\scriptsize\alert<5>{Modulation mit $\frac{\omega_1-\omega_2}{2}$}}}}
+\end{eqnarray}
+
+Mit $\backslash$\texttt{invisible}$<$nr1-nr2$>$$\{$...$\}$ wird der geklammerte Text von Teil--Folie nr1 bis nr2 ebenfalls ganz unsichtbar; der Platz auf der Folie bleibt aber reserviert. Und mit $\backslash$\texttt{alert}$<$nr$>$$\{$...$\}$ kann man Textteile auf einer Teil--Folie rot markieren. 
+\end{frame}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Zusammen\-fassung}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Zusammenfassung}
+Vor diesem letzten Abschnitt kommt kommt {\em kein} automatisch eingeschobener Sprung ins Inhaltsverzeichnis, weil hier die gesternte Form $\backslash$\texttt{section*}$\{$...$\}$ benutzt wird.
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Zusammenfassung}
+Und zum Schluss noch die
+
+\begin{center}
+\underbar{Goldene Folien--Regel}
+\end{center}
+
+\invisible<1>{
+\begin{alertblock}{Goldene Regel}
+Wenn der geplante Inhalt im Standard--Layout nicht auf eine Folie passt, dann sollte man \alert<3>{nicht am Layout herumwurschteln} und schon gar nicht die Schrift verkleinern, \alert<3>{sondern den Inhalt der Folie kürzen}. Ganze Sätze gehören nicht auf die Folie.
+\end{alertblock}}
+
+\uncover<4->{
+Deshalb:
+\begin{itemize}
+\alert<5>{\item besser Aufzählungen als Fließtext!}
+\alert<6>{\item nur Stichworte!}
+\alert<7>{\item niemals ganze Sätze!}
+\end{itemize}}
+
+\end{frame}
+
+
+\begin{frame}
+\frametitle{}
+
+\centering
+Herzlichen Dank für Ihre Aufmerksamkeit!
+
+\end{frame}
+
+
+\end{document}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%  besondere Gestaltungselemente für Vortragsfolien
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Folie
+\begin{frame}
+\frametitle{Folientitel}
+        Text, Bilder, Blöcke
+\end{frame}
+
+% neutraler Kasten
+\begin{block}{Blocktitel}
+        Blocktext
+\end{block}
+
+% grüner Kasten
+\begin{exampleblock}{Beispielblocktitel}
+        Beispielblocktext
+\end{exampleblock}
+
+% roter Kasten
+\begin{alertblock}{Warnungsblocktitel}
+        Warnungsblocktext
+\end{alertblock}
+
+% mehrspaltige Folie mit variablen Spaltenbreiten
+\begin{columns}
+\column{.55\textwidth}
+        Text oder Bild
+\column{.45\textwidth}
+        Text oder Bild
+\end{columns}
+
+% sukzessiver Folienaufbau 
+\pause
+
+% mehr Befehle für sukzessiven Folienaufbau, 
+% der geklammerte Teil erscheint jeweils ab der dritten Teil-Folie
+\uncover<3->{}
+\only<3->{}
+\invisible<1-2>{}
+
+% rote Markierung des geklammerten Teils bei der vierten Teil-Folie
+\alert<4>{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
