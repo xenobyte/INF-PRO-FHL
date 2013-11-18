@@ -1,0 +1,50 @@
+%  kasten.sty
+\RequirePackage{calc}
+
+%  Der Kastenzaehler.
+\newcommand{\kastenname}{Kasten}
+\newcounter{kasten}
+\renewcommand{\thekasten}{\arabic{kasten}}
+
+% Box fuer den Kasteninhalt und Rahmenparameter
+\newsavebox{\kbox}
+\newlength{\kastensep}
+  \setlength{\kastensep}{5mm}
+
+\newlength{\kastenindent}
+  \setlength{\kastenindent}{0.5cm}
+
+% der Befehl selbst
+\newenvironment{kasten}
+ {\renewcommand{\@makecaption}[2]{\textsc{##1} ##2}
+  \@float{kasten}
+  \begin{lrbox}{\kbox}
+    \begin{minipage}
+      {\columnwidth-\kastensep*2-\fboxrule-%
+       \kastenindent*2}
+      \footnotesize}
+ {  \end{minipage}
+  \end{lrbox}
+  {\fboxsep=\kastensep
+   \hspace{\kastenindent}\fbox{\usebox{\kbox}}
+  }
+  \end@float}
+\newenvironment{kasten*}
+ {\renewcommand{\@makecaption}[2]{\textsc{##1} ##2}
+  \@dblfloat{kasten}
+  \begin{lrbox}{\kbox}
+  \begin{minipage}
+    {\textwidth-
+     (\kastensep+\fboxrule+\kastenindent)*2}
+      \footnotesize}
+ {\end{minipage}
+  \end{lrbox}
+  {\fboxsep=\kastensep
+   \hspace{\kastenindent}\fbox{\usebox{\kbox}}
+  }
+  \end@dblfloat}
+
+\newcommand{\fps@kasten}{htbp}
+\newcommand{\ftype@kasten}{4}
+\newcommand{\ext@kasten}{lok}
+\newcommand{\fnum@kasten}{\kastenname~\thekasten}

@@ -1,0 +1,361 @@
+\documentclass[a4paper,11pt,german,titlepage]{scrreprt}
+
+%%%%%%%%%%%%%% Einstellungen für Papierformat: %%%%%%%%%%%%%%%%%
+%%% oddsidemargin ist der relative linke Rand bei ungeraden Seiten,
+%%% Wert sollte je nach Bindung angepasst werden.
+%%% evensidemargin ist der linke Rand bei geraden Seiten (nur nötig bei zweiseitigem Druck),
+%%% dafür muss in documentclass die Option twoside eingetragen werden.
+%%% topmargin ist der relative obere Rand.
+%%% textwidth und -height definieren den Bereich für Fließtext.
+
+\oddsidemargin=0mm
+%\evensidemargin=5.5mm
+\topmargin=-18mm
+\textwidth=15.5cm
+\textheight=24.8cm
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{babel} % für deutsche Spracheinstellungen
+\usepackage{graphics} % um Bilder mit \includegraphics einbinden zu können
+\usepackage[dvips]{epsfig} % um Bilder zu skalieren
+\usepackage[latin1]{inputenc} % inputencoding (Win/PC) für Umlaute und Akzente
+
+\usepackage{kasten} % eines von vielen nützlichen Paketen
+
+%\usepackage{cmbright} % elegante serifenlose Schrift im Helvetica-Stil
+
+%\usepackage{natbib} % für den altenativen Literaturverzeichnis-Stil, s.u.!
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% die drei Felder title, author, date werden zentriert untereinander
+%%% auf dem Deckblatt gesetzt. Der Hinweis auf das Versionsdatum sollte
+%%% in der endgültigen Fassung entfallen.
+
+\title{Schöner langer, unheimlich wissenschaftlich anmutender Titel\\
+\small vorläufige~Version~vom~\today}
+
+\author{\Large Bachelorarbeit\\[1ex]
+\Large Vorname Nachname\\[1ex]
+Matr.--Nr.~123456}
+
+\date{HAW Hamburg}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+\maketitle  % erzeugt die Titelseite
+\tableofcontents % erzeugt das Inhaltsverzeichnis
+\listoffigures % erzeugt das Abbildungsverzeichnis
+\listoftables % erzeugt das Abbildungsverzeichnis
+%%%%%%%%%%%%%%%%%%%%%%%%
+
+\vspace*{\fill}  % vertical space ohne explizite Maßangabe, sondern zum "Auffüllen:"
+% das ist ein Kunstgriff, um das nachfolgende Objekt ganz unten zu positionieren
+\begin{kasten} % Eigenständigkeitserklärung (mit selbst definiertem Paket "kasten")
+Hiermit erkläre ich, die vorliegende Arbeit selbstständig
+verfasst und keine anderen als die angegebenen Hilfsmittel verwendet
+zu haben. Die Arbeit wurde in dieser oder ähnlicher Form noch keiner
+Prüfungskommission vorgelegt.
+
+\vspace{1.5cm} \noindent Hamburg, den \today \hfill \textsc{Vorname
+Nachname}
+\end{kasten}
+\newpage
+
+
+\begin{abstract}  % optional: Ein "Abstract" vorneweg
+\section*{Zusammenfassung}  % die Stern-Variante eines Gliederungsbefehls unterdrückt
+% die Nummerierung, und die Überschrift wird nicht ins Inhaltsverzeichnis eingetragen.
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+\end{abstract}
+
+
+%\chapter{Einleitung}
+%Hier muss noch Text geschrieben werden.
+%Hier muss noch Text geschrieben werden. 
+%Hier muss noch Text geschrieben werden. 
+
+
+\chapter{Erstes Kapitel}
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+
+\section{Erster Teil im ersten Kapitel}
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+
+\subsection{Unterkapitel im ersten Teil}
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+
+\subsection{Unterkapitel mit zwei Gleichungen}
+Ist die Frequenz der äußeren Anregung gleich der Eigenfrequenz des Schwingers
+\[
+f_0 = \frac{1}{2 \pi} \sqrt{\frac{s}{m}}
+\]
+dann spricht man von Resonanz; die Eigenfrequenz nennt man auch Resonanzfrequenz des Systems. Diese Gleichung ist nicht so beeindruckend und wird deshalb hier nicht nummeriert. Statt der Klammerbefehle würde es dafür auch die Umgebung displaymath tun. Dagegen wird eine mächtig beeindruckende Gleichung durch die equation--Umgebung automatisch nummeriert, und man kann dann auch einen Verweis auf die Gleichung setzen (siehe Gl.\ \ref{gl_faltung}).
+\begin{equation}\label{gl_faltung}
+a(t) \ast b(t) = \int_{-\infty}^{\infty} a(\tau) \, b(t - \tau) \; d \tau
+\end{equation}
+% zum Fein-Tuning von Gleichungen kann man Abstände mit \, und \; erzeugen.
+Dies nennt man das {\em Faltungsintegral}.
+
+
+\section{Nächster Teil}
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+
+\subsection{Unterkapitel mit Fußnote und Bild} 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden\footnote{Wann und wo das geschieht, ist unklar.}. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[t]  %andere Positions-Werte: h (here) b (bottom) p (separate page)
+
+\centering %zentriert das Bild
+
+\includegraphics[width=80mm]{schoenesbild} %klappt mit jpeg und pdf
+
+\caption[Kurzfassung der Unterschrift]{\sl\label{pic_hyperniere}
+Bildunterschrift für die figure--Umgebung. In jeder nummerierten Umgebung kann man labels setzen und mit dem ref--Befehl darauf verweisen. Außerdem kommt die Kurzfassung der Bildunterschrift ins Abbildungsverzeichnis.}
+
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Dieser  Absatz steht im Quelltext {\em unmittelbar hinter} Bild \ref{pic_hyperniere} auf Seite \pageref{pic_hyperniere}! Die figure-Umgebung \glqq gleitet\grqq, d.h. \LaTeX\ sucht im Dokument nach ausreichendem Platz und entscheidet dann, wo das Bild erscheint (z.B. oben auf der Seite, auf der nächsten Seite etc.). Erzwingt man einen Seitenumbruch nicht mit newpage, sondern mit clearpage, so werden an dieser Stelle alle noch nicht ausgegebenen Bilder gedruckt.
+
+\subsection{Unterkapitel mit Tabelle}
+Wie figure ist auch table eine gleitende Umgebung. Dieser Absatz steht im Quelltext unmittelbar vor Tabelle \ref{tab_mikrofone}. Wenn man einen fehlerhaften Verweis auf Bild, Tabelle oder Literatur setzt, wird das bei der Ausgabe mit Fragezeichen markiert (siehe Abb.\ \ref{kein_bild}). Verweise funktionieren quer durch ganze Dokument; da ist dann auch der pageref--Befehl nützlich  (siehe Gl.\ \ref{gl_faltung} auf S. \pageref{gl_faltung}).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{table}[h]  %andere Positions-Werte: t (top) b (bottom) p (separate page)
+\centering %zentriert die Tabelle
+\caption[Kurzfassung der Überschrift]{\label{tab_mikrofone}
+Bildüberschrift für die table--Umgebung. Die Kurzfassung der Überschrift kommt ins Tabellenverzeichnis. Natürlich funktioniert caption auch als Unterschrift.}
+\smallskip  % kleiner Abstand zwischen Überschrift und Tabelle
+%--------------------------------------------------------------------------------
+\begin{tabular}{|c|r||r|}\hline  
+% Tabellendefinition: Senkrechter Strich | für vertikale Linie/Umrandung, l c r für die Zentrierung 
+% des Spalteninhalts. hline erzeugt eine horizontale Linie/Umrandung.
+%--------------------------------------------------------------------------------
+\em Musikalischer Ton & \em Frequenz & \em krit.~Abstand \\
+\hline\hline
+%--------------------------------------------------------------------------------
+C2 & 16 Hz & 1.40 m \\ \hline 
+C1 & 33 Hz & 70 cm \\ \hline 
+C & 66 Hz & 35 cm \\ \hline 
+c & 131 Hz & 17 cm \\ \hline
+c' & 262 Hz & 8 cm \\ \hline 
+c'' & 523 Hz & 4 cm \\ \hline
+%--------------------------------------------------------------------------------
+\end{tabular}
+%--------------------------------------------------------------------------------
+\end{table}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+
+
+\chapter{Noch ein Kapitel}
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+
+
+\section{Und ein Abschnitt mit Quellenangaben}
+Wie schon  {\em Hermann von Helmholtz} bemerkte, machen Instrumente Lärm \cite{helmholtz}. Spätere Untersuchungen haben dies bestätigt \cite{bismarck}. Die Literaturverweise werden nach der Reihenfolge ihres Auftretens im Verzeichnis (s.u.) durchnummeriert. Damit dies
+der chronologischen Reihenfolge der Verweise im Text entspricht, müssen die \glqq bibitems\grqq\ entsprechend sortiert werden. Zwei alternative Literatur--Formate kommen unten, hinter dem \glqq end document\grqq--Befehl: Zum Ausprobieren einfach nach oben kopieren!
+
+Im Literaturverzeichnis sind die Standardformatierungen für Buch und Artikel verwendet: Autorennamen entweder im Format Vorname Nachname {\em oder} Nachname Initialen. Buchtitel kursiv, Verlag, ggf.\ Auflagennummer, Erscheinungsjahr; Papertitel in Anführungszeichen,
+Zeitschriftentitel kursiv, Jahrgang und Nummer (fett), Jahr. Seitenzahlen sind optional; wenn aber, dann bei {\em allen} Quellen.
+
+
+\section{Zusammenfassung}
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+Hier muss noch Text geschrieben werden. 
+
+
+%%% Literaturverzeichnis %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{thebibliography}{99} % Verzeichnis wird mit max. zwei Ziffern formatiert
+\addcontentsline{toc}{chapter}{Literatur}
+% Literaturverzeichnis kommt ins Inhaltsverzeichnis und wird da wie ein chapter formatiert
+
+\bibitem{helmholtz} Helmholtz, H.v.:
+{\em Die Lehre von den Tonempfindungen als physiologische Grundlage
+f"ur die Theorie der Musik}. Vieweg, Braunschweig 1863.
+
+\bibitem{bismarck} Bismarck, G.v.:
+\glqq Psychometrische Untersuchungen der Klangfarbe stationärer
+Schalle\grqq, {\em Akustik und Schwingungstechnik} Vol.\ 23,
+\textbf{8} (1971).
+
+\end{thebibliography}
+
+
+\end{document}
+
+
+%%% Literaturverzeichnis, Variante %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%% bei Verwendung dieses Stils muss:
+%%%%%%%% 1. im Header \usepackage{natbib} aufgeführt werden und
+%%%%%%%% 2. statt \cite der Befehl \citep benutzt werden!
+%%%%%%%% Für weitere Infos einfach natbib googeln.
+
+\begin{thebibliography}{Abcd}
+\addcontentsline{toc}{section}{Literatur}
+
+\bibitem[Helmholtz(1863)]{helmholtz} Helmholtz, H.v.:
+{\em Die Lehre von den Tonempfindungen als physiologische Grundlage
+f"ur die Theorie der Musik}. Vieweg, Braunschweig 1863.
+
+\bibitem[Bismarck(1971)]{bismarck} Bismarck, G.v.:
+\glqq Psychometrische Untersuchungen der Klangfarbe stationärer
+Schalle\grqq, {\em Akustik und Schwingungstechnik} Vol.\ 23, {\bf 8}
+(1971).
+
+\end{thebibliography}
+
+\end{thebibliography}
+
+%  P.S.: ALLES, WAS HINTER DEM BEFEHL \end{document} STEHT, WIRD VON LATEX IGNORIERT!!
