@@ -2,7 +2,7 @@
 #include "stdafx.h"
 
 
-
+//TODO facial expressions & boolean ruckgabewert bei update data
 	static const EE_DataChannel_t dataChannels[] = {
 		ED_COUNTER, ED_GYROX, ED_GYROY, ED_TIMESTAMP,
 		ED_FUNC_ID, ED_FUNC_VALUE, ED_MARKER, ED_SYNC_SIGNAL,
