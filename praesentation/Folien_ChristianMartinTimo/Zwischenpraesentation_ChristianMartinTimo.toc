@@ -1,0 +1,4 @@
+\beamer@endinputifotherversion {3.26pt}
+\select@language {ngerman}
+\beamer@sectionintoc {1}{Emotiv Epoc}{3}{0}{1}
+\beamer@sectionintoc {2}{Datenanalyse}{6}{0}{2}
