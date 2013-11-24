@@ -1,0 +1,3 @@
+
+main.MainProgramm
+MainProgramm.jar,controlP5.jar,gluegen-rt.jar,jogl.jar,opengl.jar,promidi.jar,SimpleOpenNI.jar,ant-launcher.jar,ant.jar,core.jar,jason.jar,javaosc.jar
