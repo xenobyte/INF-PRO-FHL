@@ -1,12 +1,12 @@
 \beamer@endinputifotherversion {3.26pt}
 \select@language {ngerman}
 \beamer@sectionintoc {1}{Hardware}{3}{0}{1}
-\beamer@sectionintoc {2}{Signalanalyse}{9}{0}{2}
-\beamer@sectionintoc {3}{Hardware-Abstraktions-Layer}{19}{0}{3}
-\beamer@subsectionintoc {3}{1}{Emotiv Epoc API Wrapper}{20}{0}{3}
-\beamer@subsectionintoc {3}{2}{Verteilte Systeme mit OSC-Kopplung}{22}{0}{3}
-\beamer@sectionintoc {4}{Anwendungen}{26}{0}{4}
-\beamer@subsectionintoc {4}{1}{Torcs}{27}{0}{4}
-\beamer@subsectionintoc {4}{2}{Komposition f\"ur ein EEG}{30}{0}{4}
-\beamer@subsectionintoc {4}{3}{Abstrakte Kunst}{31}{0}{4}
-\beamer@subsectionintoc {4}{4}{Audio Aufnahme und Steuerung von Gitarreneffekten}{32}{0}{4}
+\beamer@sectionintoc {2}{Signalanalyse}{10}{0}{2}
+\beamer@sectionintoc {3}{Hardware-Abstraktions-Layer}{21}{0}{3}
+\beamer@subsectionintoc {3}{1}{Emotiv Epoc API Wrapper}{22}{0}{3}
+\beamer@subsectionintoc {3}{2}{Verteilte Systeme mit OSC-Kopplung}{24}{0}{3}
+\beamer@sectionintoc {4}{Anwendungen}{28}{0}{4}
+\beamer@subsectionintoc {4}{1}{Torcs}{29}{0}{4}
+\beamer@subsectionintoc {4}{2}{Komposition f\"ur ein EEG}{32}{0}{4}
+\beamer@subsectionintoc {4}{3}{Abstrakte Kunst}{33}{0}{4}
+\beamer@subsectionintoc {4}{4}{Audio Aufnahme und Steuerung von Gitarreneffekten}{34}{0}{4}

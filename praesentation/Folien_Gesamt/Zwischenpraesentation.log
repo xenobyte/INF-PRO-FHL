@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.10.17)  25 NOV 2013 12:27
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.10.17)  25 NOV 2013 12:47
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -953,7 +953,7 @@ LaTeX Font Warning: Font shape `OT1/cmss/m/n' in size <4> not available
 (./Zwischenpraesentation.toc) [3
 
  <./HAW_wuerfel+.jpg>]
-<EmotivEEG.jpg, id=184, 1003.75pt x 775.89874pt>
+<EmotivEEG.jpg, id=185, 1003.75pt x 775.89874pt>
 File: EmotivEEG.jpg Graphic file (type jpg)
  <use EmotivEEG.jpg>
 Package pdftex.def Info: EmotivEEG.jpg used on input line 70.
@@ -965,112 +965,121 @@ Package pdftex.def Info: EmotivEEG.jpg used on input line 70.
  <./HAW_wuerfel+.jpg> <./EmoEngine.png>]
 [6
 
- <./HAW_wuerfel+.jpg>] <MindWave.png, id=280, 240.9pt x 216.81pt>
+ <./HAW_wuerfel+.jpg>] [7
+
+ <./HAW_wuerfel+.jpg> <./cognitiv.png>]
+<MindWave.png, id=315, 240.9pt x 216.81pt>
 File: MindWave.png Graphic file (type png)
-
-<use MindWave.png>
-Package pdftex.def Info: MindWave.png used on input line 114.
+ <use MindWave.png>
+Package pdftex.def Info: MindWave.png used on input line 120.
 (pdftex.def)             Requested size: 120.44969pt x 108.40472pt.
- [7
+ [8
 
- <./HAW_wuerfel+.jpg> <./MindWave.png>]
-<KinectSensor.png, id=315, 180.675pt x 118.19156pt>
+ <./HAW_wuerfel+.jpg> <./MindWave.png>] <KinectSensor.png, id=348, 180.675pt x 
+118.19156pt>
 File: KinectSensor.png Graphic file (type png)
- <use KinectSensor.png>
-Package pdftex.def Info: KinectSensor.png used on input line 130.
+
+<use KinectSensor.png>
+Package pdftex.def Info: KinectSensor.png used on input line 136.
 (pdftex.def)             Requested size: 126.47162pt x 82.73352pt.
+ [9
 
-[8
-
- <./HAW_wuerfel+.jpg> <./KinectSensor.png>] (./Zwischenpraesentation.toc)
-[9
+ <./HAW_wuerfel+.jpg> <./KinectSensor.png>]
+(./Zwischenpraesentation.toc) [10
 
  <./HAW_wuerfel+.jpg>]
-<Snapshot_linkes_Bein.png, id=391, 1284.8pt x 722.7pt>
+<Snapshot_linkes_Bein.png, id=425, 1284.8pt x 722.7pt>
 File: Snapshot_linkes_Bein.png Graphic file (type png)
 
 <use Snapshot_linkes_Bein.png>
-Package pdftex.def Info: Snapshot_linkes_Bein.png used on input line 147.
+Package pdftex.def Info: Snapshot_linkes_Bein.png used on input line 153.
 (pdftex.def)             Requested size: 290.74263pt x 163.53781pt.
- [10
+ [11
 
  <./HAW_wuerfel+.jpg> <./Snapshot_linkes_Bein.png (PNG copy)>]
-Overfull \vbox (0.55528pt too high) detected at line 154
+Overfull \vbox (0.55528pt too high) detected at line 160
  []
 
-[11
+[12
 
- <./HAW_wuerfel+.jpg> <./linplot_linkes_bein.png (PNG copy)>] [12
+ <./HAW_wuerfel+.jpg> <./linplot_linkes_bein.png (PNG copy)>]
+Overfull \vbox (0.55528pt too high) detected at line 167
+ []
 
- <./HAW_wuerfel+.jpg> <./Video_linkes_Bein_bfview.png>] [13
+[13
 
- <./HAW_wuerfel+.jpg> <./CognitiveAreas.png>] [14
+ <./HAW_wuerfel+.jpg> <./linplot_linkes_bein_markiert.png>] [14
 
- <./HAW_wuerfel+.jpg> <./GaussScalingSensors.png>] [15
+ <./HAW_wuerfel+.jpg> <./Video_linkes_Bein_bfview.png>] [15
 
- <./HAW_wuerfel+.jpg> <./eegSignals3D.png (PNG copy)>] [16
+ <./HAW_wuerfel+.jpg> <./CognitiveAreas.png>] [16
 
- <./HAW_wuerfel+.jpg> <./SpectrogramSpatialResult.png (PNG copy)>] [17
+ <./HAW_wuerfel+.jpg> <./GaussScalingSensors.png>] [17
 
- <./HAW_wuerfel+.jpg> <./SpectrogramSpatialResultZoom.png>] [18
+ <./HAW_wuerfel+.jpg> <./eegSignals3D.png (PNG copy)>] [18
+
+ <./HAW_wuerfel+.jpg> <./SpectrogramSpatialResult.png (PNG copy)>] [19
+
+ <./HAW_wuerfel+.jpg> <./SpectrogramSpatialResultZoom.png>] [20
 
  <./HAW_wuerfel+.jpg> <./spatialcognitivedata.png (PNG copy)>] (./Zwischenpraes
-entation.toc) [19
-
- <./HAW_wuerfel+.jpg>] [20
-
- <./HAW_wuerfel+.jpg>] [21
+entation.toc) [21
 
  <./HAW_wuerfel+.jpg>] [22
 
- <./HAW_wuerfel+.jpg> <./ServerComponents.jpg>] [23
+ <./HAW_wuerfel+.jpg>] [23
 
- <./HAW_wuerfel+.jpg> <./OSC_Server.jpg>] [24
+ <./HAW_wuerfel+.jpg>] [24
 
- <./HAW_wuerfel+.jpg> <./Message_Thread.jpg>] [25
+ <./HAW_wuerfel+.jpg> <./ServerComponents.jpg>] [25
 
- <./HAW_wuerfel+.jpg>]
-(./Zwischenpraesentation.toc) [26
+ <./HAW_wuerfel+.jpg> <./OSC_Server.jpg>] [26
 
- <./HAW_wuerfel+.jpg>]
-<torcs-screenshot.png, id=974, 1284.8pt x 722.7pt>
+ <./HAW_wuerfel+.jpg> <./Message_Thread.jpg>] [27
+
+ <./HAW_wuerfel+.jpg>] (./Zwischenpraesentation.toc) [28
+
+ <./HAW_wuerfel+.jpg>] <torcs-screenshot.png, id=1042, 1284.8pt x 722.7pt>
 File: torcs-screenshot.png Graphic file (type png)
- <use torcs-screenshot.png>
-Package pdftex.def Info: torcs-screenshot.png used on input line 317.
+
+<use torcs-screenshot.png>
+Package pdftex.def Info: torcs-screenshot.png used on input line 330.
 (pdftex.def)             Requested size: 290.74263pt x 163.53781pt.
-
-[27
-
- <./HAW_wuerfel+.jpg> <./torcs-screenshot.png>] [28
-
- <./HAW_wuerfel+.jpg>]
-<torcs.png, id=1047, 567.27pt x 319.77pt>
-File: torcs.png Graphic file (type png)
- <use torcs.png>
-Package pdftex.def Info: torcs.png used on input line 341.
-(pdftex.def)             Requested size: 283.63431pt x 159.8846pt.
  [29
 
- <./HAW_wuerfel+.jpg> <./torcs.png>] [30
+ <./HAW_wuerfel+.jpg> <./torcs-screenshot.png>]
+[30
 
- <./HAW_wuerfel+.jpg> <./Hochschule_fuer_Musik_und_Theater_Hannover.jpg>] <code
-.PNG, id=1119, 573.64313pt x 578.91281pt>
+ <./HAW_wuerfel+.jpg>] <torcs.png, id=1112, 567.27pt x 319.77pt>
+File: torcs.png Graphic file (type png)
+
+<use torcs.png>
+Package pdftex.def Info: torcs.png used on input line 354.
+(pdftex.def)             Requested size: 283.63431pt x 159.8846pt.
+ [31
+
+ <./HAW_wuerfel+.jpg> <./torcs.png>] [32
+
+ <./HAW_wuerfel+.jpg> <./Hochschule_fuer_Musik_und_Theater_Hannover.jpg>]
+<code.PNG, id=1186, 573.64313pt x 578.91281pt>
 File: code.PNG Graphic file (type png)
  <use code.PNG>
-Package pdftex.def Info: code.PNG used on input line 383.
+Package pdftex.def Info: code.PNG used on input line 396.
 (pdftex.def)             Requested size: 174.44734pt x 176.04256pt.
+ [33
 
-[31
-
- <./HAW_wuerfel+.jpg> <./code.PNG>]
-<Audio.PNG, id=1159, 639.13782pt x 368.1253pt>
+ <./HAW_wuerfel+.jpg> <./code.PNG>] <Audio.PNG, id=1224, 639.13782pt x 368.1253
+pt>
 File: Audio.PNG Graphic file (type png)
- <use Audio.PNG>
-Package pdftex.def Info: Audio.PNG used on input line 406.
-(pdftex.def)             Requested size: 255.65059pt x 147.24751pt.
- [32
 
- <./HAW_wuerfel+.jpg> <./Audio.PNG>]
+<use Audio.PNG>
+Package pdftex.def Info: Audio.PNG used on input line 419.
+(pdftex.def)             Requested size: 255.65059pt x 147.24751pt.
+ [34
+
+ <./HAW_wuerfel+.jpg> <./Audio.PNG>] [35
+
+ <./HAW_wuerfel+.jpg>]
 \tf@nav=\write6
 \openout6 = `Zwischenpraesentation.nav'.
 
@@ -1080,11 +1089,11 @@ Package pdftex.def Info: Audio.PNG used on input line 406.
 \tf@snm=\write8
 \openout8 = `Zwischenpraesentation.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 410.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 410.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 433.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 433.
  (./Zwischenpraesentation.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 410.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 410.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 433.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 433.
 
 
 Package rerunfilecheck Warning: File `Zwischenpraesentation.out' has changed.
@@ -1092,8 +1101,8 @@ Package rerunfilecheck Warning: File `Zwischenpraesentation.out' has changed.
 (rerunfilecheck)                or use package `bookmark'.
 
 Package rerunfilecheck Info: Checksums for `Zwischenpraesentation.out':
-(rerunfilecheck)             Before: A6A6FE0EFDADE9B5D52EB27E4EF44D9B;652
-(rerunfilecheck)             After:  AB53DCE46388D9603D07436191805152;652.
+(rerunfilecheck)             Before: 391EBB1088EA3119CE0671D09C98E4D7;652
+(rerunfilecheck)             After:  F8AC3F4DD2C412D2BC7F42986AEEA4A2;652.
 
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 1.0pt have occurred.
@@ -1101,21 +1110,18 @@ LaTeX Font Warning: Size substitutions with differences
 
 LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 410.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 433.
  ) 
 Here is how much of TeX's memory you used:
- 16877 strings out of 493315
- 318928 string characters out of 6137903
+ 16891 strings out of 493315
+ 319100 string characters out of 6137903
  390012 words of memory out of 5000000
- 19784 multiletter control sequences out of 15000+600000
+ 19788 multiletter control sequences out of 15000+600000
  6063 words of font info for 22 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
  49i,16n,66p,410b,563s stack positions out of 5000i,500n,10000p,200000b,80000s
-pdfTeX warning (dest): name{Navigation33} has been referenced but does not ex
-ist, replaced by a fixed one
-
-pdfTeX warning (dest): name{Outline0.4.4.33} has been referenced but does not e
-xist, replaced by a fixed one
+pdfTeX warning (dest): name{Outline0.4.4.33} has been referenced but does not
+ exist, replaced by a fixed one
 
 pdfTeX warning (dest): name{Outline0.4.3.32} has been referenced but does not e
 xist, replaced by a fixed one
@@ -1129,13 +1135,16 @@ xist, replaced by a fixed one
 pdfTeX warning (dest): name{Outline0.3.2.23} has been referenced but does not e
 xist, replaced by a fixed one
 
+pdfTeX warning (dest): name{Outline0.3.1.21} has been referenced but does not e
+xist, replaced by a fixed one
+
 </usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb><
 /usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmss12.pfb></
 usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb>
-Output written on Zwischenpraesentation.pdf (32 pages, 5093389 bytes).
+Output written on Zwischenpraesentation.pdf (35 pages, 5320755 bytes).
 PDF statistics:
- 1231 PDF objects out of 1440 (max. 8388607)
- 1115 compressed objects within 12 object streams
- 85 named destinations out of 1000 (max. 500000)
- 397 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1333 PDF objects out of 1440 (max. 8388607)
+ 1207 compressed objects within 13 object streams
+ 91 named destinations out of 1000 (max. 500000)
+ 422 words of extra memory for PDF output out of 10000 (max. 10000000)
 
