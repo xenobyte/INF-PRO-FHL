@@ -26,3 +26,7 @@
 
 # OSX-specific stuff
 .DS_STORE
+
+#Videos
+*.mov
+*.wmv
