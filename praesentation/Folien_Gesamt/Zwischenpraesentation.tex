@@ -1,0 +1,395 @@
+\documentclass[german,ignorenonframetext]{beamer}
+
+\usepackage[ngerman]{babel} % für deutsche Spracheinstellungen
+\usepackage{graphics} % um Bilder einbinden zu können
+\usepackage[dvips]{epsfig} % um Bilder zu skalieren
+\usepackage[applemac]{inputenc} % inputencoding (MacOS) für Umlaute und Akzente
+\usepackage{multimedia}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%% Die folgenden Befehle definieren das Grundlayout, blenden auf der
+%%%%%%% Titelseite die HAW-Infos ein und setzen das 
+%%%%%%% HAW-Logo in die Ecke
+\mode<presentation>{\usetheme{Berkeley}}
+\logo{\pgfimage[height=1.5cm]{HAW_wuerfel+}}
+\institute[MT -- HAW Hamburg]{HAW Hamburg\\ Dept.\ Informatik}
+
+%%%%%%% der folgende Befehl lässt die mit "\pause" verdeckten Teile der Folien 
+%%%%%%% transparent erscheinen.  
+\setbeamercovered{transparent}  
+
+%%%%%%% die folgende Sequenz blendet mit jeder neuen Section einmal das 
+%%%%%%% Inhaltsverzeichnis mit dem Titel "Übersicht" ein und markiert den
+%%%%%%% jeweils aktuellen Gliederungspunkt
+\AtBeginSection[]{
+\begin{frame}<beamer>
+\frametitle{Übersicht} 
+\tableofcontents[currentsection,currentsubsection]
+\end{frame}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%% jeder dieser Titelseiten-Befehle kennt eine in eckige Klammern gesetzte 
+%%%%%%% Kurzform, die im Rand benutzt wird
+\title[Projekt FHL Winter 13]{Zwischenpraesentation}
+\subtitle{Projekt FHL Winter 13}
+\author[]{}
+\date{\today}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+%%%%%% dieser Befehl erzeugt das Deckblatt. 
+%%%%%% Mit der Option plain wird das Layout für das Deckblatt abgeschaltet
+%\frame[plain]{\titlepage}
+\frame{\titlepage}
+
+\begin{frame}
+  \frametitle{Übersicht}
+  \tableofcontents
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Emotiv Epoc} 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+  \frametitle{Emotiv-API}
+  
+  \pgfimage[width=\textwidth]{EmoEngine}
+  
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Emotiv-API}
+  
+  Die Emotiv-API (drei C-Header und entsprechende Binaries) bietet Zugriff auf Daten auf vier veschiedenen Ebenen:
+  
+\begin{enumerate}
+\item rohe Messwerte der 14 Elektroden und des Gyroskops
+\item Mimik-Ereignisse (''Expressiv Suite'')
+\item ''Emotions-Werte'' (''Affectiv Suite'')
+\item trainierte, wiedererkannte ''Gedanken''-Muster (''Cognitiv Suite'')
+\end{enumerate} 
+
+Wie die Daten der Ebenen 2-4 berechnet werden, bleibt leider ein Geheimnis der Hersteller-Firma.
+
+\end{frame}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Datenanalyse} 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+\frametitle{Video ''linkes Bein''}
+\movie[externalviewer]{\includegraphics[width=\textwidth]{Snapshot_linkes_Bein.png}} {Video_linkes_Bein_edit.mov} %% Snapshot ändern!!!!
+\end{frame}
+
+\begin{frame}
+\frametitle{Auswertung - erste Versuche}
+  
+\pgfimage[width=\textwidth]{linplot_linkes_bein.png}
+  
+\end{frame}
+
+\begin{frame}
+\frametitle{Auswertung - mit bwview}
+ 
+\begin{center}  
+\pgfimage[width=\textwidth]{Video_linkes_Bein_bfview.png}
+\end{center}  
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Datenanalye Frequenzbänder und Sensorregionen}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+  \frametitle{Analyse der EEg-Rohdaten mit Fokus auf Kognitive Belastung}
+  
+  \pgfimage[width=0.7\textwidth]{CognitiveAreas.png}
+  
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Analyse der EEg-Rohdaten mit Fokus auf Kognitive Belastung}
+  
+  \pgfimage[width=0.7\textwidth]{GaussScalingSensors.png}
+  
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Auswahl eines geeigneten Datensatzes}
+  
+  \pgfimage[width=0.7\textwidth]{eegSignals3D.png}
+  
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Betrachtung des Frequenzspektrums}
+  
+  \pgfimage[width=0.7\textwidth]{SpectrogramSpatialResult.png}
+  
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Betrachtung des Frequenzspektrums}
+  
+  \pgfimage[width=0.7\textwidth]{SpectrogramSpatialResultZoom.png}
+  
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Thetabandanalyse}
+  \begin{itemize}
+  \item Anwendung der Gewichtungsfaktoren
+  \item Zusammensetzen des raeumlichen Signals
+  \item Bandpassfilterung mit Durchlassbereich von 4 bis 7,5 Hz
+  \item Betrachtung der Energiedichte
+  \end{itemize}
+  
+  
+  
+  \pgfimage[width=0.7\textwidth]{spatialcognitivedata.png}
+  
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Emotiv Epoc API Wrapper} % die sections sind hier nur zum Strukturieren des Vortrags!!
+%% der Name der section taucht nur im Inhaltsverzeichnis und im linken Rand auf.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+  \frametitle{Emotiv Epoc API}
+  
+Die Emotiv Epoc API in ist nativ C++ geschrieben.
+Sie ist dabei jedoch umstaendlich, und nur mueig dokumentiert.\pause
+\linebreak
+Deswegen: Entwicklung eines Wrappers fuer eine komfortablere Nutzung des EEG Headsets.
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Emotiv Epoc API Wrapper}
+  
+Der API Wrapper ist in C++ geschrieben.
+Bei der Entwicklung wurde auf objektorientierte Prinzipien geachtet.
+Es wurde ebenfalls eine allgemeine Schnittstelle definiert, die es ermoeglicht mit minimalem Aufwand unterschiedliche EEG Headsets zu nutzen
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Torcs} % die sections sind hier nur zum Strukturieren des Vortrags!!
+%% der Name der section taucht nur im Inhaltsverzeichnis und im linken Rand auf.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Torcs - The Open Racing Car Simulator}
+
+%%%%% AUSSCHNEIDEN
+
+
+\begin{itemize}
+\item Open Source Lizenz - GPL
+\item 3D Rennspiel
+\item Fahrer programmierbar
+\item Gangschaltung per EEG
+\item http://torcs.sourceforge.net/
+\end{itemize}
+\end{frame}
+\begin{frame}
+\frametitle{Interaktion}
+\begin{center}
+\includegraphics[scale=0.5]{torcs.png}
+\end{center}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Verteilte Systeme mit OSC-Kopplung}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+  \frametitle{Verteilte Systeme mit OSC-Kopplung}
+  
+  \pgfimage[width=\textwidth]{ServerComponents}
+  
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{OSC Server}
+  
+  \pgfimage[width=\textwidth]{OSC_Server}
+  
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Message Thread}
+  
+  \pgfimage[width=\textwidth]{Message_Thread}
+  
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{OSC}
+  
+  Wieso Open Sound Control Nachrichten:
+  
+\begin{enumerate}
+\item Plattform- und Sprachunabhängig
+\item die asynchrone Kommunikation verhindert Deadlocks
+\item einfacher Aufbau der Nachrichten
+\item für die meisten Sprachen gibt es Open Source Implementierungen
+\end{enumerate} 
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Hardware}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Brain Control Interface (BCI)}
+
+Das BCI ist ein 1-Kanal EEG-Headset.
+Erfasst Entspannung- und Aufmerksamkeit auf Basis von EEG-Messungen.
+ 
+
+\begin{figure}
+	\centering
+		\includegraphics[scale=0.50]{MindWave.png}
+	\caption{Neurosky-Mindwave}
+	\label{fig:MindWave}
+\end{figure}
+
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Microsoft Kinect}
+Die Kinect ist ein Sensor für Bilderfassung.\\
+Der Tiefensensor, hat einen IR-Laserprojektor sowie ein CMOS Monochrom-Kameramodul.
+
+\begin{figure}
+	\centering
+		\includegraphics[scale=0.70]{KinectSensor}
+	\caption{Microsoft-Kinect}
+	\label{fig:KinectSensor}
+\end{figure}
+
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Abstrakte Kunst}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+
+\frametitle{Mit den Händen malen und mit den Gedanken färben}       
+
+%\begin{columns}
+%\column{.4\textwidth}
+%\begin{center}
+%\pgfimage[height = 1\textwidth]{code} \\
+%\scriptsize
+%	Abstrakte Kunst
+%\end{center}
+%\end{columns}
+
+\begin{figure}
+	\centering
+		\includegraphics[width=0.60\textwidth]{code.PNG}
+	\caption{Abstrakte Kunst}
+	\label{fig:code}
+\end{figure}
+
+
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Audio Aufnahme und Steuerung von Gitarreneffekte}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+
+\frametitle{Playing Music}
+
+
+\begin{figure}
+	\centering
+		\includegraphics[scale=0.20]{Audio.PNG}
+	\caption{schnappschuss aus dem Video [Carlos Santana-Europa(cover)]}
+	\label{fig:Audio}
+\end{figure}
+
+\end{frame}
+
+
+
+
+\end{document} %%%%% END DOCUMENT %%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%  besondere Gestaltungselemente für Vortragsfolien
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Folie
+\begin{frame}
+\frametitle{Folientitel}
+        Text, Bilder, Blöcke
+\end{frame}
+
+% neutraler Kasten
+\begin{block}{Blocktitel}
+        Blocktext
+\end{block}
+
+% grüner Kasten
+\begin{exampleblock}{Beispielblocktitel}
+        Beispielblocktext
+\end{exampleblock}
+
+% roter Kasten
+\begin{alertblock}{Warnungsblocktitel}
+        Warnungsblocktext
+\end{alertblock}
+
+% mehrspaltige Folie mit variablen Spaltenbreiten
+\begin{columns}
+\column{.55\textwidth}
+        Text oder Bild
+\column{.45\textwidth}
+        Text oder Bild
+\end{columns}
+
+% sukzessiver Folienaufbau 
+\pause
+
+% mehr Befehle für sukzessiven Folienaufbau, 
+% der geklammerte Teil erscheint jeweils ab der dritten Teil-Folie
+\uncover<3->{}
+\only<3->{}
+\invisible<1-2>{}
+
+% rote Markierung des geklammerten Teils bei der vierten Teil-Folie
+\alert<4>{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
