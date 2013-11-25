@@ -1,4 +1,6 @@
-\documentclass[german,ignorenonframetext]{beamer}
+\documentclass[german,ignorenonframetext
+,hideothersubsections %% Im Sidebar nur die aktuellen Subsections anzeigen
+]{beamer}
 
 \usepackage[ngerman]{babel} % für deutsche Spracheinstellungen
 \usepackage{graphics} % um Bilder einbinden zu können
@@ -33,7 +35,7 @@
 
 %%%%%%% jeder dieser Titelseiten-Befehle kennt eine in eckige Klammern gesetzte 
 %%%%%%% Kurzform, die im Rand benutzt wird
-\title[Projekt FHL Winter 13]{Zwischenpraesentation}
+\title[Projekt FHL Winter 13]{Zwischenpräsentation}
 \subtitle{Projekt FHL Winter 13}
 \author[]{}
 \date{\today}
@@ -53,8 +55,20 @@
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Emotiv Epoc} 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Hardware} 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+\frametitle{Emotiv EEG}
+
+\begin{center}  
+\includegraphics[width=.7\textwidth]{EmotivEEG.jpg}
+\end{center}  
+
+\end{frame}
+
 
 \begin{frame}
   \frametitle{Emotiv-API}
@@ -80,10 +94,51 @@ Wie die Daten der Ebenen 2-4 berechnet werden, bleibt leider ein Geheimnis der H
 
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\section{Hardware}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Neurosky Mindwave}
+
+Das Neurosky BCI ist ein 1-Kanal EEG-Headset.
+Erfasst Entspannung- und Aufmerksamkeit auf Basis von EEG-Messungen.
+ 
+
+\begin{figure}
+	\centering
+		\includegraphics[scale=0.50]{MindWave.png}
+	\caption{Neurosky-Mindwave}
+	\label{fig:MindWave}
+\end{figure}
+
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Microsoft Kinect}
+Die Kinect ist ein Sensor für Bilderfassung.\\
+Der Tiefensensor, hat einen IR-Laserprojektor sowie ein CMOS Monochrom-Kameramodul.
+
+\begin{figure}
+	\centering
+		\includegraphics[scale=0.70]{KinectSensor}
+	\caption{Microsoft-Kinect}
+	\label{fig:KinectSensor}
+\end{figure}
+
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Signalanalyse} 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Datenanalyse} 
+%\section{Datenanalyse} 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{frame}
@@ -107,7 +162,7 @@ Wie die Daten der Ebenen 2-4 berechnet werden, bleibt leider ein Geheimnis der H
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Datenanalye Frequenzbänder und Sensorregionen}
+%\section{Datenanalye Frequenzbänder und Sensorregionen}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{frame}
@@ -168,17 +223,24 @@ Wie die Daten der Ebenen 2-4 berechnet werden, bleibt leider ein Geheimnis der H
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Emotiv Epoc API Wrapper} % die sections sind hier nur zum Strukturieren des Vortrags!!
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Abstraktions-Software} 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Emotiv Epoc API Wrapper} % die sections sind hier nur zum Strukturieren des Vortrags!!
 %% der Name der section taucht nur im Inhaltsverzeichnis und im linken Rand auf.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{frame}
   \frametitle{Emotiv Epoc API}
   
-Die Emotiv Epoc API in ist nativ C++ geschrieben.
-Sie ist dabei jedoch umstaendlich, und nur mueig dokumentiert.\pause
+Die Emotiv Epoc API ist nativ in C geschrieben.
+Sie ist dabei jedoch umständlich, und nur müig dokumentiert.\pause
 \linebreak
-Deswegen: Entwicklung eines Wrappers fuer eine komfortablere Nutzung des EEG Headsets.
+Deswegen: Entwicklung eines Wrappers für eine komfortablere Nutzung des EEG Headsets.
 
 \end{frame}
 
@@ -187,38 +249,13 @@ Deswegen: Entwicklung eines Wrappers fuer eine komfortablere Nutzung des EEG Hea
   
 Der API Wrapper ist in C++ geschrieben.
 Bei der Entwicklung wurde auf objektorientierte Prinzipien geachtet.
-Es wurde ebenfalls eine allgemeine Schnittstelle definiert, die es ermoeglicht mit minimalem Aufwand unterschiedliche EEG Headsets zu nutzen
+Es wurde ebenfalls eine allgemeine Schnittstelle definiert, die es ermöglicht mit minimalem Aufwand unterschiedliche EEG Headsets zu nutzen
 
 \end{frame}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Torcs} % die sections sind hier nur zum Strukturieren des Vortrags!!
-%% der Name der section taucht nur im Inhaltsverzeichnis und im linken Rand auf.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}
-\frametitle{Torcs - The Open Racing Car Simulator}
-
-%%%%% AUSSCHNEIDEN
-
-
-\begin{itemize}
-\item Open Source Lizenz - GPL
-\item 3D Rennspiel
-\item Fahrer programmierbar
-\item Gangschaltung per EEG
-\item http://torcs.sourceforge.net/
-\end{itemize}
-\end{frame}
-\begin{frame}
-\frametitle{Interaktion}
-\begin{center}
-\includegraphics[scale=0.5]{torcs.png}
-\end{center}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Verteilte Systeme mit OSC-Kopplung}
+\subsection{Verteilte Systeme mit OSC-Kopplung}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{frame}
@@ -260,43 +297,64 @@ Es wurde ebenfalls eine allgemeine Schnittstelle definiert, die es ermoeglicht m
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Hardware}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Anwendungen} 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Torcs} % die sections sind hier nur zum Strukturieren des Vortrags!!
+%% der Name der section taucht nur im Inhaltsverzeichnis und im linken Rand auf.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \begin{frame}
-\frametitle{Brain Control Interface (BCI)}
+\frametitle{Torcs - The Open Racing Car Simulator}
 
-Das BCI ist ein 1-Kanal EEG-Headset.
-Erfasst Entspannung- und Aufmerksamkeit auf Basis von EEG-Messungen.
- 
-
-\begin{figure}
-	\centering
-		\includegraphics[scale=0.50]{MindWave.png}
-	\caption{Neurosky-Mindwave}
-	\label{fig:MindWave}
-\end{figure}
-
+\begin{center}
+\includegraphics[width=\textwidth]{torcs-screenshot.png}
+\end{center}
 \end{frame}
 
 
 \begin{frame}
-\frametitle{Microsoft Kinect}
-Die Kinect ist ein Sensor für Bilderfassung.\\
-Der Tiefensensor, hat einen IR-Laserprojektor sowie ein CMOS Monochrom-Kameramodul.
+\frametitle{Torcs - The Open Racing Car Simulator}
 
-\begin{figure}
-	\centering
-		\includegraphics[scale=0.70]{KinectSensor}
-	\caption{Microsoft-Kinect}
-	\label{fig:KinectSensor}
-\end{figure}
+%%%%% AUSSCHNEIDEN
 
 
+\begin{itemize}
+\item Open Source Lizenz - GPL
+\item 3D Rennspiel
+\item Fahrer programmierbar
+\item Gangschaltung per EEG
+\item http://torcs.sourceforge.net/
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Interaktion}
+\begin{center}
+\includegraphics[scale=0.5]{torcs.png}
+\end{center}
 \end{frame}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Abstrakte Kunst}
+\subsection{Komposition für ein EEG}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+\frametitle{Kooperation mit der HMTM Hannover}       
+\begin{center}  
+\pgfimage[width=\textwidth]{Hochschule_fuer_Musik_und_Theater_Hannover.jpg}
+\end{center}  
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Abstrakte Kunst}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
 
@@ -324,8 +382,9 @@ Der Tiefensensor, hat einen IR-Laserprojektor sowie ein CMOS Monochrom-Kameramod
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Audio Aufnahme und Steuerung von Gitarreneffekte}
+\subsection{Audio Aufnahme und Steuerung von Gitarreneffekten}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 \begin{frame}
 
@@ -334,13 +393,15 @@ Der Tiefensensor, hat einen IR-Laserprojektor sowie ein CMOS Monochrom-Kameramod
 
 \begin{figure}
 	\centering
-		\includegraphics[scale=0.20]{Audio.PNG}
+		\includegraphics[scale=0.4]{Audio.PNG}
 	\caption{schnappschuss aus dem Video [Carlos Santana-Europa(cover)]}
 	\label{fig:Audio}
 \end{figure}
 
-\end{frame}
 
+
+
+\end{frame}
 
 
 

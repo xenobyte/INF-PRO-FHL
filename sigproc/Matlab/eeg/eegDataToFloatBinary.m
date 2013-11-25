@@ -5,8 +5,8 @@
 %  TODO: redundante Codezeilen eleganter lösen (am besten gleich als ganze
 %  Matrix bearbeiten oder zumindest mit ner Schleife arbeiten)
 
-OFILENAME = 'output.data'; % ggf aendern
-IFILENAME = '../../../eegdata/Timo/Video_linkes_Bein_20131021_104452.eeg'; % ggf aendern
+IFILENAME = '../../../eegdata/Timo/Video_rechtes_Bein_20131021_104613.eeg'; % ggf aendern
+OFILENAME = [IFILENAME '.floatbin'];
 
 %% Daten einlesen:
 eegMatrix = csvread(IFILENAME,1,0);
