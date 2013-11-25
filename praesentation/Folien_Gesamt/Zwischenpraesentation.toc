@@ -4,9 +4,9 @@
 \beamer@sectionintoc {2}{Signalanalyse}{9}{0}{2}
 \beamer@sectionintoc {3}{Hardware-Abstraktions-Layer}{19}{0}{3}
 \beamer@subsectionintoc {3}{1}{Emotiv Epoc API Wrapper}{20}{0}{3}
-\beamer@subsectionintoc {3}{2}{Verteilte Systeme mit OSC-Kopplung}{23}{0}{3}
-\beamer@sectionintoc {4}{Anwendungen}{27}{0}{4}
-\beamer@subsectionintoc {4}{1}{Torcs}{28}{0}{4}
-\beamer@subsectionintoc {4}{2}{Komposition f\"ur ein EEG}{31}{0}{4}
-\beamer@subsectionintoc {4}{3}{Abstrakte Kunst}{32}{0}{4}
-\beamer@subsectionintoc {4}{4}{Audio Aufnahme und Steuerung von Gitarreneffekten}{33}{0}{4}
+\beamer@subsectionintoc {3}{2}{Verteilte Systeme mit OSC-Kopplung}{22}{0}{3}
+\beamer@sectionintoc {4}{Anwendungen}{26}{0}{4}
+\beamer@subsectionintoc {4}{1}{Torcs}{27}{0}{4}
+\beamer@subsectionintoc {4}{2}{Komposition f\"ur ein EEG}{30}{0}{4}
+\beamer@subsectionintoc {4}{3}{Abstrakte Kunst}{31}{0}{4}
+\beamer@subsectionintoc {4}{4}{Audio Aufnahme und Steuerung von Gitarreneffekten}{32}{0}{4}
