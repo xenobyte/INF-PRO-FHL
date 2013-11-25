@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.10.17)  25 NOV 2013 12:47
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.10.17)  25 NOV 2013 13:21
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -968,14 +968,14 @@ Package pdftex.def Info: EmotivEEG.jpg used on input line 70.
  <./HAW_wuerfel+.jpg>] [7
 
  <./HAW_wuerfel+.jpg> <./cognitiv.png>]
-<MindWave.png, id=315, 240.9pt x 216.81pt>
+<MindWave.png, id=316, 240.9pt x 216.81pt>
 File: MindWave.png Graphic file (type png)
  <use MindWave.png>
 Package pdftex.def Info: MindWave.png used on input line 120.
 (pdftex.def)             Requested size: 120.44969pt x 108.40472pt.
  [8
 
- <./HAW_wuerfel+.jpg> <./MindWave.png>] <KinectSensor.png, id=348, 180.675pt x 
+ <./HAW_wuerfel+.jpg> <./MindWave.png>] <KinectSensor.png, id=349, 180.675pt x 
 118.19156pt>
 File: KinectSensor.png Graphic file (type png)
 
@@ -1022,8 +1022,8 @@ Overfull \vbox (0.55528pt too high) detected at line 167
 
  <./HAW_wuerfel+.jpg> <./SpectrogramSpatialResultZoom.png>] [20
 
- <./HAW_wuerfel+.jpg> <./spatialcognitivedata.png (PNG copy)>] (./Zwischenpraes
-entation.toc) [21
+ <./HAW_wuerfel+.jpg> <./AufbereitungBlockdiagram.png> <./spatialcognitivedata.
+png (PNG copy)>] (./Zwischenpraesentation.toc) [21
 
  <./HAW_wuerfel+.jpg>] [22
 
@@ -1039,41 +1039,46 @@ entation.toc) [21
 
  <./HAW_wuerfel+.jpg>] (./Zwischenpraesentation.toc) [28
 
- <./HAW_wuerfel+.jpg>] <torcs-screenshot.png, id=1042, 1284.8pt x 722.7pt>
+ <./HAW_wuerfel+.jpg>]
+<torcs-screenshot.png, id=1040, 1284.8pt x 722.7pt>
 File: torcs-screenshot.png Graphic file (type png)
-
-<use torcs-screenshot.png>
-Package pdftex.def Info: torcs-screenshot.png used on input line 330.
+ <use torcs-screenshot.png>
+Package pdftex.def Info: torcs-screenshot.png used on input line 325.
 (pdftex.def)             Requested size: 290.74263pt x 163.53781pt.
- [29
 
- <./HAW_wuerfel+.jpg> <./torcs-screenshot.png>]
-[30
+[29
 
- <./HAW_wuerfel+.jpg>] <torcs.png, id=1112, 567.27pt x 319.77pt>
+ <./HAW_wuerfel+.jpg> <./torcs-screenshot.png>] [30
+
+ <./HAW_wuerfel+.jpg>]
+<torcs.png, id=1111, 567.27pt x 319.77pt>
 File: torcs.png Graphic file (type png)
-
-<use torcs.png>
-Package pdftex.def Info: torcs.png used on input line 354.
+ <use torcs.png>
+Package pdftex.def Info: torcs.png used on input line 349.
 (pdftex.def)             Requested size: 283.63431pt x 159.8846pt.
  [31
 
  <./HAW_wuerfel+.jpg> <./torcs.png>] [32
 
- <./HAW_wuerfel+.jpg> <./Hochschule_fuer_Musik_und_Theater_Hannover.jpg>]
-<code.PNG, id=1186, 573.64313pt x 578.91281pt>
+ <./HAW_wuerfel+.jpg> <./Hochschule_fuer_Musik_und_Theater_Hannover.jpg>] <code
+.PNG, id=1184, 307.90031pt x 328.97906pt>
 File: code.PNG Graphic file (type png)
  <use code.PNG>
-Package pdftex.def Info: code.PNG used on input line 396.
-(pdftex.def)             Requested size: 174.44734pt x 176.04256pt.
- [33
+Package pdftex.def Info: code.PNG used on input line 375.
+(pdftex.def)             Requested size: 174.44734pt x 186.39055pt.
 
- <./HAW_wuerfel+.jpg> <./code.PNG>] <Audio.PNG, id=1224, 639.13782pt x 368.1253
-pt>
+[33
+
+ <./HAW_wuerfel+.jpg> <./code.PNG>]
+
+Package multimedia Warning: The movie file ``CarlosSantanaEuropa(cover).wmv'' c
+ould not be found in the current directory, where it must reside for viewing. o
+n input line 387.
+
+<Audio.PNG, id=1221, 639.13782pt x 368.1253pt>
 File: Audio.PNG Graphic file (type png)
-
-<use Audio.PNG>
-Package pdftex.def Info: Audio.PNG used on input line 419.
+ <use Audio.PNG>
+Package pdftex.def Info: Audio.PNG used on input line 387.
 (pdftex.def)             Requested size: 255.65059pt x 147.24751pt.
  [34
 
@@ -1089,62 +1094,34 @@ Package pdftex.def Info: Audio.PNG used on input line 419.
 \tf@snm=\write8
 \openout8 = `Zwischenpraesentation.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 433.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 433.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 406.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 406.
  (./Zwischenpraesentation.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 433.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 433.
-
-
-Package rerunfilecheck Warning: File `Zwischenpraesentation.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `Zwischenpraesentation.out':
-(rerunfilecheck)             Before: 391EBB1088EA3119CE0671D09C98E4D7;652
-(rerunfilecheck)             After:  F8AC3F4DD2C412D2BC7F42986AEEA4A2;652.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 406.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 406.
+Package rerunfilecheck Info: File `Zwischenpraesentation.out' has not changed.
+(rerunfilecheck)             Checksum: F8AC3F4DD2C412D2BC7F42986AEEA4A2;652.
 
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 1.0pt have occurred.
 
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 433.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 406.
  ) 
 Here is how much of TeX's memory you used:
- 16891 strings out of 493315
- 319100 string characters out of 6137903
- 390012 words of memory out of 5000000
+ 16888 strings out of 493315
+ 319085 string characters out of 6137903
+ 389900 words of memory out of 5000000
  19788 multiletter control sequences out of 15000+600000
  6063 words of font info for 22 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
  49i,16n,66p,410b,563s stack positions out of 5000i,500n,10000p,200000b,80000s
-pdfTeX warning (dest): name{Outline0.4.4.33} has been referenced but does not
- exist, replaced by a fixed one
-
-pdfTeX warning (dest): name{Outline0.4.3.32} has been referenced but does not e
-xist, replaced by a fixed one
-
-pdfTeX warning (dest): name{Outline0.4.2.31} has been referenced but does not e
-xist, replaced by a fixed one
-
-pdfTeX warning (dest): name{Outline0.4.1.28} has been referenced but does not e
-xist, replaced by a fixed one
-
-pdfTeX warning (dest): name{Outline0.3.2.23} has been referenced but does not e
-xist, replaced by a fixed one
-
-pdfTeX warning (dest): name{Outline0.3.1.21} has been referenced but does not e
-xist, replaced by a fixed one
-
-</usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb><
-/usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmss12.pfb></
-usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb>
-Output written on Zwischenpraesentation.pdf (35 pages, 5320755 bytes).
+</usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb
+></usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmss12.pfb>
+</usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb>
+Output written on Zwischenpraesentation.pdf (35 pages, 5137833 bytes).
 PDF statistics:
- 1333 PDF objects out of 1440 (max. 8388607)
- 1207 compressed objects within 13 object streams
- 91 named destinations out of 1000 (max. 500000)
- 422 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1325 PDF objects out of 1440 (max. 8388607)
+ 1199 compressed objects within 12 object streams
+ 83 named destinations out of 1000 (max. 500000)
+ 427 words of extra memory for PDF output out of 10000 (max. 10000000)
 
