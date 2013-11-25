@@ -2,7 +2,7 @@
 \select@language {ngerman}
 \beamer@sectionintoc {1}{Hardware}{3}{0}{1}
 \beamer@sectionintoc {2}{Signalanalyse}{9}{0}{2}
-\beamer@sectionintoc {3}{Abstraktions-Software}{19}{0}{3}
+\beamer@sectionintoc {3}{Hardware-Abstraktions-Layer}{19}{0}{3}
 \beamer@subsectionintoc {3}{1}{Emotiv Epoc API Wrapper}{20}{0}{3}
 \beamer@subsectionintoc {3}{2}{Verteilte Systeme mit OSC-Kopplung}{23}{0}{3}
 \beamer@sectionintoc {4}{Anwendungen}{27}{0}{4}
