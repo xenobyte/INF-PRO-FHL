@@ -4,6 +4,7 @@ import java.net.SocketException;
 import java.util.Date;
 import java.util.LinkedList;
 
+import constants.Constants;
 import controll.Controller;
 
 import event.AlwaysSendEvent;
@@ -20,6 +21,7 @@ import event.message.StringMessage;
 import osc.OSCListener;
 import osc.OSCMessage;
 import osc.OSCPortIn;
+import oscInput.fileinput.OSCFileReader;
 
 public class OSCInput {
     private static OSCPortIn portIn;
@@ -219,6 +221,22 @@ public class OSCInput {
         }
     };
     
+    private static OSCListener loadClass = new OSCListener(){
+        public void acceptMessage(Date time, OSCMessage message) {
+            System.out.println(message.toString());
+            Object[] o = message.getArguments();
+            if(o[0] instanceof String){
+                if(o.length > 1 && o[1] instanceof String){
+                    new OSCFileReader((String)o[0], "localhost", Constants.OSCPORTIN, (String)o[1]);
+                }else{
+                    new OSCFileReader((String)o[0], "localhost", Constants.OSCPORTIN, " ");
+                }
+            }else{
+                System.err.println("Invalid Message");
+            }
+        }  
+    };
+    
     public OSCInput(int port, Controller c) {
         controller = c;
         try {
@@ -235,6 +253,7 @@ public class OSCInput {
         portIn.addListener("/Server/addPackages", addPackages);
         portIn.addListener("/Server/addEvent/AlwaysSend", addAlwaysSendEvent);
         portIn.addListener("/Server/addEvent/OneTime", addOneTimeEvent);
+        portIn.addListener("/Server/loadClass", loadClass);
         portIn.startListening();
     }
 

@@ -1,4 +1,4 @@
-Auch wenn die Server Version in Dev wesentlich weniger getestet ist läuft sie wahrscheinlich wesentlich stabiler als die Stable Version
+Auch wenn die Server Version in Dev wesentlich weniger getestet ist laeuft sie wahrscheinlich wesentlich stabiler als die Stable Version
 
 Unterschieder zwischen Dev und Stable
 Entfernung der Gui (muss noch angepasst werden)

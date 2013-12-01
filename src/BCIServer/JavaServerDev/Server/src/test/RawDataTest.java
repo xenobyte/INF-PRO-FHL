@@ -43,15 +43,17 @@ public class RawDataTest {
         portIn.addListener("/Test", li);
         portIn.startListening();
         
-        try {
-            portOut.send(new OSCMessage("/Server/createThread", new Object[]{"Test", "localhost", 58100, (float) 0.1}));
-            portOut.send(new OSCMessage("/Server/addPackages", new Object[]{"Test","/Test", ":rawdata"}));
-            portOut.send(new OSCMessage("/Server/startThread", new Object[]{"Test"}));
+        //try {
+            //portOut.send(new OSCMessage("/Server/createThread", new Object[]{"Test", "localhost", 58100, (float) 0.1}));
+            //portOut.send(new OSCMessage("/Server/addPackages", new Object[]{"Test","/Test", ":rawdata"}));
+            //portOut.send(new OSCMessage("/Server/startThread", new Object[]{"Test"}));
+            //System.in.read();
+            //portOut.send(new OSCMessage("/Server/stopThread", new Object[]{"Test"}));
             //portOut.send(new OSCMessage("/Server/createThread", new Object[]{"Test"}));
             //portOut.send(new OSCMessage("/Server/createThread", new Object[]{"Test"}));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        //} catch (IOException e) {
+          //  e.printStackTrace();
+       // }
         
 
     }

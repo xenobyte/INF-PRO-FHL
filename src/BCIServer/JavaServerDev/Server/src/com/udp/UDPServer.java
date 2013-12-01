@@ -1,12 +1,5 @@
 package com.udp;
 
-import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.SocketException;
-
-import constants.Constants;
-
 
 
 public class UDPServer extends Thread {

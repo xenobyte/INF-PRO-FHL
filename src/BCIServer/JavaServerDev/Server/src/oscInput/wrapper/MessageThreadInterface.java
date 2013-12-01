@@ -1,4 +1,4 @@
-package oscInput.rmi;
+package oscInput.wrapper;
 
 import java.io.IOException;
 import java.net.InetAddress;

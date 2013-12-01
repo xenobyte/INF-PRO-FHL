@@ -31,7 +31,8 @@ Man kann String auch aneinanderreihen in dem man sie durch ein ',' trennt
 /Server/unblockThread  s    name
 /Server/startThread    s    name
 /Server/killThread     s    name
-
+/Server/loadClass      s    path
+/Server/loadClass      ss   path, regex
 
 Es gibt zwei Arten von Events die das Sendeverhalten beeinflussen
 AlwaysSend sendet immer wenn die Bedingung erfüllt ist

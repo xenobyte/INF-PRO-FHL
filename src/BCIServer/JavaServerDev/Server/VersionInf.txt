@@ -1,12 +1,16 @@
+1.2
+#################################
+String Parser mit einen Beispiel hinzugefuegt
+
 1.1
 #################################
-Wrapperklasse für die OSC Befehle eingefügt
+Wrapperklasse für die OSC Befehle eingefuegt
 
 1.0
 #################################
 Entfernung der Gui
 OSC Eingabe hinzugefügt
-Code aufgeräumt und verbessert
+Code aufgeraeumt und verbessert
 Die Package Struktur angepasst
 RawData werden nun empfangen
 Es gibt nur noch einen Thread der pollt die anderen arbeiten mit seinen Ergebnis
