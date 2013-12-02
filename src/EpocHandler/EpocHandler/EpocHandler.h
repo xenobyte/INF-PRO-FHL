@@ -13,7 +13,7 @@ public:
 	EpocHandler();
 	~EpocHandler();
 
-	void updateData();
+	int updateData();
 	std::map<EE_DataChannel_t, double*> getAllData();
 	double* getChannelData(EE_DataChannel_t channel);
 	double getEngagement();

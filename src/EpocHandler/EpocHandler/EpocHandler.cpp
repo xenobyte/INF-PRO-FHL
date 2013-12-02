@@ -1,5 +1,6 @@
 #include "EpocHandler.h"
 #include "stdafx.h"
+#include "windows.h"
 
 
 //TODO facial expressions & boolean ruckgabewert bei update data
@@ -46,7 +47,7 @@
 		state = 0;
 		connected = false;
 		updated = false;
-		debug = false;
+		debug = true;
 		eEvent = EE_EmoEngineEventCreate();
 		eState = EE_EmoStateCreate();
 	}
@@ -76,30 +77,35 @@
 		return connected;
 	}
 
-	void EpocHandler::updateData()
+	int EpocHandler::updateData()
 	{
+		
 		if(connect()){
 			std::cout << "Erfolgreich verbunden"  << std::endl;
 		}else{
 			std::cout << "Verbindung fehlgeschlagen"  << std::endl;
 			exit(-1);
 		}
-
-
+		bool useradded = false;
+		
 		DataHandle hData = EE_DataCreate();
 		EE_DataSetBufferSizeInSec(secs);
+		while(!useradded){
 		if (state = EE_EngineGetNextEvent(eEvent) == EDK_OK)
 		{
 			EE_Event_t eventType = EE_EmoEngineEventGetType(eEvent);
 			EE_EmoEngineEventGetUserId(eEvent, &userID);
-
+			EE_EmoEngineEventGetEmoState(eEvent, eState);
 			// Log the EmoState if it has been updated
 			if (eventType == EE_UserAdded) {
-				std::cout << "User added";
+				std::cout << "User added" << std::endl;
+				useradded = true;
 				EE_DataAcquisitionEnable(userID, true);
 				readytocollect = true;
 			}
 		}
+		}
+		
 		if (readytocollect)
 		{
 			//alte arrays löschen
@@ -134,6 +140,7 @@
 
 		}
 		disconnect();
+		return nSamplesTaken;
 	};
 
 
