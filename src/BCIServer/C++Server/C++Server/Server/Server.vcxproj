@@ -11,9 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{5ECC23BF-2F04-4C16-8BC5-8B1A7E707743}</ProjectGuid>
-    <RootNamespace>Projekt2</RootNamespace>
-    <ProjectName>Client</ProjectName>
+    <ProjectGuid>{5D718537-8792-4F8C-9D33-363BA7D3EC46}</ProjectGuid>
+    <RootNamespace>Projekt1</RootNamespace>
+    <ProjectName>Server</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -63,11 +63,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Client.h" />
+    <ClInclude Include="EPOCClient.h" />
+    <ClInclude Include="Server.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Client.cpp" />
+    <ClCompile Include="EPOCClient.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Server.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -3,7 +3,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "EPOCClient.h"
-#include "SendThread.h"
 #pragma comment( lib, "ws2_32.lib" )
 
 #define STDPORT 5000

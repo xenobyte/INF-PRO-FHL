@@ -14,17 +14,26 @@ import osc.OSCMessage;
 import osc.OSCPortIn;
 import osc.OSCPortOut;
 
-public class RawDataTest {
+public class OSCListenerTest {
     private static OSCPortIn portIn;
     private static OSCPortOut portOut;
     
-    private static OSCListener li = new OSCListener() {
+    private static OSCListener rawData = new OSCListener() {
         @Override
         public void acceptMessage(Date time, OSCMessage message) {
             System.out.println(message.toString());
             RawData r = new RawData(message);
             System.out.println(r);
 
+        }
+    };
+    
+    private static OSCListener myText = new OSCListener(){
+        @Override
+        public void acceptMessage(Date time, OSCMessage message) {
+            for(int i = 0; i < message.getArguments().length; i++){
+                System.out.println(message.getArguments()[i]);
+            }
         }
     };
     
@@ -39,22 +48,9 @@ public class RawDataTest {
             e.printStackTrace();
         }
         
-        portIn.addListener("/Test", li);
+        portIn.addListener("/Test/rawData", rawData);
+        portIn.addListener("/Test/myText", myText);
         portIn.startListening();
-        
-        //try {
-            //portOut.send(new OSCMessage("/Server/createThread", new Object[]{"Test", "localhost", 58100, (float) 0.1}));
-            //portOut.send(new OSCMessage("/Server/addPackages", new Object[]{"Test","/Test", ":rawdata"}));
-            //portOut.send(new OSCMessage("/Server/startThread", new Object[]{"Test"}));
-            //System.in.read();
-            //portOut.send(new OSCMessage("/Server/stopThread", new Object[]{"Test"}));
-            //portOut.send(new OSCMessage("/Server/createThread", new Object[]{"Test"}));
-            //portOut.send(new OSCMessage("/Server/createThread", new Object[]{"Test"}));
-        //} catch (IOException e) {
-          //  e.printStackTrace();
-       // }
-        
-
     }
 
 }
