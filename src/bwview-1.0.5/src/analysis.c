@@ -1,71 +1,71 @@
 //
-//	This is the analysis unit
+//  This is the analysis unit
 //
 //        Copyright (c) 2002 Jim Peters <http://uazu.net/>.  Released
 //        under the GNU GPL version 2 as published by the Free
 //        Software Foundation.  See the file COPYING for details, or
 //        visit <http://www.gnu.org/copyleft/gpl.html>.
 //
-//	This is designed to do its work in small pieces so that it can
-//	be called regularly from the main loop without interrupting
-//	other things too much.  It is also designed so that the
-//	parameters can be changed before calculations are complete,
-//	and the calculations restarted.
+//  This is designed to do its work in small pieces so that it can
+//  be called regularly from the main loop without interrupting
+//  other things too much.  It is also designed so that the
+//  parameters can be changed before calculations are complete,
+//  and the calculations restarted.
 //
-//	This code takes care of getting the blocks loaded as required,
-//	and processing them into large arrays of magnitudes and
-//	frequency estimates.  At that point they can be displayed onto
-//	the screen.
+//  This code takes care of getting the blocks loaded as required,
+//  and processing them into large arrays of magnitudes and
+//  frequency estimates.  At that point they can be displayed onto
+//  the screen.
 //
 
 //
-//	TYPICAL USAGE:
+//  TYPICAL USAGE:
 //
-//	// Create new analysis object
-//	BWAnal *aa;
-//	aa= bwanal_new(format, filename);	// Arguments as for bwfile_open()
+//  // Create new analysis object
+//  BWAnal *aa;
+//  aa= bwanal_new(format, filename);   // Arguments as for bwfile_open()
 //
-//	while (...) {
-//	   // Specify parameters and start/restart calculations
-//	   aa->req.(whatever)= (whatever);	
-//	   ...
-//	   bwanal_start(aa);
-//	   // read now aa->sig[], aa->sig0[], aa->sig1[], aa->freq[]
+//  while (...) {
+//     // Specify parameters and start/restart calculations
+//     aa->req.(whatever)= (whatever);  
+//     ...
+//     bwanal_start(aa);
+//     // read now aa->sig[], aa->sig0[], aa->sig1[], aa->freq[]
 //
-//	   // Do calculations, bit by bit.  Possible to abort early if necessary.
-//	   while (bwanal_calc(aa)) {
-//	      // aa->yy shows how far we've got; read data out of: 
-//	      // aa->mag[x+y*sx], aa->est[x+y*sx]
-//	   }
+//     // Do calculations, bit by bit.  Possible to abort early if necessary.
+//     while (bwanal_calc(aa)) {
+//        // aa->yy shows how far we've got; read data out of: 
+//        // aa->mag[x+y*sx], aa->est[x+y*sx]
+//     }
 //
-//	   // Optionally, at any point, calculate an example window for display purposes
-//	   bwanal_window(aa, freq, off);  // read now aa->sig[], aa->sig0[], aa->sig1[]
-//	   // And restore original signal information to these arrays, if required
-//	   bwanal_signal(aa);
-//	}
+//     // Optionally, at any point, calculate an example window for display purposes
+//     bwanal_window(aa, freq, off);  // read now aa->sig[], aa->sig0[], aa->sig1[]
+//     // And restore original signal information to these arrays, if required
+//     bwanal_signal(aa);
+//  }
 //
-//	// Optionally recheck the file before a new bwanal_start() to
-//	// see if any further data has been written to it
-//	bwanal_recheck_file(aa);
+//  // Optionally recheck the file before a new bwanal_start() to
+//  // see if any further data has been written to it
+//  bwanal_recheck_file(aa);
 //
-//	// Optionally find the total length of the file in samples (this implies 
-//	// scanning to the end of the file if this has not been done already)
-//	int len= bwanal_length(aa);
+//  // Optionally find the total length of the file in samples (this implies 
+//  // scanning to the end of the file if this has not been done already)
+//  int len= bwanal_length(aa);
 //
-//	// Delete the analysis object when done (also shuts file)
-//	bwanal_del(aa);
+//  // Delete the analysis object when done (also shuts file)
+//  bwanal_del(aa);
 //
 //
-//	HANDLING FFT OPTIMISATION (known as 'wisdom' in FFTW):
+//  HANDLING FFT OPTIMISATION (known as 'wisdom' in FFTW):
 //
-//	// Load up saved 'wisdom' file if it exists
-//	bwanal_load_wisdom(filename);
+//  // Load up saved 'wisdom' file if it exists
+//  bwanal_load_wisdom(filename);
 //
-//	// Optimise all the FFTs we're currently using (this may take some time)
-//	bwanal_optimise(aa);
+//  // Optimise all the FFTs we're currently using (this may take some time)
+//  bwanal_optimise(aa);
 //
-//	// Save current 'wisdom' to a file
-//	bwanal_save_wisdom(filename);
+//  // Save current 'wisdom' to a file
+//  bwanal_save_wisdom(filename);
 //
 
 #ifdef HEADER
@@ -74,29 +74,29 @@ typedef struct BWAnal BWAnal;
 typedef struct BWSetup BWSetup;
 
 //
-//	This describes the setup of the analysis engine.  It is used
-//	in two ways -- one to show what the current setup is, and the
-//	other to request a new setup.
+//  This describes the setup of the analysis engine.  It is used
+//  in two ways -- one to show what the current setup is, and the
+//  other to request a new setup.
 //
-//	Analysis types are as follows:
-//	  0  Default Blackman window
-//	  1  IIR biquad filter, Q=0.5 (i.e. no 0-overshoot in impulse response)
-//	  2  IIR biquad filter, Q=0.72 (squarest freq response, but 0-overshoot in impulse reponse)
+//  Analysis types are as follows:
+//    0  Default Blackman window
+//    1  IIR biquad filter, Q=0.5 (i.e. no 0-overshoot in impulse response)
+//    2  IIR biquad filter, Q=0.72 (squarest freq response, but 0-overshoot in impulse reponse)
 //
-//	The other analysis types are only there to test the IIR
-//	filterbanks, which are more likely to be used in real-time
-//	situations.
+//  The other analysis types are only there to test the IIR
+//  filterbanks, which are more likely to be used in real-time
+//  situations.
 //
 
 struct BWSetup {
-   int typ;		// Analysis type (see above)
-   int off;		// Offset within input file (in samples counting from 0)
-   int chan;		// Channel to display (counting from 0)
-   int tbase;		// Time-base (i.e. samples per data point horizontally)
-   int sx;		// Number of columns to calculate (size-X)
-   int sy;		// Number of lines to calculate (size-Y)
-   double freq0, freq1;	// Top+bottom frequencies (see note)
-   double wwrat;	// Ratio of window width to the centre-frequency wavelength
+   int typ;     // Analysis type (see above)
+   int off;     // Offset within input file (in samples counting from 0)
+   int chan;        // Channel to display (counting from 0)
+   int tbase;       // Time-base (i.e. samples per data point horizontally)
+   int sx;      // Number of columns to calculate (size-X)
+   int sy;      // Number of lines to calculate (size-Y)
+   double freq0, freq1; // Top+bottom frequencies (see note)
+   double wwrat;    // Ratio of window width to the centre-frequency wavelength
 };
 
 // Note on top+bottom frequencies.  The number of lines 'sy' will be
@@ -108,42 +108,42 @@ struct BWSetup {
 
 struct BWAnal {
    BWFile *file;
-   BWBlock **blk;	// List of blocks loaded
-   int n_blk;		// Number of blocks in list
-   int bsiz;		// Block size
-   int bnum;		// Number of block at front of list
-   int half;		// Does this filter only require the left half of the data ? 0 no, 1 yes
+   BWBlock **blk;   // List of blocks loaded
+   int n_blk;       // Number of blocks in list
+   int bsiz;        // Block size
+   int bnum;        // Number of block at front of list
+   int half;        // Does this filter only require the left half of the data ? 0 no, 1 yes
 
-   fftw_plan *plan;	// Big list of FFTW plans (see note below for ordering)
-   int m_plan;		// Maximum plans (i.e. allocated size of plan[])
+   fftw_plan *plan; // Big list of FFTW plans (see note below for ordering)
+   int m_plan;      // Maximum plans (i.e. allocated size of plan[])
 
-   int inp_siz;		// Size of data in inp[], or 0 if not valid
-   fftw_real *inp;	// FFT'd input data (half-complex)
-   fftw_real *wav;	// FFT'd wavelet (real)
-   fftw_real *tmp;	// General workspace (complex), also used by IIR
-   fftw_real *out;	// Output (complex)
+   int inp_siz;     // Size of data in inp[], or 0 if not valid
+   fftw_real *inp;  // FFT'd input data (half-complex)
+   fftw_real *wav;  // FFT'd wavelet (real)
+   fftw_real *tmp;  // General workspace (complex), also used by IIR
+   fftw_real *out;  // Output (complex)
 
    // Publically readable unchanging information
-   int n_chan;		// Number of channels in input file
-   double rate;		// Sample rate in input file
+   int n_chan;      // Number of channels in input file
+   double rate;     // Sample rate in input file
 
    // Publically readable changing information
-   BWSetup c;		// Current setup
-   float *sig;		// Signal mid-point values: sig[x], or NAN for sync errors
-   float *sig0;		// Signal minimum values: sig0[x], or NAN for sync errors
-   float *sig1;		// Signal maximum values: sig1[x], or NAN for sync errors
-   float *mag;		// Magnitude information: mag[x+y*sx]
-   float *est;		// Estimated nearby peak frequencies: est[x+y*sx], or NAN if can't calc
-   float *freq;		// Centre-frequency of each line (Hz): freq[y]
-   float *wwid;		// Logical width of window in samples: wwid[y]
-   int *awwid;		// Actual width of window, taking account of IIR tail: awwid[y]
-   int *fftp;		// FFT plan to use (index into ->plan[], fftp[y]%3==0)
-   double *iir;		// IIR filter coefficients: iir[y*3], iir[y*3+1], iir[y*3+2]
-   int yy;		// Number of lines currently correctly calculated in arrays
-   int sig_wind;	// Are the ->sig arrays windowed ? 0 no, 1 yes
+   BWSetup c;       // Current setup
+   float *sig;      // Signal mid-point values: sig[x], or NAN for sync errors
+   float *sig0;     // Signal minimum values: sig0[x], or NAN for sync errors
+   float *sig1;     // Signal maximum values: sig1[x], or NAN for sync errors
+   float *mag;      // Magnitude information: mag[x+y*sx]
+   float *est;      // Estimated nearby peak frequencies: est[x+y*sx], or NAN if can't calc
+   float *freq;     // Centre-frequency of each line (Hz): freq[y]
+   float *wwid;     // Logical width of window in samples: wwid[y]
+   int *awwid;      // Actual width of window, taking account of IIR tail: awwid[y]
+   int *fftp;       // FFT plan to use (index into ->plan[], fftp[y]%3==0)
+   double *iir;     // IIR filter coefficients: iir[y*3], iir[y*3+1], iir[y*3+2]
+   int yy;      // Number of lines currently correctly calculated in arrays
+   int sig_wind;    // Are the ->sig arrays windowed ? 0 no, 1 yes
    
    // Publically writable information
-   BWSetup req;		// Requested setup
+   BWSetup req;     // Requested setup
 };
 
 // Storage of plans in aa->plan[]: For index 'a', a%3 gives the type
@@ -158,8 +158,22 @@ struct BWAnal {
 #include "all.h"
 
 //
-//	Make sure that we have all the data we need in the blk[] array
+//  Make sure that we have all the data we need in the blk[] array
 //
+
+
+// Martin's debug prints:
+void printBWSetup(BWSetup* setup){
+    printf("Analysis type: %8d\n", setup->typ);
+    printf("Offset:        %8d\n", setup->off);
+    printf("Channel:       %8d\n", setup->chan);
+    printf("Time-base:     %8d\n", setup->tbase);
+    printf("Size-X:        %8d\n", setup->sx);
+    printf("Size-Y:        %8d\n", setup->sy);
+    printf("Top-Freq.:     %8f\n", setup->freq0);
+    printf("Bottom-Freq.:  %8f\n", setup->freq1);
+    printf("WWRation:      %8f\n", setup->wwrat);
+}
 
 static void 
 load_data(BWAnal *aa, int siz) {
@@ -170,7 +184,7 @@ load_data(BWAnal *aa, int siz) {
    off= aa->c.off + len/2;
    if (aa->half) {
       off0= off - siz/2 - 1;
-      off1= off + len/2 + 1;		// Don't need beyond right end of screen
+      off1= off + len/2 + 1;        // Don't need beyond right end of screen
    } else {
       off0= off - siz/2 - 1;
       off1= off + siz/2 + 1;
@@ -188,9 +202,9 @@ load_data(BWAnal *aa, int siz) {
    for (a= 0; a<aa->n_blk; a++) {
       int num= aa->bnum + a;
       if (num < blk0 || num >= blk1) {
-	 if (aa->blk[a])
-	    bwfile_free(aa->file, aa->blk[a]);
-	 aa->blk[a]= 0;
+     if (aa->blk[a])
+        bwfile_free(aa->file, aa->blk[a]);
+     aa->blk[a]= 0;
       }
    }
    
@@ -205,7 +219,7 @@ load_data(BWAnal *aa, int siz) {
    // Release previous set
    for (a= 0; a<aa->n_blk; a++) 
       if (aa->blk[a])
-	 bwfile_free(aa->file, aa->blk[a]);
+     bwfile_free(aa->file, aa->blk[a]);
    free(aa->blk);
    
    // Install new set
@@ -215,10 +229,10 @@ load_data(BWAnal *aa, int siz) {
 }
 
 //
-//	Copy data from the BWFile input blocks into a straight-line
-//	array.  Zeros are inserted for data before the beginning of
-//	the file or after the end.  If the 'errors' flag is set, then
-//	any sync errors result in NAN values in the output array.
+//  Copy data from the BWFile input blocks into a straight-line
+//  array.  Zeros are inserted for data before the beginning of
+//  the file or after the end.  If the 'errors' flag is set, then
+//  any sync errors result in NAN values in the output array.
 //
 
 static void 
@@ -241,28 +255,28 @@ copy_samples(BWAnal *aa, fftw_real *arr, int off, int chan, int len, int errors)
 
       num -= aa->bnum;
       if (num < 0 || num >= aa->n_blk)
-	 error("Internal error -- block not loaded: %d", num);
+     error("Internal error -- block not loaded: %d", num);
 
       // Copy as much as possible from the block
       if (bb= aa->blk[num]) {
-	 int siz= bb->len;
-	 while (len > 0 && boff < siz) {
-	    *arr++= bb->chan[chan][boff];
-	    if (errors && bb->err[boff]) arr[-1]= NAN;
-	    len--; boff++; off++;
-	 }
+     int siz= bb->len;
+     while (len > 0 && boff < siz) {
+        *arr++= bb->chan[chan][boff];
+        if (errors && bb->err[boff]) arr[-1]= NAN;
+        len--; boff++; off++;
+     }
       }
 
       // Fill in the remainder of the block with zeros
       while (len > 0 && boff < bsiz) {
-	 *arr++= 0.0;
-	 len--; boff++; off++;
+     *arr++= 0.0;
+     len--; boff++; off++;
       }
    }
 }
 
 //
-//	Recreate all the arrays within BWAnal
+//  Recreate all the arrays within BWAnal
 //
    
 static void 
@@ -292,7 +306,7 @@ recreate_arrays(BWAnal *aa) {
 
 
 //
-//	Process one sample through an IIR filter
+//  Process one sample through an IIR filter
 //
 
 static inline double 
@@ -312,7 +326,7 @@ iir_step(double *buf, double *iir, double in) {
 
 
 //
-//	Setup a sincos generator (i.e. e^ibt for suitable b)
+//  Setup a sincos generator (i.e. e^ibt for suitable b)
 //
 
 inline void 
@@ -325,7 +339,7 @@ sincos_init(double *buf, double freq) {
 
 
 //
-//	Generate the next values from a sincos generator
+//  Generate the next values from a sincos generator
 //
 
 inline void 
@@ -339,8 +353,8 @@ sincos_step(double *buf) {
 
 
 //
-//	Create a new analysis object for the given file 'fnam'.  The
-//	file is loaded with format 'fmt' (see BWFile).
+//  Create a new analysis object for the given file 'fnam'.  The
+//  file is loaded with format 'fmt' (see BWFile).
 //
 
 BWAnal *
@@ -364,8 +378,8 @@ bwanal_new(char *fmt, char *fnam) {
 }
 
 //
-//	Start or restart calculations.  Picks up required setup from
-//	aa->req.
+//  Start or restart calculations.  Picks up required setup from
+//  aa->req.
 //
 
 void 
@@ -374,113 +388,122 @@ bwanal_start(BWAnal *aa) {
    int maxsiz= 0;
    int analtyp;
 
-   memcpy(&x, &aa->c, sizeof(BWSetup));
-   memcpy(&y, &aa->req, sizeof(BWSetup));
-   memcpy(&aa->c, &aa->req, sizeof(BWSetup));
+   if(DEBUG_ON){
+        printf("---------- bwanal_start: ----------\n");
+        printf("Requested setup\n");
+        printBWSetup(&(aa->req));
+    }
 
-   // Release FFT calculation arrays
-   if (aa->inp) free(aa->inp), aa->inp= 0;
-   if (aa->wav) free(aa->wav), aa->wav= 0;
-   if (aa->tmp) free(aa->tmp), aa->tmp= 0;
-   if (aa->out) free(aa->out), aa->out= 0;
+    memcpy(&x, &aa->c, sizeof(BWSetup));
+    memcpy(&y, &aa->req, sizeof(BWSetup));
+    memcpy(&aa->c, &aa->req, sizeof(BWSetup));
 
-   // Recreate result arrays if size has changed
-   if (x.sx != y.sx || 
-       x.sy != y.sy)
-      recreate_arrays(aa);
+    // Release FFT calculation arrays
+    if (aa->inp) free(aa->inp), aa->inp= 0;
+    if (aa->wav) free(aa->wav), aa->wav= 0;
+    if (aa->tmp) free(aa->tmp), aa->tmp= 0;
+    if (aa->out) free(aa->out), aa->out= 0;
 
-   // Check analysis type
-   analtyp= aa->c.typ;
-   if (analtyp < 0 || analtyp > 2) 
-      error("Bad analysis type value %d in bwanal_start", aa->c.typ);
-   aa->half= analtyp != 0;
+    // Recreate result arrays if size has changed
+    if (x.sx != y.sx || 
+        x.sy != y.sy)
+        recreate_arrays(aa); // Martin: free and re-alloc...
+
+    // Check analysis type
+    analtyp= aa->c.typ;
+    if (analtyp < 0 || analtyp > 2) 
+        error("Bad analysis type value %d in bwanal_start", aa->c.typ);
+    aa->half= analtyp != 0;
    
-   // Work everything out from scratch (no clever partial calculations
-   // for half-page scrolls or anything like that for now).
+    // Work everything out from scratch (no clever partial calculations
+    // for half-page scrolls or anything like that for now).
 
-   // Fill in ->freq, ->wwid, ->awwid, ->fftp and ->iir arrays
-   {
-      int a;
-      int sy= aa->c.sy;
-      double log0= log(aa->c.freq0);
-      double log1= log(aa->c.freq1);
+    // Fill in ->freq, ->wwid, ->awwid, ->fftp and ->iir arrays
+    {
+        int a;
+        int sy= aa->c.sy;               // Martin: current Y-Size
+        double log0= log(aa->c.freq0);  // Martin: log of current top freq.
+        double log1= log(aa->c.freq1);  // Martin: log of current bottom freq.
 
-      for (a= 0; a<sy; a++) {
-	 int siz, c, b;
+        for (a= 0; a<sy; a++) {         // Martin: y-Axis -> for each line(?)
+            int siz, c, b;
 
-	 aa->freq[a]= exp(log0 + (a + 0.5)/sy * (log1-log0));
-	 aa->wwid[a]= (aa->rate / aa->freq[a]) * aa->c.wwrat;
-	 
-	 if (analtyp == 0) {
-	    siz= aa->c.sx * aa->c.tbase + 
-	       (int)aa->wwid[a] + 2 + 10; 		// +2 for rounding, +10 for luck
-	    if (siz < 0) error("Internal error in plan-size calculations");
-	    
-	    for (c= siz, b= -1; c; c>>=1) b++;	// 2<<b > siz
-	    b *= 6;
-	    if (PLAN_SIZE(b) < siz) 
-	       error("Internal error -- plan size calculation failed: %d %d", siz, b);
-	    while (PLAN_SIZE(b-1) > siz) b--;
-	    aa->fftp[a]= b;
-	    aa->awwid[a]= PLAN_SIZE(b);
-	    
-	    maxsiz= PLAN_SIZE(b);		// Rely on fact that biggest will be last
-	 } else {
-	    // Equate wwid[a] with the 95%-complete point of the impulse response
-	    // (for 95%, use 0.7550 : 0.6522)
-	    // (for 90%, use 0.6191 : 0.5046)
-	    double freq= ((analtyp == 1) ? 0.7550 : 0.6522) / aa->wwid[a];
-	    double omega= freq * 2 * M_PI;
-	    double Q= (analtyp == 1) ? 0.50 : 0.72;
-	    double alpha= sin(omega) / (2 * Q);
-	    double aa0= 1 + alpha;
-	    double a1= -2 * cos(omega) / -aa0;
-	    double a2= (1 - alpha) / -aa0;
-	    
-	    aa->iir[a*3]= (1 - a1 - a2) / 4 * 2;	// Gain adjust, *2 to match Blackman
-	    aa->iir[a*3+1]= a1;
-	    aa->iir[a*3+2]= a2;
+            aa->freq[a]= exp(log0 + (a + 0.5)/sy * (log1-log0));
+            aa->wwid[a]= (aa->rate / aa->freq[a]) * aa->c.wwrat;
+     
+            if (analtyp == 0) {
+                siz= aa->c.sx * aa->c.tbase + 
+                    (int)aa->wwid[a] + 2 + 10;       // +2 for rounding, +10 for luck
+                if (siz < 0)
+                    error("Internal error in plan-size calculations");
+        
+                for (c= siz, b= -1; c; c>>=1)
+                    b++;    // 2<<b > siz
+                b *= 6;
+                if (PLAN_SIZE(b) < siz) 
+                    error("Internal error -- plan size calculation failed: %d %d", siz, b);
+                while (PLAN_SIZE(b-1) > siz)
+                    b--;
+                aa->fftp[a]= b;
+                aa->awwid[a]= PLAN_SIZE(b);
+        
+                maxsiz= PLAN_SIZE(b);       // Rely on fact that biggest will be last
+            } else {
+                // Equate wwid[a] with the 95%-complete point of the impulse response
+                // (for 95%, use 0.7550 : 0.6522)
+                // (for 90%, use 0.6191 : 0.5046)
+                double freq= ((analtyp == 1) ? 0.7550 : 0.6522) / aa->wwid[a];
+                double omega= freq * 2 * M_PI;
+                double Q= (analtyp == 1) ? 0.50 : 0.72;
+                double alpha= sin(omega) / (2 * Q);
+                double aa0= 1 + alpha;
+                double a1= -2 * cos(omega) / -aa0;
+                double a2= (1 - alpha) / -aa0;
+        
+                aa->iir[a*3]= (1 - a1 - a2) / 4 * 2;    // Gain adjust, *2 to match Blackman
+                aa->iir[a*3+1]= a1;
+                aa->iir[a*3+2]= a2;
 
-	    //DEBUG("IIR %d: %g %g %g", a, aa->iir[a*3], aa->iir[a*3+1], aa->iir[a*3+2]);
-	    
-	    // Set awwid according to the 99.9%-complete point of the
-	    // impulse response, doubled because we have ->half set,
-	    // +1 for safety.
-	    siz= (int)(1 + 2 * ((analtyp == 1) ? 1.4695 : 1.6647) / freq);
-	    aa->awwid[a]= siz;
-
-	    // Rely on fact that biggest will be last
-	    maxsiz= siz + aa->c.sx * aa->c.tbase;  
-	 }
-      }
-   }
+                //DEBUG("IIR %d: %g %g %g", a, aa->iir[a*3], aa->iir[a*3+1], aa->iir[a*3+2]);
+                
+                // Set awwid according to the 99.9%-complete point of the
+                // impulse response, doubled because we have ->half set,
+                // +1 for safety.
+                siz= (int)(1 + 2 * ((analtyp == 1) ? 1.4695 : 1.6647) / freq);
+                aa->awwid[a]= siz;
+        
+                // Rely on fact that biggest will be last
+                maxsiz= siz + aa->c.sx * aa->c.tbase;  
+            }
+        } // Martin: for each a in 0 to y -> for each line(?)
+    }
 
    // Setup all the plans we're going to need
    if (analtyp == 0) {
       int a= aa->fftp[aa->c.sy-1] + 3;
       if (a > aa->m_plan) {
-	 fftw_plan *tmp= ALLOC_ARR(a, fftw_plan);
-	 if (aa->plan) {
-	    memcpy(tmp, aa->plan, aa->m_plan*sizeof(fftw_plan));
-	    free(aa->plan);
-	 }
-	 aa->plan= tmp;
-	 aa->m_plan= a;
+     fftw_plan *tmp= ALLOC_ARR(a, fftw_plan);
+     if (aa->plan) {
+        memcpy(tmp, aa->plan, aa->m_plan*sizeof(fftw_plan));
+        free(aa->plan);
+     }
+     aa->plan= tmp;
+     aa->m_plan= a;
       }
       
       for (a= 0; a<aa->c.sy; a++) {
-	 int b, c, ii= aa->fftp[a];
-	 int siz= PLAN_SIZE(ii);
-	 for (b= 0; b < 3; b++) if (!aa->plan[c= ii+b]) {
-	    if (b == 2)
-	       aa->plan[c]= fftw_create_plan(siz, FFTW_BACKWARD, 
-					     FFTW_ESTIMATE | FFTW_USE_WISDOM);
-	    else
-	       aa->plan[c]= rfftw_create_plan(siz, b ? FFTW_COMPLEX_TO_REAL : 
-					      FFTW_REAL_TO_COMPLEX, 
-					      FFTW_ESTIMATE | FFTW_USE_WISDOM);
-	    if (!aa->plan[c]) error("FFTW create_plan call failed unexpectedly");
-	 }
+     int b, c, ii= aa->fftp[a];
+     int siz= PLAN_SIZE(ii);
+     for (b= 0; b < 3; b++) if (!aa->plan[c= ii+b]) {
+        if (b == 2)
+           aa->plan[c]= fftw_create_plan(siz, FFTW_BACKWARD, 
+                         FFTW_ESTIMATE | FFTW_USE_WISDOM);
+        else
+           aa->plan[c]= rfftw_create_plan(siz, b ? FFTW_COMPLEX_TO_REAL : 
+                          FFTW_REAL_TO_COMPLEX, 
+                          FFTW_ESTIMATE | FFTW_USE_WISDOM);
+        if (!aa->plan[c]) error("FFTW create_plan call failed unexpectedly");
+     }
       }
    }
 
@@ -507,10 +530,10 @@ bwanal_start(BWAnal *aa) {
 }
 
 //
-//	Fill the aa->sig signal arrays with data, either from the
-//	original untouched signal, or from one modified by the window
-//	corresponding to the given point in the current analysis
-//	setup.
+//  Fill the aa->sig signal arrays with data, either from the
+//  original untouched signal, or from one modified by the window
+//  corresponding to the given point in the current analysis
+//  setup.
 //
 
 void 
@@ -525,7 +548,7 @@ bwanal_window(BWAnal *aa, int xx, int yy) {
    int tbase= aa->c.tbase;
    int len= sx * tbase;
    fftw_real *tmp= ALLOC_ARR(len, fftw_real);
-   int wind= yy >= 0 && xx >= 0;	// Are we applying a window ?
+   int wind= yy >= 0 && xx >= 0;    // Are we applying a window ?
 
    aa->sig_wind= wind;
 
@@ -534,51 +557,51 @@ bwanal_window(BWAnal *aa, int xx, int yy) {
    // Apply window to tmp[] if required, and store window in ->sig[]
    if (wind) {
       if (aa->c.typ == 0) {
-	 int off= xx * tbase + tbase/2;
-	 double wwid= aa->wwid[yy] * 0.5;
-	 int wid= floor(wwid);
-	 for (a= 0; a<len; a++) {
-	    int dist= abs(a-off);
-	    if (dist <= wid) {
-	       double ang= dist/wwid * (M_PI * 1.0);
-	       double mag= 0.42 + 0.5 * cos(ang) + 0.08 * cos(2*ang);    // Blackman window
-	       tmp[a] *= mag;
-	    } else 
-	       tmp[a]= 0;
-	 }
-	 for (a= 0; a<sx; a++) {
-	    int dist= abs(a*tbase + tbase/2 - off);
-	    if (dist <= wid) {
-	       double ang= dist/wwid * (M_PI * 1.0);
-	       double mag= 0.42 + 0.5 * cos(ang) + 0.08 * cos(2*ang);    // Blackman window
-	       aa->sig[a]= mag;
-	    } else 
-	       aa->sig[a]= 0;
-	 }
+     int off= xx * tbase + tbase/2;
+     double wwid= aa->wwid[yy] * 0.5;
+     int wid= floor(wwid);
+     for (a= 0; a<len; a++) {
+        int dist= abs(a-off);
+        if (dist <= wid) {
+           double ang= dist/wwid * (M_PI * 1.0);
+           double mag= 0.42 + 0.5 * cos(ang) + 0.08 * cos(2*ang);    // Blackman window
+           tmp[a] *= mag;
+        } else 
+           tmp[a]= 0;
+     }
+     for (a= 0; a<sx; a++) {
+        int dist= abs(a*tbase + tbase/2 - off);
+        if (dist <= wid) {
+           double ang= dist/wwid * (M_PI * 1.0);
+           double mag= 0.42 + 0.5 * cos(ang) + 0.08 * cos(2*ang);    // Blackman window
+           aa->sig[a]= mag;
+        } else 
+           aa->sig[a]= 0;
+     }
       } else {
-	 double buf[2];		// IIR workspace
-	 double max= 0;
-	 int off= xx * tbase + tbase/2;
-	 int awid= aa->awwid[yy] / 2;
+     double buf[2];     // IIR workspace
+     double max= 0;
+     int off= xx * tbase + tbase/2;
+     int awid= aa->awwid[yy] / 2;
 
-	 for (a= 0; a<sx; a++) 
-	    aa->sig[a]= 0;
+     for (a= 0; a<sx; a++) 
+        aa->sig[a]= 0;
 
-	 buf[0]= buf[1]= 0;
-	 for (a= len-1; a>=0; a--) {
-	    if (a > off || a <= off-awid)
-	       tmp[a]= 0;
-	    else {
-	       double amp= iir_step(buf, &aa->iir[yy*3], (a==off) ? 1.0 : 0);
-	       tmp[a] *= amp;
-	       amp= fabs(amp);
-	       if (amp > max) max= amp;
-	       if (amp > aa->sig[a/tbase])
-		  aa->sig[a/tbase]= amp;
-	    }
-	 }
-	 for (a= 0; a<len; a++) tmp[a] /= max;
-	 for (a= 0; a<sx; a++) aa->sig[a] /= max;
+     buf[0]= buf[1]= 0;
+     for (a= len-1; a>=0; a--) {
+        if (a > off || a <= off-awid)
+           tmp[a]= 0;
+        else {
+           double amp= iir_step(buf, &aa->iir[yy*3], (a==off) ? 1.0 : 0);
+           tmp[a] *= amp;
+           amp= fabs(amp);
+           if (amp > max) max= amp;
+           if (amp > aa->sig[a/tbase])
+          aa->sig[a/tbase]= amp;
+        }
+     }
+     for (a= 0; a<len; a++) tmp[a] /= max;
+     for (a= 0; a<sx; a++) aa->sig[a] /= max;
       }
    }
    
@@ -589,18 +612,18 @@ bwanal_window(BWAnal *aa, int xx, int yy) {
       int nan= 0;
       if (!wind) aa->sig[a]= tmp[b + tbase/2];
       for (c= tbase; c>0; c--) {
-	 float val= tmp[b++];
-	 if (isnan(val)) nan= 1;
-	 if (val < min) min= val;
-	 if (val > max) max= val;
+     float val= tmp[b++];
+     if (isnan(val)) nan= 1;
+     if (val < min) min= val;
+     if (val > max) max= val;
       }
       if (nan) {
-	 aa->sig[a]= NAN;
-	 aa->sig0[a]= NAN;
-	 aa->sig1[a]= NAN;
+     aa->sig[a]= NAN;
+     aa->sig0[a]= NAN;
+     aa->sig1[a]= NAN;
       } else {
-	 aa->sig0[a]= min;
-	 aa->sig1[a]= max;
+     aa->sig0[a]= min;
+     aa->sig1[a]= max;
       }
    }
    
@@ -609,16 +632,16 @@ bwanal_window(BWAnal *aa, int xx, int yy) {
 
 
 //
-//	Do a small part of the calculations.  aa->yy always indicates
-//	the number of lines processed so far.  Returns: 1 more to do,
-//	0 all done.
+//  Do a small part of the calculations.  aa->yy always indicates
+//  the number of lines processed so far.  Returns: 1 more to do,
+//  0 all done.
 //
 
 int 
 bwanal_calc(BWAnal *aa) {
    int yy, bas, pl, siz, siz2, a, b, c;
    double wwid, freq, dmy, adj, wadj;
-   double freq_tb_pha;		// Phase difference (0..1) due to 'tbase' samples at 'freq'
+   double freq_tb_pha;      // Phase difference (0..1) due to 'tbase' samples at 'freq'
    int wid, pwid;
    int start;
    int sx, tbase;
@@ -638,30 +661,30 @@ bwanal_calc(BWAnal *aa) {
 
    // Handle IIR stuff separately as it doesn't need any FFTs
    if (aa->c.typ != 0) {
-      double buf[4];		// IIR buffer
+      double buf[4];        // IIR buffer
       double val, cc, ss;
       siz= aa->awwid[yy];
       siz2= siz/2;
       start= siz2;
   
       copy_samples(aa, aa->tmp, aa->c.off - start, 
-		   aa->c.chan, start + sx*tbase, 0);
+           aa->c.chan, start + sx*tbase, 0);
       
       memset(buf, 0, sizeof(buf));
       sincos_init(sincos, freq);
       for (a= 0, b= 0, c=start; b<sx; ) {
-	 val= aa->tmp[a++];
-	 cc= iir_step(&buf[0], &aa->iir[yy*3], val * sincos[0]);	//cos(ang));
-	 ss= iir_step(&buf[2], &aa->iir[yy*3], val * sincos[1]);	//sin(ang));
-	 //ang += freq * 2 * M_PI;
-	 sincos_step(sincos);
-	 
-	 if (--c <= 0) {
-	    aa->mag[bas+b]= hypot(cc, ss);
-	    aa->est[bas+b]= 0;
-	    b++;
-	    c= tbase;
-	 }
+     val= aa->tmp[a++];
+     cc= iir_step(&buf[0], &aa->iir[yy*3], val * sincos[0]);    //cos(ang));
+     ss= iir_step(&buf[2], &aa->iir[yy*3], val * sincos[1]);    //sin(ang));
+     //ang += freq * 2 * M_PI;
+     sincos_step(sincos);
+     
+     if (--c <= 0) {
+        aa->mag[bas+b]= hypot(cc, ss);
+        aa->est[bas+b]= 0;
+        b++;
+        c= tbase;
+     }
       }
       return ++aa->yy < aa->c.sy; 
    }
@@ -674,7 +697,7 @@ bwanal_calc(BWAnal *aa) {
    // Setup input data if not done already
    if (siz != aa->inp_siz) {
       copy_samples(aa, aa->tmp, aa->c.off + (sx*tbase)/2 - siz2, 
-		   aa->c.chan, siz, 0);
+           aa->c.chan, siz, 0);
       rfftw_one(aa->plan[pl], aa->tmp, aa->inp);
       aa->inp_siz= siz;
    }
@@ -686,7 +709,7 @@ bwanal_calc(BWAnal *aa) {
    wadj= 1.0;
    for (a= 1; a<=wid; a++) {
       double ang= a/wwid * (M_PI * 1.0);
-      double mag= 0.42 + 0.5 * cos(ang) + 0.08 * cos(2*ang);	// Blackman window
+      double mag= 0.42 + 0.5 * cos(ang) + 0.08 * cos(2*ang);    // Blackman window
       double ang2= a * freq * (2 * M_PI);
       double re= mag * cos(ang2);
       double im= mag * sin(ang2);
@@ -719,7 +742,7 @@ bwanal_calc(BWAnal *aa) {
    for (a= siz2+1; a<siz; a++) {
       fftw_real mult= *q++;
       *r++= *--p0 * mult;
-      *r++= *p1++ * -mult;	// Complex conjugate
+      *r++= *p1++ * -mult;  // Complex conjugate
    }
 
    // Reverse FFT to get the output data
@@ -729,7 +752,7 @@ bwanal_calc(BWAnal *aa) {
    start= siz2 - ((sx-1) * tbase)/2;
    p= aa->out + start*2;
    q= aa->tmp;
-   adj= 2.0 / siz / wadj;		// Adjust for magnitudes of various things
+   adj= 2.0 / siz / wadj;       // Adjust for magnitudes of various things
    freq_tb_pha= modf(freq * tbase, &dmy);
    for (a= 0; a<sx; a++) {
       double mag= hypot(p[0], p[1]) * adj;
@@ -741,17 +764,17 @@ bwanal_calc(BWAnal *aa) {
    }
 
    // Work out the 'closest peak frequency' estimates
-   pwid= 1;		// Preferred width @@@ use 1 for now, see how it comes out
+   pwid= 1;     // Preferred width @@@ use 1 for now, see how it comes out
    fp= aa->est + bas;
    for (a= 0; a<sx; a++) {
       double diff;
       if (a-pwid < 0 || a+pwid >= sx) {
-	 *fp++= NAN;
-	 continue;
+     *fp++= NAN;
+     continue;
       }
       diff= -aa->tmp[a-pwid] + aa->tmp[a+pwid];
-      diff -= 2.5;		// Make sure it's -ve and offset by 0.5
-      diff= 0.5 + modf(diff, &dmy);	// Now in range -0.5 to 0.5
+      diff -= 2.5;      // Make sure it's -ve and offset by 0.5
+      diff= 0.5 + modf(diff, &dmy); // Now in range -0.5 to 0.5
       diff *= aa->rate / (pwid * 2 * tbase);
       *fp++= aa->freq[yy] + diff;
    }
@@ -760,7 +783,7 @@ bwanal_calc(BWAnal *aa) {
 }
 
 //
-//	Delete an analysis object
+//  Delete an analysis object
 //
 
 void 
@@ -772,8 +795,8 @@ bwanal_del(BWAnal *aa) {
 
    for (a= 0; a<aa->m_plan; a++) {
       if (aa->plan[a]) {
-	 if (a%3 == 2) fftw_destroy_plan(aa->plan[a]);
-	 else rfftw_destroy_plan(aa->plan[a]);
+     if (a%3 == 2) fftw_destroy_plan(aa->plan[a]);
+     else rfftw_destroy_plan(aa->plan[a]);
       }
    }
    if (aa->plan) free(aa->plan);
@@ -797,7 +820,7 @@ bwanal_del(BWAnal *aa) {
 }
 
 //
-//	Recheck file to see if it has grown
+//  Recheck file to see if it has grown
 //
 
 void 
@@ -810,16 +833,16 @@ bwanal_recheck_file(BWAnal *aa) {
    // has renumbered to -999
    for (a= 0; a<aa->n_blk; a++) {
       if (aa->blk[a] && aa->blk[a]->num < 0) {
-	 bwfile_free(aa->file, aa->blk[a]);
-	 aa->blk[a]= 0;
+     bwfile_free(aa->file, aa->blk[a]);
+     aa->blk[a]= 0;
       }
    }
 }
 
 //
-//	Find the size of the file in samples.  This means scanning all
-//	the way to the end of the file if we have not already gone
-//	that far.
+//  Find the size of the file in samples.  This means scanning all
+//  the way to the end of the file if we have not already gone
+//  that far.
 //
 
 int 
@@ -843,7 +866,7 @@ bwanal_length(BWAnal *aa) {
 
 
 // 
-//	Load up saved 'wisdom' file if it exists
+//  Load up saved 'wisdom' file if it exists
 //
 
 void 
@@ -858,7 +881,7 @@ bwanal_load_wisdom(char *fnam) {
 }
 
 //
-//	Optimise all the FFTs we're currently using (may take some time)
+//  Optimise all the FFTs we're currently using (may take some time)
 //
 
 void 
@@ -871,19 +894,19 @@ bwanal_optimise(BWAnal *aa) {
       if (!aa->plan[a]) continue;
       
       if (typ == 2) {
-	 fftw_destroy_plan(aa->plan[a]);
-	 aa->plan[a]= fftw_create_plan(siz, FFTW_BACKWARD, FFTW_MEASURE | FFTW_USE_WISDOM);
+     fftw_destroy_plan(aa->plan[a]);
+     aa->plan[a]= fftw_create_plan(siz, FFTW_BACKWARD, FFTW_MEASURE | FFTW_USE_WISDOM);
       } else {
-	 rfftw_destroy_plan(aa->plan[a]);
-	 aa->plan[a]= rfftw_create_plan(siz, typ ? FFTW_COMPLEX_TO_REAL : FFTW_REAL_TO_COMPLEX, 
-					FFTW_MEASURE | FFTW_USE_WISDOM);
+     rfftw_destroy_plan(aa->plan[a]);
+     aa->plan[a]= rfftw_create_plan(siz, typ ? FFTW_COMPLEX_TO_REAL : FFTW_REAL_TO_COMPLEX, 
+                    FFTW_MEASURE | FFTW_USE_WISDOM);
       }
       if (!aa->plan[a]) error("FFTW create_plan call failed unexpectedly");
    }
 }
    
 //
-// 	Save current 'wisdom' to a file
+//  Save current 'wisdom' to a file
 //
 
 void 
