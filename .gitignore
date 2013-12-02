@@ -30,3 +30,10 @@
 #Videos
 *.mov
 *.wmv
+
+#EPocHandler files
+src/EpocHandler/EpocHandler.v11.suo
+src/EpocHandler/EpocHandler.sdf
+src/EpocHandler/EpocHandler.sln
+src/EpocHandler/ipch
+src/EpocHandler/Debug
