@@ -84,9 +84,19 @@ graphics_init(int sx, int sy, int bpp) {
 				(full ? SDL_FULLSCREEN : SDL_RESIZABLE))))
       errorSDL("Couldn't set video mode");
    
-   if (SDL_MUSTLOCK(disp)) 
+   if (SDL_MUSTLOCK(disp))
+#ifdef __APPLE__
+   {  
+      printf("Warning: ignoring an error that was originally meant to exit the applictation (graphics.c line 87f)\n"); 
+      printf("Original error message would have been:\n");
+      printf("OOPS: According to the docs this shouldn't happen -- I'm supposed to lock this SDL_SWSURFACE display\n");
+   }
+#else
       error("OOPS: According to the docs this shouldn't happen -- "
-	    "I'm supposed to lock this SDL_SWSURFACE display");
+     "I'm supposed to lock this SDL_SWSURFACE display");   
+#endif
+
+
    
    if (disp->format->BytesPerPixel == 2) {
       disp_pix16= disp->pixels; 

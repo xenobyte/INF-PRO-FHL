@@ -17,7 +17,9 @@
 #include <stdarg.h>
 #include <stdlib.h>
 #include <string.h>
+#ifndef __APPLE__
 #include <malloc.h>
+#endif
 #include <errno.h>
 #include <ctype.h>
 #include <sys/types.h>
