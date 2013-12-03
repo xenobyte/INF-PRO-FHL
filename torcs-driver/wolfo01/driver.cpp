@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <iostream>
+
 #include "driver.h"
 
 const float Driver::MAX_UNSTUCK_ANGLE = 30.0/180.0*PI;  /* [radians] */
@@ -40,13 +42,15 @@ const float Driver::PIT_LOOKAHEAD = 6.0;       /* [m] */
 const float Driver::PIT_BRAKE_AHEAD = 200.0;   /* [m] */
 const float Driver::PIT_MU = 0.4;              /* [-] */
 const float Driver::FUEL_PER_KM = 0.8;          /* [l/km] */ 
-
+int done;
 
 Driver::Driver(int index)
 {
+   oscinfo = 0;
    int res = 0;
    INDEX = index;
-   res = pthread_create(&tid_driver_comm, NULL, driver_comm, NULL);
+   oscServer.start(&oscinfo);
+   //res = pthread_create(&t, NULL, driver_comm, NULL); 
    if(res != 0){
       perror("Thread creation failed");
       exit(EXIT_FAILURE);
@@ -56,7 +60,7 @@ Driver::Driver(int index)
 Driver::~Driver()
 {
    int res = 0;
-   res = pthread_join(tid_driver_comm,NULL);
+   res = pthread_join(t,NULL);
    if (res != 0) {
       perror("Thread join failed");
       exit(EXIT_FAILURE);
@@ -309,7 +313,7 @@ float Driver::filterTCL(float accel)
    }
    return accel;
 }
-
+//TODO Methode anpassen für CBI
 /* Compute fitting acceleration */
 float Driver::getAccel()
 {
@@ -437,6 +441,7 @@ float Driver::getBrake()
 /* Compute gear */
 int Driver::getGear()
 {
+   std::cout << "gear steht auf " << Driver::oscinfo << std::endl;
    if (car->_gear <= 0) return 1;
    float gr_up = car->_gearRatio[car->_gear + car->_gearOffset];
    float omega = car->_enginerpmRedLine/gr_up;
@@ -604,12 +609,3 @@ float Driver::getOvertakeOffset()
     }
     return myoffset;
 }
-       
-/* The communication thread method */
-void* driver_comm(void* arg)
-{
-   pthread_exit(EXIT_SUCCESS);
-}
-
-
-
