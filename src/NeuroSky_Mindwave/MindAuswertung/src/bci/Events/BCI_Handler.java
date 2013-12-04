@@ -33,10 +33,10 @@ public class BCI_Handler {
     private Method attention_Event_Method = null;
    
     
-    public BCI_Handler() {    
+    public BCI_Handler(String filename) {    
         this._Hal = new BCI_HAL();
         this._Hal.connect();
-        this.events = new BCI_Events(); // Init BCI
+        this.events = new BCI_Events(filename); // Init BCI
         mapControlMethods(); // Map Method
         try {
             readFromBuffer = new BufferedReader(new InputStreamReader(_Hal.getSocket().getInputStream()));

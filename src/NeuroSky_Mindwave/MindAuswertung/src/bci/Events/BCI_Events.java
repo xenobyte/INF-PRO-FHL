@@ -3,11 +3,8 @@ package bci.Events;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-
 import steuerung.Osc.OSC;
 
 public class BCI_Events implements I_BCI_Events {
@@ -18,10 +15,9 @@ public class BCI_Events implements I_BCI_Events {
     private OSC _oscOsc;
 
     // Date/Time
-    private Calendar cal;
+
     private Date start;
     private SimpleDateFormat timesdf;
-    private DateFormat formatter;
     private boolean timergestartet;
     private String currentTime;
 
@@ -31,7 +27,7 @@ public class BCI_Events implements I_BCI_Events {
     private String writeInFile;
     private String fileName;
 
-    public BCI_Events() {
+    public BCI_Events(String filename) {
         
         // OSC
         this._oscOsc = new OSC("localhost", 7400);
@@ -40,12 +36,9 @@ public class BCI_Events implements I_BCI_Events {
         this.timergestartet = false;
         this.currentTime = "";
         this.timesdf = new SimpleDateFormat("mm:ss"); // min:sec
-        this.formatter = new SimpleDateFormat();
-        this.cal = Calendar.getInstance();
-
+        
         // File Writer
-        this.fileName = ("SWA_" + formatter.format(cal.getTime()) + ".csv").replace(" ", "_").replace(":", "");
-        this.fileName = "D:\\BciMessungen\\" + fileName;
+        this.fileName = filename;
         this.writeInFile = "";
 
         try {
