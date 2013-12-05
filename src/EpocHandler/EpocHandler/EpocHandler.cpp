@@ -3,7 +3,13 @@
 #include "windows.h"
 
 
-//TODO facial expressions & boolean ruckgabewert bei update data
+//TODO facial expressions
+
+	/**
+	* This contains all raw data channels we are reading.
+	* Note that ED_COUNTER, ED_FUNC_ID, ED_FUNC_VALUE ED_SYNC_SIGNAL, ED_MARKER will read int values from the headset
+	* The function of ED_FUNC_ID, ED_FUNC_VALUE ED_SYNC_SIGNAL, ED_MARKER is not known
+	*/
 	static const EE_DataChannel_t dataChannels[] = {
 		ED_COUNTER, ED_GYROX, ED_GYROY, ED_TIMESTAMP,
 		ED_FUNC_ID, ED_FUNC_VALUE, ED_MARKER, ED_SYNC_SIGNAL,
@@ -13,26 +19,44 @@
 	};
 
 
-//class EpocHandler{
+	//an Event instance which we need to read data
 	EmoEngineEventHandle eEvent;
+	//An EmoStateHandle which we need to retrieve the EmoState e.g. meditation
 	EmoStateHandle eState;
-	static const unsigned short composerPort = 1726;
+	/**
+	* We need the userID to link the measured data to the current user.
+	* This will be for sure important when using the Cognitive Suite
+	*/
 	unsigned int userID;
+	//Determines the Buffersize of the Headset in Seconds (128*secs) samples
 	float secs;
+	//Not used, maybe remove 
+	//TODO Check it if can be removed
 	unsigned int datarate;
+	//Flag to see if all preconditions are met to collec data
 	bool readytocollect;
+	//used to save the statusCode (statecode) of the read state
 	int state;
+	//Flag to see if we are connected
 	bool connected;
-	bool debug;
+	//In Debugmode there is more output
+	const bool debug= true;
 
-	//EEGDaten
+	//Flag to see if there is Data to be collected
 	bool updated;
+	//Datastructe which holds the rawData read form the headset
 	std::map<EE_DataChannel_t, double*> eegDataMap;
+	//An Iterator to iterate over our Datamap
 	typedef std::map<EE_DataChannel_t, double*>::iterator it_type;
+	//the number of Samples that are read from the headset
 	unsigned int nSamplesTaken;
+	//the Value of engagement
 	double pEngagement;
+	//the Value of frustration
 	double pFrustration;
+	//the Value of meditation
 	double pMeditation;
+	//the Value of excitement
 	double pExcitement;
 
 
@@ -47,7 +71,6 @@
 		state = 0;
 		connected = false;
 		updated = false;
-		debug = true;
 		eEvent = EE_EmoEngineEventCreate();
 		eState = EE_EmoStateCreate();
 	}
