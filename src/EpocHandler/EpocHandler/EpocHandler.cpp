@@ -78,20 +78,25 @@
 	EpocHandler::~EpocHandler()
 	{
 		//alte arrays löschen
+		//Delete all old arrays from map
 		if(updated){
 			for(it_type iterator = eegDataMap.begin(); iterator != eegDataMap.end(); iterator++) {
 				free(iterator->second);
 			}
 
 		}
+		//maybe disconnect
 
 	}
 
 	bool EpocHandler::connect()
 	{
-		connected = EE_EngineConnect() == EDK_OK;
-		std::cout << "Connected: " << connected << std::endl;
-		return EE_EngineConnect() == EDK_OK;
+		//EE_EngineConnect() always returns EDK_OK regardles if there
+		// is a Headset Connected to the PC
+		connected = (EE_EngineConnect() == EDK_OK);
+		if(debug)
+			std::cout << "Connected: " << connected << std::endl;
+		return connected;
 	}
 
 	bool EpocHandler::disconnect()
@@ -166,20 +171,23 @@
 		return nSamplesTaken;
 	};
 
-
+	//TODO wtf does this method return? Bool to double conversion? 
 	double getUpdated(){
 		return updated;
 	}
-
+	
+	//This should be removed, we dont want go give away a Reference for our Datastructure
+	//Or it should create a deep Copy!
 	std::map<EE_DataChannel_t, double*> getAllData(){
 		return eegDataMap;
 	}
 
+	//Here EE_DataChannel should be changed CONSTs from our Class, for less dependencies
 	double* EpocHandler::getChannelData(EE_DataChannel_t channel){
 		return eegDataMap[channel];
 	}
 
-	double EpocHandler::getEngagement(void){
+	double EpocHandler::getEngagement(){
 		return pEngagement;
 	}
 
@@ -194,4 +202,3 @@
 	double EpocHandler::getExcitment(){
 		return pExcitement;
 	}
-//};
