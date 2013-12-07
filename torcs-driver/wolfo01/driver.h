@@ -22,7 +22,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
-#include <pthread.h>
 
 #include <tgf.h>
 #include <track.h>
@@ -30,10 +29,13 @@
 #include <raceman.h>
 #include <robottools.h>
 #include <robot.h>
+#include <pthread.h>
 
 #include "linalg.h"
 #include "opponent.h"
 #include "pit.h"
+#include "lo/lo.h"
+#include "OscServer.h"
 
 #define WOLFO_SECT_PRIV "wolfo01 private"
 #define WOLFO_ATT_FUELPERLAP "fuelperlap"
@@ -42,6 +44,9 @@
 class Opponents;
 class Opponent;
 class Pit;
+void* driver_comm(void* arg);
+int gearControl(const char *path, const char *types, lo_arg ** argv, int argc, void *data, void *user_data);
+void error(int num, const char *msg, const char *path);
 
 class Driver {
   public:
@@ -60,6 +65,8 @@ class Driver {
    float getSpeed() { return speed; }
    float getSteer();
    v2d getTargetPoint();   
+   void *printHello(void);
+   int oscinfo;
 
   private:
    /* utility functions */
@@ -85,14 +92,13 @@ class Driver {
    float getOvertakeOffset();
    float brakedist(float allowedspeed, float mu);
    float filterBPit(float brake);
-      
-
+   OscServer oscServer;
 
    /* per robot global data */
    int stuck;
    float trackangle;
    float angle;
-   float mass;        /* mass of car + fuel */
+   float   mass;        /* mass of car + fuel */
    tCarElt *car;      /* pointer to tCarElt struct */
    float CARMASS;     /* mass of the car only */
    float CA;          /* aerodynamic downforce coefficient */
@@ -109,6 +115,10 @@ class Driver {
    /* data that should stay constant after first initialization */
    int MAX_UNSTUCK_COUNT;
    int INDEX;
+   
+   /*OCS Server*/
+   pthread_t t;
+   int done; /* deaktiviert den OSC Server*/
 
    /* class constants */
    static const float MAX_UNSTUCK_ANGLE;
@@ -137,15 +147,6 @@ class Driver {
 
    /* track variables */
    tTrack* track;
-
-   /* Communication thread */
-   pthread_t tid_driver_comm;
 };	
-
-/* The communication thread method */
-void* driver_comm(void* arg);
-
-
-
 
 #endif // _DRIVER_H_
