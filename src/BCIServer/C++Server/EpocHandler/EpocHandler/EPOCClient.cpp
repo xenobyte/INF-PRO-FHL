@@ -13,12 +13,13 @@ int EPOCClient::getDataFacialExpression(struct FACIALEXPRESSIONPACKAGE * package
 
 int EPOCClient::getDataEmoState(struct EMOSTATEPACKAGE * package){
     package->errorCode = 10;
-    package->nSamplesTaken = handler.updateData();
-    package->pEngagement = handler.getEngagement();
-    package->pExcitement = handler.getEcitement();
-    package->pFrustration = handler.getFrustration();
-    package->pMeditation = handler.getMeditation();
-    if(ed_counter != nullptr){
+    int i = handler->updateData();
+    package->nSamplesTaken = i;
+    package->pEngagement = handler->getEngagement();
+    package->pExcitement = handler->getExcitment();
+    package->pFrustration = handler->getFrustration();
+    package->pMeditation = handler->getMeditation();
+    if(ed_counter != nullptr && i != 0){
         delete(ed_counter);
         delete(ed_gyroX);
         delete(ed_gyroY);
@@ -42,28 +43,28 @@ int EPOCClient::getDataEmoState(struct EMOSTATEPACKAGE * package){
         delete(ed_f8);
         delete(ed_af4);
     }
-    ed_counter = handler.getChannelData(ED_COUNTER);
-    ed_gyroX = handler.getChannelData(ED_GYROX);
-    ed_gyroY = handler.getChannelData(ED_GYROY);
-    ed_timeStamp = handler.getChannelData(ED_TIMESTAMP);
-    ed_func_id = handler.getChannelData(ED_FUNC_ID);
-    ed_func_value = handler.getChannelData(ED_FUNC_VALUE);
-    ed_marker = handler.getChannelData(ED_MARKER);
-    ed_sync_signal = handler.getChannelData(ED_SYNC_SIGNAL);
-    ed_af3 = handler.getChannelData(ED_AF3);
-    ed_f7 = handler.getChannelData(ED_F7);
-    ed_f3 = handler.getChannelData(ED_F3);
-    ed_fc5 = handler.getChannelData(ED_FC5);
-    ed_t7 = handler.getChannelData(ED_T7);
-    ed_p7 = handler.getChannelData(ED_P7);
-    ed_o1 = handler.getChannelData(ED_O1);
-    ed_o2 = handler.getChannelData(ED_O2);
-    ed_p8 = handler.getChannelData(ED_P8);
-    ed_t8 = handler.getChannelData(ED_T8);
-    ed_fc6 = handler.getChannelData(ED_FC6);
-    ed_f4 = handler.getChannelData(ED_F4);
-    ed_f8 = handler.getChannelData(ED_F8);
-    ed_af4 = handler.getChannelData(ED_AF4);
+    ed_counter = handler->getChannelData(ED_COUNTER);
+    ed_gyroX = handler->getChannelData(ED_GYROX);
+    ed_gyroY = handler->getChannelData(ED_GYROY);
+    ed_timeStamp = handler->getChannelData(ED_TIMESTAMP);
+    ed_func_id = handler->getChannelData(ED_FUNC_ID);
+    ed_func_value = handler->getChannelData(ED_FUNC_VALUE);
+    ed_marker = handler->getChannelData(ED_MARKER);
+    ed_sync_signal = handler->getChannelData(ED_SYNC_SIGNAL);
+    ed_af3 = handler->getChannelData(ED_AF3);
+    ed_f7 = handler->getChannelData(ED_F7);
+    ed_f3 = handler->getChannelData(ED_F3);
+    ed_fc5 = handler->getChannelData(ED_FC5);
+    ed_t7 = handler->getChannelData(ED_T7);
+    ed_p7 = handler->getChannelData(ED_P7);
+    ed_o1 = handler->getChannelData(ED_O1);
+    ed_o2 = handler->getChannelData(ED_O2);
+    ed_p8 = handler->getChannelData(ED_P8);
+    ed_t8 = handler->getChannelData(ED_T8);
+    ed_fc6 = handler->getChannelData(ED_FC6);
+    ed_f4 = handler->getChannelData(ED_F4);
+    ed_f8 = handler->getChannelData(ED_F8);
+    ed_af4 = handler->getChannelData(ED_AF4);
     
     return 0;
 }
