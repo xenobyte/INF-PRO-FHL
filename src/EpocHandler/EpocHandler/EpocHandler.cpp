@@ -143,22 +143,13 @@ EpocHandler::~EpocHandler()
 				free(iterator->second);
 			}
 
->>>>>>> d7f99a7c4048dbb8a12c7034991144c1c527c917
+
 		}
 		//maybe disconnect
 
 	}
 
-<<<<<<< HEAD
-}
 
-// Stellt nicht sicher ob eine Verbindung tatsächlich vorhanden ist.
-bool EpocHandler::connect()
-{
-	connected = EE_EngineConnect() == EDK_OK;
-	std::cout << "Connected: " << connected << std::endl;
-	return EE_EngineConnect() == EDK_OK;
-}
 
 bool EpocHandler::disconnect()
 {
@@ -167,6 +158,7 @@ bool EpocHandler::disconnect()
 	return connected;
 }
 
+// Stellt nicht sicher ob eine Verbindung tatsächlich vorhanden ist.
 bool EpocHandler::connect()
 {
 	//EE_EngineConnect() always returns EDK_OK regardles if there
