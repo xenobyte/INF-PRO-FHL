@@ -42,7 +42,7 @@ int state;
 //Flag to see if we are connected
 bool connected;
 //In Debugmode there is more output
-const bool debug= true;
+const bool debug= false;
 
 //Flag to see if there is Data to be collected
 bool updated;
@@ -83,10 +83,8 @@ EpocHandler::~EpocHandler()
 	//Delete all old arrays from map
 	if(updated){
 		for(it_type iterator = eegDataMap.begin(); iterator != eegDataMap.end(); iterator++) {
-			free(iterator->second);
+			delete[] iterator->second;
 		}
-
-
 	}
 	//maybe disconnect
 
@@ -157,7 +155,7 @@ int EpocHandler::updateData()
 		//alte arrays löschen
 		if(updated){
 			for(it_type iterator = eegDataMap.begin(); iterator != eegDataMap.end(); iterator++) {
-				free(iterator->second);
+				delete[] iterator->second;
 			}
 			updated = false;
 		}
@@ -176,27 +174,19 @@ int EpocHandler::updateData()
 			pExcitement = ES_AffectivGetExcitementShortTermScore(eState);
 			if(debug)
 				std::cout << "EmoState read " << pEngagement << ", " << pFrustration << ", " << pMeditation<<std::endl;
-			//Map Speicher reservieren
-
-			//for(it_type iterator = eegDataMap.begin(); iterator != eegDataMap.end(); iterator++) {
-			std::cout << "datachannels size " << sizeof(dataChannels)/sizeof(dataChannels[0]) << std::endl;
-			for(int i = 0; i < sizeof(dataChannels)/sizeof(dataChannels[0]); ++i){
-				if(debug)
-					std::cout << "channel int " <<dataChannels[i] << std::endl;
-				eegDataMap[dataChannels[i]] = (double*) malloc(nSamplesTaken);
-
-			}
-			// i = j++; 
-			// i = ++j;
+			
+			if(debug)
+				std::cout << "datachannels size " << sizeof(dataChannels)/sizeof(dataChannels[0]) << std::endl;
 			if(debug)
 				std::cout << "Map Size : "<< eegDataMap.size() <<std::endl;
+			
 			//Map füllen
-			for(it_type iterator = eegDataMap.begin(); iterator != eegDataMap.end(); ++iterator) {
+			for(int i = 0; i < sizeof(dataChannels)/sizeof(dataChannels[0]); ++i){
+				double* data = new double[nSamplesTaken];
 				if(debug)
 					std::cout << "check!\t";
-				EE_DataGet(hData, iterator->first,iterator->second, nSamplesTaken);
-				if(debug)
-					std::cout << "It first " <<iterator->first << " it second " << iterator->second[0] << std::endl;
+				EE_DataGet(hData, dataChannels[i],data, nSamplesTaken);
+				eegDataMap[dataChannels[i]] = data;
 
 			} 
 			if(debug)
@@ -222,7 +212,10 @@ std::map<EE_DataChannel_t, double*> getAllData(){
 
 //Here EE_DataChannel should be changed CONSTs from our Class, for less dependencies
 double* EpocHandler::getChannelData(EE_DataChannel_t channel){
-	return eegDataMap[channel];
+
+	double *newArray = new double[nSamplesTaken];
+	memcpy(newArray, eegDataMap[channel], nSamplesTaken*sizeof(double));
+	return newArray;
 }
 
 double EpocHandler::getEngagement(){
