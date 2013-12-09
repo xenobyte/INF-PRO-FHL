@@ -1,0 +1,51 @@
+#N canvas 2413 142 1288 848 10;
+#X declare -lib mrpeach;
+#X obj 627 389 readsf~;
+#X msg 549 372 start;
+#X msg 788 372 stop;
+#X obj 600 273 t g g;
+#X obj 600 245 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 788 347 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 600 -7 unpackOSC;
+#X obj 600 -61 import mrpeach;
+#X obj 600 -34 udpreceive 7400;
+#X text 706 -37 <--- OSC Empfang über localhost port 7400;
+#X text 678 -7 <-- die Verschiedenen OSC bfehle entpacken;
+#X obj 600 59 routeOSC /play;
+#X obj 788 57 routeOSC /stop;
+#X floatatom 600 107 5 0 0 0 - - -;
+#X floatatom 788 105 5 0 0 0 - - -;
+#X obj 627 636 *~;
+#X obj 670 505 vsl 15 128 0 1 0 0 empty empty empty 0 -9 0 10 -262144
+-1 -1 12700 1;
+#X floatatom 672 646 5 0 0 0 - - -;
+#X obj 670 451 loadbang;
+#X obj 669 428 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X msg 669 477 1;
+#X msg 627 322 open SWA.wav;
+#X obj 620 695 dac~;
+#X connect 0 0 15 0;
+#X connect 1 0 0 0;
+#X connect 2 0 0 0;
+#X connect 3 0 1 0;
+#X connect 3 1 21 0;
+#X connect 4 0 3 0;
+#X connect 5 0 2 0;
+#X connect 6 0 11 0;
+#X connect 6 0 12 0;
+#X connect 8 0 6 0;
+#X connect 11 0 13 0;
+#X connect 12 0 14 0;
+#X connect 13 0 4 0;
+#X connect 14 0 5 0;
+#X connect 15 0 22 0;
+#X connect 15 0 22 1;
+#X connect 16 0 15 1;
+#X connect 16 0 17 0;
+#X connect 18 0 20 0;
+#X connect 19 0 18 0;
+#X connect 20 0 16 0;
+#X connect 21 0 0 0;

@@ -1,0 +1,59 @@
+\documentclass[12pt]{amsart}
+\usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
+\geometry{a4paper, left=25mm, right=30mm}                   % ... or a4paper or a5paper or ... 
+%\geometry{landscape}                % Activate for for rotated page geometry
+%\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage[ngerman]{babel}
+\usepackage{multicol}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{epstopdf}
+\usepackage{relsize}
+\usepackage{color}
+%\usepackage[framed,numbered,autolinebreaks,useliterate]{mcode}
+\usepackage[normalem]{ulem}
+
+\title{bwview Formeln}
+\author{Martin Hansen}
+%\date{11. Oktober 2012}                                          % Activate to display a given date or no date
+
+
+\begin{document}
+%\maketitle
+
+\renewcommand{\baselinestretch}{1.50}\normalsize
+
+\section{"Uber dieses Dokument}
+
+Dieses Dokument ist \emph{work in progress} und dient vorerst nur der Sammlung diverser (aus dem Quellcode von bwview extrahierter) Formeln.
+
+\section{analysis.c}
+
+Die Datei \emph{analysis.c} enth"alt die Funktionen zur Analyse der EEG-Daten.
+
+\subsection{bwanal\_start(BWAnal *aa)} Die Funktion \emph{bwanal\_start(BWAnal *aa)} Startet die Berechnungen.
+
+$sx:= \text{Anzahl Spalten}$
+
+$sy:= \text{Anzahl Zeilen}$
+
+$tbase:= \text{Samples pro Datenpunkt/Pixel}$
+
+$wwrat:= \text{Ratio of window width to the centre-frequency wavelength}$
+
+$log0 = \ln(f_{MAX})$
+
+$log1 = \ln(f_{MIN})$
+
+\textbf{F"ur jede Zeile $a<sy$:\{}
+
+Mittlere Frequenz (?) der Zeile: $f_a= e^{log0 + \frac{a+0,5}{sy} \left(log1-log0\right)}$
+
+(Logische) Fensterg"o"se in Samples: $wwid_a= \frac{f_{SAMPLE}}{f_a} wwrat $
+
+$siz= sx\cdot tbase + \lfloor wwid_a \rfloor + 2 + 10$
+
+$b= \lfloor \log_2\left(siz\right)\rfloor \cdot 6$
+
+\textbf{\}}
+\end{document}

@@ -1,8 +1,15 @@
 #include "EpocHandler.h"
 #include "stdafx.h"
+#include "windows.h"
 
 
-//TODO facial expressions & boolean ruckgabewert bei update data
+//TODO facial expressions
+
+	/**
+	* This contains all raw data channels we are reading.
+	* Note that ED_COUNTER, ED_FUNC_ID, ED_FUNC_VALUE ED_SYNC_SIGNAL, ED_MARKER will read int values from the headset
+	* The function of ED_FUNC_ID, ED_FUNC_VALUE ED_SYNC_SIGNAL, ED_MARKER is not known
+	*/
 	static const EE_DataChannel_t dataChannels[] = {
 		ED_COUNTER, ED_GYROX, ED_GYROY, ED_TIMESTAMP,
 		ED_FUNC_ID, ED_FUNC_VALUE, ED_MARKER, ED_SYNC_SIGNAL,
@@ -12,26 +19,44 @@
 	};
 
 
-//class EpocHandler{
+	//an Event instance which we need to read data
 	EmoEngineEventHandle eEvent;
+	//An EmoStateHandle which we need to retrieve the EmoState e.g. meditation
 	EmoStateHandle eState;
-	static const unsigned short composerPort = 1726;
+	/**
+	* We need the userID to link the measured data to the current user.
+	* This will be for sure important when using the Cognitive Suite
+	*/
 	unsigned int userID;
+	//Determines the Buffersize of the Headset in Seconds (128*secs) samples
 	float secs;
+	//Not used, maybe remove 
+	//TODO Check it if can be removed
 	unsigned int datarate;
+	//Flag to see if all preconditions are met to collec data
 	bool readytocollect;
+	//used to save the statusCode (statecode) of the read state
 	int state;
+	//Flag to see if we are connected
 	bool connected;
-	bool debug;
+	//In Debugmode there is more output
+	const bool debug= true;
 
-	//EEGDaten
+	//Flag to see if there is Data to be collected
 	bool updated;
+	//Datastructe which holds the rawData read form the headset
 	std::map<EE_DataChannel_t, double*> eegDataMap;
+	//An Iterator to iterate over our Datamap
 	typedef std::map<EE_DataChannel_t, double*>::iterator it_type;
+	//the number of Samples that are read from the headset
 	unsigned int nSamplesTaken;
+	//the Value of engagement
 	double pEngagement;
+	//the Value of frustration
 	double pFrustration;
+	//the Value of meditation
 	double pMeditation;
+	//the Value of excitement
 	double pExcitement;
 
 
@@ -46,7 +71,6 @@
 		state = 0;
 		connected = false;
 		updated = false;
-		debug = false;
 		eEvent = EE_EmoEngineEventCreate();
 		eState = EE_EmoStateCreate();
 	}
@@ -54,20 +78,25 @@
 	EpocHandler::~EpocHandler()
 	{
 		//alte arrays löschen
+		//Delete all old arrays from map
 		if(updated){
 			for(it_type iterator = eegDataMap.begin(); iterator != eegDataMap.end(); iterator++) {
 				free(iterator->second);
 			}
 
 		}
+		//maybe disconnect
 
 	}
 
 	bool EpocHandler::connect()
 	{
-		connected = EE_EngineConnect() == EDK_OK;
-		std::cout << "Connected: " << connected << std::endl;
-		return EE_EngineConnect() == EDK_OK;
+		//EE_EngineConnect() always returns EDK_OK regardles if there
+		// is a Headset Connected to the PC
+		connected = (EE_EngineConnect() == EDK_OK);
+		if(debug)
+			std::cout << "Connected: " << connected << std::endl;
+		return connected;
 	}
 
 	bool EpocHandler::disconnect()
@@ -76,30 +105,35 @@
 		return connected;
 	}
 
-	void EpocHandler::updateData()
+	int EpocHandler::updateData()
 	{
+		
 		if(connect()){
 			std::cout << "Erfolgreich verbunden"  << std::endl;
 		}else{
 			std::cout << "Verbindung fehlgeschlagen"  << std::endl;
 			exit(-1);
 		}
-
-
+		bool useradded = false;
+		
 		DataHandle hData = EE_DataCreate();
 		EE_DataSetBufferSizeInSec(secs);
+		while(!useradded){
 		if (state = EE_EngineGetNextEvent(eEvent) == EDK_OK)
 		{
 			EE_Event_t eventType = EE_EmoEngineEventGetType(eEvent);
 			EE_EmoEngineEventGetUserId(eEvent, &userID);
-
+			EE_EmoEngineEventGetEmoState(eEvent, eState);
 			// Log the EmoState if it has been updated
 			if (eventType == EE_UserAdded) {
-				std::cout << "User added";
+				std::cout << "User added" << std::endl;
+				useradded = true;
 				EE_DataAcquisitionEnable(userID, true);
 				readytocollect = true;
 			}
 		}
+		}
+		
 		if (readytocollect)
 		{
 			//alte arrays löschen
@@ -134,22 +168,26 @@
 
 		}
 		disconnect();
+		return nSamplesTaken;
 	};
 
-
+	//TODO wtf does this method return? Bool to double conversion? 
 	double getUpdated(){
 		return updated;
 	}
-
+	
+	//This should be removed, we dont want go give away a Reference for our Datastructure
+	//Or it should create a deep Copy!
 	std::map<EE_DataChannel_t, double*> getAllData(){
 		return eegDataMap;
 	}
 
+	//Here EE_DataChannel should be changed CONSTs from our Class, for less dependencies
 	double* EpocHandler::getChannelData(EE_DataChannel_t channel){
 		return eegDataMap[channel];
 	}
 
-	double EpocHandler::getEngagement(void){
+	double EpocHandler::getEngagement(){
 		return pEngagement;
 	}
 
@@ -164,4 +202,3 @@
 	double EpocHandler::getExcitment(){
 		return pExcitement;
 	}
-//};

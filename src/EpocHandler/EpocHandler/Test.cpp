@@ -9,9 +9,9 @@
 int _tmain(int argc, _TCHAR* argv[])
 {
 	EpocHandler a;
-	a.updateData();
-	std::cout << "Test..." << std::endl;
-	std::cout << a.getChannelData(EE_DataChannel_t::ED_GYROX);
+	while (!a.updateData());
+	//std::cout << "Test..." << std::endl;
+	std::cout << a.getChannelData(EE_DataChannel_t::ED_GYROX) << std::endl;
 	double *doubleArrayForSensorAF3 = a.getChannelData(EE_DataChannel_t::ED_AF3);
 
 
