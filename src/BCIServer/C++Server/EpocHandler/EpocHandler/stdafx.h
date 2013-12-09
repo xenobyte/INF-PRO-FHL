@@ -6,12 +6,11 @@
 #pragma once
 
 #include "targetver.h"
-
+#include "Server.h"
+#include "EpocHandler.h"
 #include <stdio.h>
 #include <tchar.h>
-#include "EpocHandler.h"
-#include "EPOCClient.h"
-#include "Server.h"
+#include "EpocClient.h"
 #include <iostream>
 
 

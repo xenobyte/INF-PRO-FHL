@@ -36,12 +36,6 @@
     <ClInclude Include="include\EmoStateDLL.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="Server.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="EPOCClient.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -50,13 +44,7 @@
     <ClCompile Include="EpocHandler.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="EPOCClient.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="Main.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="Server.cpp">
+    <ClCompile Include="Test.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
