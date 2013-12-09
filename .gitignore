@@ -23,6 +23,7 @@
 # VisualStudio dead weight
 *.ncb
 *.sdf
+*.ipch
 
 # OSX-specific stuff
 .DS_STORE
