@@ -1,3 +1,0 @@
-* Pit brake cmd Implementierung prüfen
-* wings: Abheben der Vorderräder unterbinden
-* Getriebe: schnellerer Start

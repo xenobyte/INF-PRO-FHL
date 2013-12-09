@@ -1,8 +1,0 @@
-# NOTE: File must be sourced, i.e.,
-# . set-environment
-#
-# Sets environment variables for building
-
-#export TORCS_BASE=/home/fohl/Src/torcs-1.3.4
-export TORCS_BASE=../../../
-export MAKE_DEFAULT=$TORCS_BASE/Make-default.mk

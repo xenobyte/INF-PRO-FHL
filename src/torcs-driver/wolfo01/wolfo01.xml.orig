@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    file                 : wolfo01.xml
+    created              : So 30. Mai 17:53:52 CEST 2010
+    copyright            : (C) 2002 Wolfgang Fohl
+-->
+
+<!DOCTYPE params SYSTEM "../../libs/tgf/params.dtd">
+<params name="wolfo01" type="robotdef">
+  <section name="Robots">
+    <section name="index">
+      <section name="0">
+	<attstr name="name" val="wolfo01 0"></attstr>
+	<attstr name="desc" val=""></attstr>
+	<attstr name="team" val="Wolfo"></attstr>
+	<attstr name="author" val="Wolfgang Fohl"></attstr>
+	<!-- <attstr name="car name" val="cg-nascar-rwd"></attstr> -->
+	<!-- <attstr name="category" val="Nascar"></attstr> -->
+	<attstr name="car name" val="car4-trb1"></attstr>
+	<attstr name="category" val="trb1"></attstr>
+	<attnum name="race number" val="10"></attnum>
+	<attnum name="red" val="1.0"></attnum>
+	<attnum name="green" val="0.0"></attnum>
+	<attnum name="blue" val="1.0"></attnum>
+      </section>
+
+      <section name="1">
+	<attstr name="name" val="wolfo01 1"></attstr>
+	<attstr name="desc" val=""></attstr>
+	<attstr name="team" val="Wolfo"></attstr>
+	<attstr name="author" val="Wolfgang Fohl"></attstr>
+	<attstr name="car name" val="car5-trb1"></attstr>
+	<attstr name="category" val="trb1"></attstr>
+	<attnum name="race number" val="11"></attnum>
+	<attnum name="red" val="1.0"></attnum>
+	<attnum name="green" val="0.0"></attnum>
+	<attnum name="blue" val="1.0"></attnum>
+      </section>
+
+      <section name="2">
+	<attstr name="name" val="wolfo01 2"></attstr>
+	<attstr name="desc" val=""></attstr>
+	<attstr name="team" val="Wolfo"></attstr>
+	<attstr name="author" val="Wolfgang Fohl"></attstr>
+	<attstr name="car name" val="car6-trb1"></attstr>
+	<attstr name="category" val="trb1"></attstr>
+	<attnum name="red" val="1.0"></attnum>
+	<attnum name="green" val="0.0"></attnum>
+	<attnum name="blue" val="1.0"></attnum>
+      </section>
+
+      
+    </section>
+  </section>
+</params>

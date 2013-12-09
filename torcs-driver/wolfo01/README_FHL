@@ -1,8 +1,0 @@
-To compile this driver:
-
-Either
-copy to <torcs-source>/src/drivers/
-
-Or
-Adjust path to main torcs source dir in
-  file ``set-environment''
