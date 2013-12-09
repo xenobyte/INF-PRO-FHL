@@ -31,7 +31,43 @@ Dieses Dokument ist \emph{work in progress} und dient vorerst nur der Sammlung d
 
 Die Datei \emph{analysis.c} enth"alt die Funktionen zur Analyse der EEG-Daten.
 
-\subsection{bwanal\_start(BWAnal *aa)} Die Funktion \emph{bwanal\_start(BWAnal *aa)} Startet die Berechnungen.
+
+\subsection{Vorbemerkung Analysis types} Das Tool bietet drei verschiedene Analyse-Typen:
+
+\begin{itemize}
+\item 0 : Blackman-Fenster (default)
+\item 1 : IIR Biquad Filter mit $Q=0,5$
+\item 2 : IIR Biquad Filter mit $Q=0,72$
+\end{itemize} 
+Im folgenden wird vorerst nur die Analyse mit Analyse-Typ 0 (Blackman-Fenster) betrachtet, da wir in der Anwendung bisher auch nur diese genutzt haben.
+
+
+\subsection{Makro PLAN\_SIZE(n)} Ein Makro zur Berechnung, wie gro"s dass Array f"ur einen fftw-\emph{plan} sein muss. 
+
+$n \mod 3$ bestimmt den Typen des Plans: 
+
+\begin{itemize}
+\item 0 : real $\mapsto$ komplex
+\item 1 : komplex $\mapsto$ real
+\item 2 : komplex $\mapsto$ komplex
+\end{itemize} 
+
+Das Makro berechnet:
+
+$PLAN\_SIZE(n) = \begin{cases}
+  3 \cdot 2^{\lfloor \frac{n}{6} \rfloor },  & \text{wenn }n\mod 3 \text{ ungerade.}\\
+  2 \cdot 2^{\lfloor \frac{n}{6} \rfloor },  & \text{wenn }n\mod 3 \text{ gerade.}
+\end{cases}$
+
+
+\subsection{static void copy\_samples(BWAnal *aa, fftw\_real *arr, int off, int chan, int len, int errors)} Eine Funktion, die den mit \emph{off} und\emph{len} ausgew"ahlten Bereich der EEG-Daten eines Kanals (\emph{chan}) aus der Eingabe-Datei in ein Array kopiert. Geht der gew"ahlte Bereich "uber die Grenzen der Datei hinaus, werden entsprechend Nullen in das Array eingetragen.
+
+\emph{Anmerkung: Code ist nicht ins Detail "uberpr"uft, die Ausf"uhrungen beruhen nur auf den Kommentaren und einem groben Blick auf den Code (was sollte da auch sonst passieren...).}
+
+
+\subsection{void bwanal\_start(BWAnal *aa)} Die Funktion \emph{bwanal\_start(BWAnal *aa)} Startet die Berechnungen.
+
+\emph{Vorbemerkung:} Von den drei
 
 $sx:= \text{Anzahl Spalten}$
 
@@ -47,13 +83,26 @@ $log1 = \ln(f_{MIN})$
 
 \textbf{F"ur jede Zeile $a<sy$:\{}
 
-Mittlere Frequenz (?) der Zeile: $f_a= e^{log0 + \frac{a+0,5}{sy} \left(log1-log0\right)}$
+Mittlere Frequenz (?) der Zeile: $\displaystyle{f_a= e^{log0 + \frac{a+0,5}{sy} \left(log1-log0\right)}}$
 
-(Logische) Fensterg"o"se in Samples: $wwid_a= \frac{f_{SAMPLE}}{f_a} wwrat $
+(Logische) Fenstergr"o"se in Samples: $wwid_a= \frac{f_{SAMPLE}}{f_a} wwrat $
 
 $siz= sx\cdot tbase + \lfloor wwid_a \rfloor + 2 + 10$
 
 $b= \lfloor \log_2\left(siz\right)\rfloor \cdot 6$
 
+\textbf{Solange  $PLAN\_SIZE(b) > siz$: \{} $b=b-1$\textbf{\}}
+
+Index auf zu benutzenden fft Plan: $fftp_a = b$
+
+Dazugeh"orige Fenstergr"o"se: $awwid_a=PLAN\_SIZE(b)$
+
+Maximale PLangr"o"se: $maxsiz= PLAN\_SIZE(b)$;
+
 \textbf{\}}
+
+\emph{to be continued...}
+
+
+\subsection{static void recreate\_arrays(BWAnal *aa)} F"uhrt erst einmal \emph{free} auf alle Arrays des BWAnal-Structs aus, um sie dann anhand der im Struct eingetragenen Zeilen- und Spaltengr"o"sen (\emph{aa->c.sx und aa->c.sy}) neu zu allokieren.
 \end{document}
