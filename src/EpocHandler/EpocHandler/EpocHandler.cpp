@@ -191,12 +191,15 @@ int EpocHandler::updateData()
 			if(debug)
 				std::cout << "Map Size : "<< eegDataMap.size() <<std::endl;
 			//Map füllen
+			
 			for(it_type iterator = eegDataMap.begin(); iterator != eegDataMap.end(); ++iterator) {
+				double* data = new double[nSamplesTaken];
 				if(debug)
 					std::cout << "check!\t";
-				EE_DataGet(hData, iterator->first,iterator->second, nSamplesTaken);
+				EE_DataGet(hData, iterator->first,data, nSamplesTaken);
 				if(debug)
-					std::cout << "It first " <<iterator->first << " it second " << iterator->second[0] << std::endl;
+					std::cout << "It first " <<iterator->first << " it second " << data[0] << std::endl;
+				iterator->second = data;
 
 			} 
 			if(debug)
