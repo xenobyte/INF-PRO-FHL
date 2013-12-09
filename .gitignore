@@ -36,6 +36,10 @@
 src/EpocHandler/EpocHandler.v11.suo
 src/EpocHandler/EpocHandler.sdf
 src/EpocHandler/EpocHandler.sln
-src/EpocHandler/Epochandler.opensdf
-src/EpocHandler/ipch/*
+src/EpocHandler/EpocHandler/Debug/*
 src/EpocHandler/Debug/*
+*.opensdf
+src/EpocHandler/ipch/*
+*/Debug/*
+src/BCIServer/C++Server/EpocHandler/Debug/*
+src/BCIServer/C++Server/EpocHandler/EpocHandler/*
