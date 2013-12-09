@@ -13,6 +13,38 @@
 %\usepackage[framed,numbered,autolinebreaks,useliterate]{mcode}
 \usepackage[normalem]{ulem}
 
+
+
+% fŸr Code:
+\usepackage{listings}
+\usepackage{color}
+\definecolor{keywcolor}{rgb}{0.6,0,0.5}
+\definecolor{dkgreen}{rgb}{0,1,0}
+\lstset{ %
+  linewidth=15.7cm,
+  language=C,                % the language of the code
+  basicstyle=\footnotesize,           % the size of the fonts that are used for the code
+  numbers=left,                   % where to put the line-numbers
+  numberstyle=\tiny\color{black},  % the style that is used for the line-numbers
+  stepnumber=1,                   % the step between two line-numbers. If it's 1, each line 
+                                 		 % will be numbered
+  numbersep=5pt,                  % how far the line-numbers are from the code
+  backgroundcolor=\color{white},      % choose the background color. You must add \usepackage{color}
+  showspaces=false,               % show spaces adding particular underscores
+  showstringspaces=false,         % underline spaces within strings
+  showtabs=false,                 % show tabs within strings adding particular underscores
+  frame=single,                   % adds a frame around the code
+  rulecolor=\color{black},        % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+  tabsize=4,                      % sets default tabsize to 2 spaces
+  captionpos=b,                   % sets the caption-position to bottom
+  breaklines=true,                % sets automatic line breaking
+  breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+  keywordstyle=\color{keywcolor},          % keyword style
+  commentstyle=\color{blue},       % comment style
+}
+
+
+
 \title{bwview Formeln}
 \author{Martin Hansen}
 %\date{11. Oktober 2012}                                          % Activate to display a given date or no date
@@ -32,7 +64,7 @@ Dieses Dokument ist \emph{work in progress} und dient vorerst nur der Sammlung d
 Die Datei \emph{analysis.c} enth"alt die Funktionen zur Analyse der EEG-Daten.
 
 
-\subsection{Vorbemerkung Analysis types} Das Tool bietet drei verschiedene Analyse-Typen:
+\subsection{Vorbemerkung: Analysis types} Das Tool bietet drei verschiedene Analyse-Typen:
 
 \begin{itemize}
 \item 0 : Blackman-Fenster (default)
@@ -40,6 +72,30 @@ Die Datei \emph{analysis.c} enth"alt die Funktionen zur Analyse der EEG-Daten.
 \item 2 : IIR Biquad Filter mit $Q=0,72$
 \end{itemize} 
 Im folgenden wird vorerst nur die Analyse mit Analyse-Typ 0 (Blackman-Fenster) betrachtet, da wir in der Anwendung bisher auch nur diese genutzt haben.
+
+\subsection{struct BWSetup} Ein Struct mit den grundlegenden Parametern:
+
+\begin{lstlisting}
+typedef struct BWSetup BWSetup;
+
+struct BWSetup {
+    int typ;         // Analyse-Typ (0-2, s.o.)
+    int off;         // Offset im input file (in samples, gezaehlt ab 0)
+    int chan;        // anzuzeigender Kanal (gezaehlt ab 0)
+    int tbase;       // Time-base (Samples pro Datenpunkt (horizontal))
+    int sx;          // Zahl der zu berechnenden Spalten (size-X)
+    int sy;          // Zahl der zu berechnenden Spalten (size-Y)
+    double freq0, freq1; // oberste und unterste Frequenz (Achtung: s.u.)
+    double wwrat;    // Verhaeltnis von Fensterbreite zur Wellenlaenge der Mittenfrequenz
+};
+
+\end{lstlisting}
+
+\subsection{Oberste und unterste Frequenz} Erl"auterung zu den beiden Frequenzen \emph{freq0} und \emph{freq1} aus dem struct BWSetup (s.o.):
+Auf die Zeilen (Anzahl: BWSetup.sy) werden "aqudistante Frequenzb"ander (\emph{noch zu "ubersetzen: in log-freq-space}) zwischen \emph{freq0} und \emph{freq1} verteilt. Das bedeutet, dass das oberste Band knapp unter \emph{freq0} und das unterste Band knapp "uber \emph{freq1} liegt.
+Um also z.B. sechs B"ander zwischen 128 Hz und 256 Hz zu erhalten, setzt man$BWSetup.sy=6$, $BWSetup.freq0=128$, $BWSetup.freq1=256$.
+
+\emph{\textbf{Achtung(!):} obiges ist eine "Ubersetzung der Kommentare, die etwas widerspr"uchlich sind, was \emph{freq0} und \emph{freq1} angeht (und welches von beiden die obere und welches die untere Frequenz ist). \textbf{Nach allem, was bisher vom Code gesichtet wurde, ist  \emph{freq0} die untere und \emph{freq1} die obere Frequenz} (das Bespiel stimmt also, aber der Satz davor nicht).}
 
 
 \subsection{Makro PLAN\_SIZE(n)} Ein Makro zur Berechnung, wie gro"s dass Array f"ur einen fftw-\emph{plan} sein muss. 
@@ -60,9 +116,17 @@ $PLAN\_SIZE(n) = \begin{cases}
 \end{cases}$
 
 
-\subsection{static void copy\_samples(BWAnal *aa, fftw\_real *arr, int off, int chan, int len, int errors)} Eine Funktion, die den mit \emph{off} und\emph{len} ausgew"ahlten Bereich der EEG-Daten eines Kanals (\emph{chan}) aus der Eingabe-Datei in ein Array kopiert. Geht der gew"ahlte Bereich "uber die Grenzen der Datei hinaus, werden entsprechend Nullen in das Array eingetragen.
+\subsection{static void copy\_samples(BWAnal *aa, fftw\_real *arr, int off, int chan, int len, int errors)} Eine Funktion, die den mit \emph{off} und\emph{len} ausgew"ahlten Bereich der EEG-Daten eines Kanals (\emph{chan}) einem \emph{BWBlock (struct definiert in file.c, Details sind noch to do)} in ein Array kopiert. Geht der gew"ahlte Bereich "uber die Grenzen der Datei hinaus, werden entsprechend Nullen in das Array eingetragen.
 
-\emph{Anmerkung: Code ist nicht ins Detail "uberpr"uft, die Ausf"uhrungen beruhen nur auf den Kommentaren und einem groben Blick auf den Code (was sollte da auch sonst passieren...).}
+\emph{Anmerkung: Code ist nicht ins Detail "uberpr"uft, die Ausf"uhrungen beruhen nur auf den Kommentaren und einem groben Blick auf den Code.}
+
+
+\subsection{static void recreate\_arrays(BWAnal *aa)} F"uhrt erst einmal \emph{free} auf alle Arrays des BWAnal-Structs aus, um sie dann anhand der im Struct eingetragenen Zeilen- und Spaltengr"o"sen (\emph{aa-$>$c.sx und aa-$>$c.sy}) neu zu allokieren.
+
+
+\subsection{BWAnal * bwanal\_new(char *fmt, char *fnam)} Erzeugt einen neuen BWAnal-Struct f"ur die Datei \emph{fnam}, die mit den in \emph{fmt} "ubergebenen Formatspezifikationen geladen wird. Dabei wird (neben einigen Default-Parametern, die sp"ater wieder "uberschrieben werden) folgender Parameter gesetzt:
+
+Block size $bsiz=1024$
 
 
 \subsection{void bwanal\_start(BWAnal *aa)} Die Funktion \emph{bwanal\_start(BWAnal *aa)} Startet die Berechnungen.
@@ -83,7 +147,7 @@ $log1 = \ln(f_{MIN})$
 
 \textbf{F"ur jede Zeile $a<sy$:\{}
 
-Mittlere Frequenz (?) der Zeile: $\displaystyle{f_a= e^{log0 + \frac{a+0,5}{sy} \left(log1-log0\right)}}$
+Mittenfrequenz: $\displaystyle{f_a= e^{log0 + \frac{a+0,5}{sy} \left(log1-log0\right)}}$
 
 (Logische) Fenstergr"o"se in Samples: $wwid_a= \frac{f_{SAMPLE}}{f_a} wwrat $
 
@@ -97,12 +161,12 @@ Index auf zu benutzenden fft Plan: $fftp_a = b$
 
 Dazugeh"orige Fenstergr"o"se: $awwid_a=PLAN\_SIZE(b)$
 
-Maximale PLangr"o"se: $maxsiz= PLAN\_SIZE(b)$;
+Maximale Plangr"o"se: $maxsiz= PLAN\_SIZE(b)$;
 
 \textbf{\}}
 
 \emph{to be continued...}
 
 
-\subsection{static void recreate\_arrays(BWAnal *aa)} F"uhrt erst einmal \emph{free} auf alle Arrays des BWAnal-Structs aus, um sie dann anhand der im Struct eingetragenen Zeilen- und Spaltengr"o"sen (\emph{aa->c.sx und aa->c.sy}) neu zu allokieren.
+
 \end{document}

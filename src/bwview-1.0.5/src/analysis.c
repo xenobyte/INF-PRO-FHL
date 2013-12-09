@@ -157,10 +157,6 @@ struct BWAnal {
 
 #include "all.h"
 
-//
-//  Make sure that we have all the data we need in the blk[] array
-//
-
 
 // Martin's debug prints:
 void printBWSetup(BWSetup* setup){
@@ -175,8 +171,12 @@ void printBWSetup(BWSetup* setup){
     printf("WWRation:      %8f\n", setup->wwrat);
 }
 
-static void 
-load_data(BWAnal *aa, int siz) {
+
+//
+//  Make sure that we have all the data we need in the blk[] array
+//
+
+static void load_data(BWAnal *aa, int siz) {
    int len, off, off0, off1, blk0, blk1, n_blk, a;
    BWBlock **blk;
 
@@ -235,73 +235,72 @@ load_data(BWAnal *aa, int siz) {
 //  any sync errors result in NAN values in the output array.
 //
 
-static void 
-copy_samples(BWAnal *aa, fftw_real *arr, int off, int chan, int len, int errors) {
-   int bsiz= aa->bsiz;
+static void copy_samples(BWAnal *aa, fftw_real *arr, int off, int chan, int len, int errors) {
+    int bsiz= aa->bsiz;
 
-   //DEBUG("Copy samples: off %d, len %d, end %d", off, len, off+len);
+    //DEBUG("Copy samples: off %d, len %d, end %d", off, len, off+len);
 
-   // Handle zeros before start of file
-   while (off < 0 && len > 0) {
-      *arr++= 0;
-      len--; off++;
-   }
+    // Handle zeros before start of file
+    while (off < 0 && len > 0) {
+        *arr++= 0;
+        len--; off++;
+    }
 
-   // Handle main part of file
-   while (len > 0) {
-      int num= off / bsiz;
-      int boff= off - bsiz * num;
-      BWBlock *bb;
+    // Handle main part of file
+    while (len > 0) {
+        int num= off / bsiz;
+        int boff= off - bsiz * num;
+        BWBlock *bb; // Martin: BWBlock defined in file.c
 
-      num -= aa->bnum;
-      if (num < 0 || num >= aa->n_blk)
-     error("Internal error -- block not loaded: %d", num);
+        num -= aa->bnum;
+        if (num < 0 || num >= aa->n_blk)
+            error("Internal error -- block not loaded: %d", num);
 
-      // Copy as much as possible from the block
-      if (bb= aa->blk[num]) {
-     int siz= bb->len;
-     while (len > 0 && boff < siz) {
-        *arr++= bb->chan[chan][boff];
-        if (errors && bb->err[boff]) arr[-1]= NAN;
-        len--; boff++; off++;
-     }
-      }
+        // Copy as much as possible from the block
+        if (bb= aa->blk[num]) {
+            int siz= bb->len;
+            while (len > 0 && boff < siz) {
+                *arr++= bb->chan[chan][boff];
+                if (errors && bb->err[boff])
+                    arr[-1]= NAN;
+                len--; boff++; off++;
+            }
+        }
 
-      // Fill in the remainder of the block with zeros
-      while (len > 0 && boff < bsiz) {
-     *arr++= 0.0;
-     len--; boff++; off++;
-      }
-   }
+        // Fill in the remainder of the block with zeros
+        while (len > 0 && boff < bsiz) {
+            *arr++= 0.0;
+            len--; boff++; off++;
+        }
+    }
 }
 
 //
 //  Recreate all the arrays within BWAnal
 //
    
-static void 
-recreate_arrays(BWAnal *aa) {
-   if (aa->sig) free(aa->sig);
-   if (aa->sig0) free(aa->sig0);
-   if (aa->sig1) free(aa->sig1);
-   if (aa->mag) free(aa->mag);
-   if (aa->est) free(aa->est);
-   if (aa->freq) free(aa->freq);
-   if (aa->wwid) free(aa->wwid);
-   if (aa->awwid) free(aa->awwid);
-   if (aa->fftp) free(aa->fftp);
-   if (aa->iir) free(aa->iir);
-   
-   aa->sig= ALLOC_ARR(aa->c.sx, float);
-   aa->sig0= ALLOC_ARR(aa->c.sx, float);
-   aa->sig1= ALLOC_ARR(aa->c.sx, float);
-   aa->mag= ALLOC_ARR(aa->c.sx * aa->c.sy, float);
-   aa->est= ALLOC_ARR(aa->c.sx * aa->c.sy, float);
-   aa->freq= ALLOC_ARR(aa->c.sy, float);
-   aa->wwid= ALLOC_ARR(aa->c.sy, float);
-   aa->awwid= ALLOC_ARR(aa->c.sy, int);
-   aa->fftp= ALLOC_ARR(aa->c.sy, int);
-   aa->iir= ALLOC_ARR(aa->c.sy*3, double);
+static void recreate_arrays(BWAnal *aa) {
+    if (aa->sig) free(aa->sig);
+    if (aa->sig0) free(aa->sig0);
+    if (aa->sig1) free(aa->sig1);
+    if (aa->mag) free(aa->mag);
+    if (aa->est) free(aa->est);
+    if (aa->freq) free(aa->freq);
+    if (aa->wwid) free(aa->wwid);
+    if (aa->awwid) free(aa->awwid);
+    if (aa->fftp) free(aa->fftp);
+    if (aa->iir) free(aa->iir);
+
+    aa->sig= ALLOC_ARR(aa->c.sx, float);
+    aa->sig0= ALLOC_ARR(aa->c.sx, float);
+    aa->sig1= ALLOC_ARR(aa->c.sx, float);
+    aa->mag= ALLOC_ARR(aa->c.sx * aa->c.sy, float);
+    aa->est= ALLOC_ARR(aa->c.sx * aa->c.sy, float);
+    aa->freq= ALLOC_ARR(aa->c.sy, float);
+    aa->wwid= ALLOC_ARR(aa->c.sy, float);
+    aa->awwid= ALLOC_ARR(aa->c.sy, int);
+    aa->fftp= ALLOC_ARR(aa->c.sy, int);
+    aa->iir= ALLOC_ARR(aa->c.sy*3, double);
 }
 
 
@@ -357,24 +356,23 @@ sincos_step(double *buf) {
 //  file is loaded with format 'fmt' (see BWFile).
 //
 
-BWAnal *
-bwanal_new(char *fmt, char *fnam) {
-   BWAnal *aa= ALLOC(BWAnal);
+BWAnal * bwanal_new(char *fmt, char *fnam) {
+    BWAnal *aa= ALLOC(BWAnal);
 
-   aa->bsiz= 1024;
-   aa->file= bwfile_open(fmt, fnam, aa->bsiz, 0);
-   aa->n_chan= aa->file->chan;
-   aa->rate= aa->file->rate;
+    aa->bsiz= 1024;
+    aa->file= bwfile_open(fmt, fnam, aa->bsiz, 0);
+    aa->n_chan= aa->file->chan;
+    aa->rate= aa->file->rate;
    
-   // Put a few safe values in place just in case
-   aa->req.tbase= 1;
-   aa->req.sx= 1;
-   aa->req.sy= 1;
-   aa->req.freq0= aa->rate / 2;
-   aa->req.freq1= aa->rate / 4;
-   aa->req.wwrat= 1;
+    // Put a few safe values in place just in case
+    aa->req.tbase= 1;
+    aa->req.sx= 1;
+    aa->req.sy= 1;
+    aa->req.freq0= aa->rate / 2;
+    aa->req.freq1= aa->rate / 4;
+    aa->req.wwrat= 1;
    
-   return aa;
+    return aa;
 }
 
 //
@@ -382,8 +380,7 @@ bwanal_new(char *fmt, char *fnam) {
 //  aa->req.
 //
 
-void 
-bwanal_start(BWAnal *aa) {
+void bwanal_start(BWAnal *aa) {
    BWSetup x, y;
    int maxsiz= 0;
    int analtyp;
