@@ -89,14 +89,14 @@ typedef struct BWSetup BWSetup;
 //
 
 struct BWSetup {
-   int typ;     // Analysis type (see above)
-   int off;     // Offset within input file (in samples counting from 0)
-   int chan;        // Channel to display (counting from 0)
-   int tbase;       // Time-base (i.e. samples per data point horizontally)
-   int sx;      // Number of columns to calculate (size-X)
-   int sy;      // Number of lines to calculate (size-Y)
-   double freq0, freq1; // Top+bottom frequencies (see note)
-   double wwrat;    // Ratio of window width to the centre-frequency wavelength
+    int typ;     // Analysis type (see above)
+    int off;     // Offset within input file (in samples counting from 0)
+    int chan;        // Channel to display (counting from 0)
+    int tbase;       // Time-base (i.e. samples per data point horizontally)
+    int sx;      // Number of columns to calculate (size-X)
+    int sy;      // Number of lines to calculate (size-Y)
+    double freq0, freq1; // Top+bottom frequencies (see note)
+    double wwrat;    // Ratio of window width to the centre-frequency wavelength
 };
 
 // Note on top+bottom frequencies.  The number of lines 'sy' will be
@@ -388,7 +388,7 @@ bwanal_start(BWAnal *aa) {
    int maxsiz= 0;
    int analtyp;
 
-   if(DEBUG_ON){
+   if(DEBUG_ON){ // added by Martin...
         printf("---------- bwanal_start: ----------\n");
         printf("Requested setup\n");
         printBWSetup(&(aa->req));
@@ -476,57 +476,57 @@ bwanal_start(BWAnal *aa) {
                 maxsiz= siz + aa->c.sx * aa->c.tbase;  
             }
         } // Martin: for each a in 0 to y -> for each line(?)
+    } // Martin: extra {} - maybe for scope control?
+
+    // Setup all the plans we're going to need
+    if (analtyp == 0) {
+        int a= aa->fftp[aa->c.sy-1] + 3;
+        if (a > aa->m_plan) {
+            fftw_plan *tmp= ALLOC_ARR(a, fftw_plan);
+            if (aa->plan) {
+                memcpy(tmp, aa->plan, aa->m_plan*sizeof(fftw_plan));
+                free(aa->plan);
+            }
+            aa->plan= tmp;
+            aa->m_plan= a;
+        }
+      
+        for (a= 0; a<aa->c.sy; a++) {
+            int b, c, ii= aa->fftp[a];
+            int siz= PLAN_SIZE(ii);
+            for (b= 0; b < 3; b++) if (!aa->plan[c= ii+b]) {
+                if (b == 2)
+                    aa->plan[c]= fftw_create_plan(siz, FFTW_BACKWARD, 
+                                FFTW_ESTIMATE | FFTW_USE_WISDOM);
+                else
+                    aa->plan[c]= rfftw_create_plan(siz, b ? FFTW_COMPLEX_TO_REAL : 
+                                FFTW_REAL_TO_COMPLEX, 
+                                FFTW_ESTIMATE | FFTW_USE_WISDOM);
+                if (!aa->plan[c]) error("FFTW create_plan call failed unexpectedly");
+            }
+        }
     }
 
-   // Setup all the plans we're going to need
-   if (analtyp == 0) {
-      int a= aa->fftp[aa->c.sy-1] + 3;
-      if (a > aa->m_plan) {
-     fftw_plan *tmp= ALLOC_ARR(a, fftw_plan);
-     if (aa->plan) {
-        memcpy(tmp, aa->plan, aa->m_plan*sizeof(fftw_plan));
-        free(aa->plan);
-     }
-     aa->plan= tmp;
-     aa->m_plan= a;
-      }
-      
-      for (a= 0; a<aa->c.sy; a++) {
-     int b, c, ii= aa->fftp[a];
-     int siz= PLAN_SIZE(ii);
-     for (b= 0; b < 3; b++) if (!aa->plan[c= ii+b]) {
-        if (b == 2)
-           aa->plan[c]= fftw_create_plan(siz, FFTW_BACKWARD, 
-                         FFTW_ESTIMATE | FFTW_USE_WISDOM);
-        else
-           aa->plan[c]= rfftw_create_plan(siz, b ? FFTW_COMPLEX_TO_REAL : 
-                          FFTW_REAL_TO_COMPLEX, 
-                          FFTW_ESTIMATE | FFTW_USE_WISDOM);
-        if (!aa->plan[c]) error("FFTW create_plan call failed unexpectedly");
-     }
-      }
-   }
+    // Load up the data
+    load_data(aa, maxsiz);
 
-   // Load up the data
-   load_data(aa, maxsiz);
+    // Fill in the ->sig arrays.  NAN is inserted for sync errors
+    bwanal_signal(aa);
 
-   // Fill in the ->sig arrays.  NAN is inserted for sync errors
-   bwanal_signal(aa);
+    // Allocate FFT arrays big enough for any line that we need to
+    // calculate.  (They were released above)
+    if (analtyp == 0) {
+        aa->inp= ALLOC_ARR(maxsiz, fftw_real);
+        aa->wav= ALLOC_ARR(maxsiz, fftw_real);
+        aa->tmp= ALLOC_ARR(maxsiz*2, fftw_real);
+        aa->out= ALLOC_ARR(maxsiz*2, fftw_real);
+        aa->inp_siz= 0;
+    } else {
+        aa->tmp= ALLOC_ARR(maxsiz, fftw_real);
+    }
 
-   // Allocate FFT arrays big enough for any line that we need to
-   // calculate.  (They were released above)
-   if (analtyp == 0) {
-      aa->inp= ALLOC_ARR(maxsiz, fftw_real);
-      aa->wav= ALLOC_ARR(maxsiz, fftw_real);
-      aa->tmp= ALLOC_ARR(maxsiz*2, fftw_real);
-      aa->out= ALLOC_ARR(maxsiz*2, fftw_real);
-      aa->inp_siz= 0;
-   } else {
-      aa->tmp= ALLOC_ARR(maxsiz, fftw_real);
-   }
-
-   // Ready to start filling in lines
-   aa->yy= 0;
+    // Ready to start filling in lines
+    aa->yy= 0;
 }
 
 //
