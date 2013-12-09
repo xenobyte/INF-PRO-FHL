@@ -115,8 +115,8 @@ bool EpocHandler::connect()
 
 int EpocHandler::updateData()
 {
-	if(debug)
-		std::cout << "1" <<std::endl;
+	//if(debug)
+	//	std::cout << "1" <<std::endl;
 	if(!connected){
 		useradded = false;
 		if(connect())
@@ -128,88 +128,88 @@ int EpocHandler::updateData()
 			if(debug)
 				std::cout << "Did not Connect Properly" << std::endl;
 		}
-
-		if(debug)
-			std::cout << "2" <<std::endl;
-		DataHandle hData = EE_DataCreate();
-		EE_DataSetBufferSizeInSec(secs);
-		while(!useradded){
-			if (state = EE_EngineGetNextEvent(eEvent) == EDK_OK)
-			{
-				EE_Event_t eventType = EE_EmoEngineEventGetType(eEvent);
-				EE_EmoEngineEventGetUserId(eEvent, &userID);
-				EE_EmoEngineEventGetEmoState(eEvent, eState);
-				// Log the EmoState if it has been updated
-				if (eventType == EE_UserAdded) {
-					if(debug)
-						std::cout << "User added" << std::endl;
-					useradded = true;
-					EE_DataAcquisitionEnable(userID, true);
-					readytocollect = true;
-				}
-			}
-		}
-
-		if (readytocollect)
-		{
-			if(debug)
-				std::cout << "3" <<std::endl;
-			//alte arrays löschen
-			if(updated){
-				for(it_type iterator = eegDataMap.begin(); iterator != eegDataMap.end(); iterator++) {
-					free(iterator->second);
-				}
-				updated = false;
-			}
-
-			EE_DataUpdateHandle(0, hData);
-
-			EE_DataGetNumberOfSample(hData, &nSamplesTaken);
-			if (debug)
-				std::cout << "Updated " << nSamplesTaken << std::endl;
-			if (nSamplesTaken != 0) {
-				if(debug)
-					std::cout << "EmoState read " <<std::endl;
-				pEngagement =  ES_AffectivGetEngagementBoredomScore(eState);
-				pFrustration = ES_AffectivGetFrustrationScore(eState);
-				pMeditation = ES_AffectivGetExcitementShortTermScore(eState);
-				pExcitement = ES_AffectivGetExcitementShortTermScore(eState);
-				if(debug)
-					std::cout << "EmoState read " << pEngagement << ", " << pFrustration << ", " << pMeditation<<std::endl;
-				//Map Speicher reservieren
-
-				//for(it_type iterator = eegDataMap.begin(); iterator != eegDataMap.end(); iterator++) {
-				std::cout << "datachannels size " << sizeof(dataChannels)/sizeof(dataChannels[0]) << std::endl;
-				for(int i = 0; i < sizeof(dataChannels)/sizeof(dataChannels[0]); ++i){
-					if(debug)
-						std::cout << "channel int " <<dataChannels[i] << std::endl;
-					eegDataMap[dataChannels[i]] = (double*) malloc(nSamplesTaken);
-
-				}
-				// i = j++; 
-				// i = ++j;
-				if(debug)
-					std::cout << "Map Size : "<< eegDataMap.size() <<std::endl;
-				//Map füllen
-				for(it_type iterator = eegDataMap.begin(); iterator != eegDataMap.end(); ++iterator) {
-					if(debug)
-						std::cout << "check!\t";
-					EE_DataGet(hData, iterator->first,iterator->second, nSamplesTaken);
-					if(debug)
-						std::cout << "It first " <<iterator->first << " it second " << iterator->second[0] << std::endl;
-
-				} 
-				if(debug)
-					std::cout << "4" <<std::endl;
-				updated = true;
-				if(debug)
-					std::cout << "sizeof Map: " << eegDataMap.size() <<std::endl;
-
-			}
-
-		}
-		//disconnect();
 	}
+	if(debug)
+		std::cout << "2" <<std::endl;
+	DataHandle hData = EE_DataCreate();
+	EE_DataSetBufferSizeInSec(secs);
+	while(!useradded){
+		if (state = EE_EngineGetNextEvent(eEvent) == EDK_OK)
+		{
+			EE_Event_t eventType = EE_EmoEngineEventGetType(eEvent);
+			EE_EmoEngineEventGetUserId(eEvent, &userID);
+			EE_EmoEngineEventGetEmoState(eEvent, eState);
+			// Log the EmoState if it has been updated
+			if (eventType == EE_UserAdded) {
+				if(debug)
+					std::cout << "User added" << std::endl;
+				useradded = true;
+				EE_DataAcquisitionEnable(userID, true);
+				readytocollect = true;
+			}
+		}
+	}
+
+	if (readytocollect)
+	{
+		if(debug)
+			std::cout << "3" <<std::endl;
+		//alte arrays löschen
+		if(updated){
+			for(it_type iterator = eegDataMap.begin(); iterator != eegDataMap.end(); iterator++) {
+				free(iterator->second);
+			}
+			updated = false;
+		}
+
+		EE_DataUpdateHandle(0, hData);
+
+		EE_DataGetNumberOfSample(hData, &nSamplesTaken);
+		if (debug)
+			std::cout << "Updated " << nSamplesTaken << std::endl;
+		if (nSamplesTaken != 0) {
+			if(debug)
+				std::cout << "EmoState read " <<std::endl;
+			pEngagement =  ES_AffectivGetEngagementBoredomScore(eState);
+			pFrustration = ES_AffectivGetFrustrationScore(eState);
+			pMeditation = ES_AffectivGetExcitementShortTermScore(eState);
+			pExcitement = ES_AffectivGetExcitementShortTermScore(eState);
+			if(debug)
+				std::cout << "EmoState read " << pEngagement << ", " << pFrustration << ", " << pMeditation<<std::endl;
+			//Map Speicher reservieren
+
+			//for(it_type iterator = eegDataMap.begin(); iterator != eegDataMap.end(); iterator++) {
+			std::cout << "datachannels size " << sizeof(dataChannels)/sizeof(dataChannels[0]) << std::endl;
+			for(int i = 0; i < sizeof(dataChannels)/sizeof(dataChannels[0]); ++i){
+				if(debug)
+					std::cout << "channel int " <<dataChannels[i] << std::endl;
+				eegDataMap[dataChannels[i]] = (double*) malloc(nSamplesTaken);
+
+			}
+			// i = j++; 
+			// i = ++j;
+			if(debug)
+				std::cout << "Map Size : "<< eegDataMap.size() <<std::endl;
+			//Map füllen
+			for(it_type iterator = eegDataMap.begin(); iterator != eegDataMap.end(); ++iterator) {
+				if(debug)
+					std::cout << "check!\t";
+				EE_DataGet(hData, iterator->first,iterator->second, nSamplesTaken);
+				if(debug)
+					std::cout << "It first " <<iterator->first << " it second " << iterator->second[0] << std::endl;
+
+			} 
+			if(debug)
+				std::cout << "4" <<std::endl;
+			updated = true;
+			if(debug)
+				std::cout << "sizeof Map: " << eegDataMap.size() <<std::endl;
+
+		}
+
+	}
+	//disconnect();
+
 	return nSamplesTaken;
 }
 
