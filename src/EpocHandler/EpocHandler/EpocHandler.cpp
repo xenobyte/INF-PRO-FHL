@@ -180,12 +180,14 @@ int EpocHandler::updateData()
 
 			//for(it_type iterator = eegDataMap.begin(); iterator != eegDataMap.end(); iterator++) {
 			std::cout << "datachannels size " << sizeof(dataChannels)/sizeof(dataChannels[0]) << std::endl;
-			for(int i = 0; i < sizeof(dataChannels)/sizeof(dataChannels[0]); ++i){
+			
+			//Since we create a new double array while fetching the data we dont need to malloc here
+			/*for(int i = 0; i < sizeof(dataChannels)/sizeof(dataChannels[0]); ++i){
 				if(debug)
 					std::cout << "channel int " <<dataChannels[i] << std::endl;
 				eegDataMap[dataChannels[i]] = (double*) malloc(nSamplesTaken);
 
-			}
+			}*/
 			// i = j++; 
 			// i = ++j;
 			if(debug)
