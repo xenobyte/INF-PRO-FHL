@@ -152,8 +152,7 @@ void *StrDup(char *str) {
 
 int 
 main(int ac, char **av) {
-    if(DEBUG_ON)
-        printf("Debug mode is on\n");
+    if(DEBUG_ON) printf("Debug mode is on\n");
    char *cmd= 0;
    char *p;
    char *fmt, *fnam;

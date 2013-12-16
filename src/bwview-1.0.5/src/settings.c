@@ -193,22 +193,22 @@ set_put(BWAnal *aa, int set, double fp) {
 //	Code to get the value of a setting
 //
 
-double 
-set_get(BWAnal *aa, int set) {
-   switch (set) {
-    case 0: return s_oct0;
-    case 1: return s_noct;
-    case 2: return s_chan;
-    case 3: return s_gain;
-    case 4: return s_vert;
-    case 5: return s_tbase;
-    case 6: return s_bri;
-    case 7: return s_focus;
-    case 8: return s_mode;
-    case 9: return s_font;
-    case 10: return s_iir;
-   }
-   return 0;
+double set_get(BWAnal *aa, int set) {   // Martin: those s_* are all globals,
+                                        // no idea why BWAnal *aa is passed... 
+    switch (set) {
+        case 0: return s_oct0;
+        case 1: return s_noct;
+        case 2: return s_chan;
+        case 3: return s_gain;
+        case 4: return s_vert;
+        case 5: return s_tbase;
+        case 6: return s_bri;
+        case 7: return s_focus;
+        case 8: return s_mode;
+        case 9: return s_font;
+        case 10: return s_iir;
+    }
+    return 0;
 }
 
 //
