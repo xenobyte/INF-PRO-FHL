@@ -508,16 +508,19 @@ void bwanal_start(BWAnal *aa) {
         for (a= 0; a<aa->c.sy; a++) {
             int b, c, ii= aa->fftp[a];
             int siz= PLAN_SIZE(ii);
-            for (b= 0; b < 3; b++) if (!aa->plan[c= ii+b]) {
-                if (b == 2)
-                    aa->plan[c]= fftw_create_plan(siz, FFTW_BACKWARD, 
+            for (b= 0; b < 3; b++){ 
+                if (!aa->plan[c= ii+b]) {
+                    if (b == 2)
+                        aa->plan[c]= fftw_create_plan(siz, FFTW_BACKWARD, 
                                 FFTW_ESTIMATE | FFTW_USE_WISDOM);
-                else
-                    aa->plan[c]= rfftw_create_plan(siz, b ? FFTW_COMPLEX_TO_REAL : 
+                    else
+                        aa->plan[c]= rfftw_create_plan(siz, b ? FFTW_COMPLEX_TO_REAL : 
                                 FFTW_REAL_TO_COMPLEX, 
                                 FFTW_ESTIMATE | FFTW_USE_WISDOM);
-                if (!aa->plan[c]) error("FFTW create_plan call failed unexpectedly");
-            }
+                    if (!aa->plan[c])
+                        error("FFTW create_plan call failed unexpectedly");
+                }
+            } // Martin: added uneccessary bracket for readibility
         }
     }
 

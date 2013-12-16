@@ -43,3 +43,6 @@ src/EpocHandler/ipch/*
 */Debug/*
 src/BCIServer/C++Server/EpocHandler/Debug/*
 src/BCIServer/C++Server/EpocHandler/EpocHandler/*
+src/BCIServer/C++Server/C++Server/C++Server/Server/Debug/*
+src/BCIServer/C++Server/C++Server/C++Server/Client/Debug/*
+src/BCIServer/C++Server/C++Server/C++Server/Debug/*

@@ -1,8 +1,11 @@
 #pragma once
-#include <winsock2.h>
+
+#include "EPOCClient.h"
 #include "stdafx.h"
 #include <stdlib.h>
+#include <winsock2.h>
 #pragma comment( lib, "ws2_32.lib" )
+#pragma comment( lib, "lib/edk.lib")
 
 #define STDPORT 5000
 #define DEBUG 1

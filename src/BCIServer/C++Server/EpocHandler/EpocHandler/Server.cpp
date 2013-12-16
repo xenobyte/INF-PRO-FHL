@@ -35,6 +35,7 @@ int Server::start(void){
     int remoteAddrLen = sizeof(SOCKADDR_IN);
     struct REQUESTPACKAGE package;
 
+	//Unsere Testschleife
 	while(true){
 		struct EMOSTATEPACKAGE responsePackage;
 		rc = epoc.getDataEmoState(&responsePackage);
