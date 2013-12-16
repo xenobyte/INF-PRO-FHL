@@ -1,6 +1,7 @@
 #pragma once
 #include <stdint.h>
 #include "stdafx.h"
+#include "EpocHandler.h"
 struct FACIALEXPRESSIONPACKAGE{
     char errorCode;
 };
@@ -45,7 +46,7 @@ class EPOCClient
 {
 public:
     EPOCClient(void);
-    EpocHandler * handler;
+    EpocHandler* handler;
     double* ed_counter;
     double* ed_gyroX;
     double* ed_gyroY;
