@@ -7,7 +7,7 @@
 
 #include "targetver.h"
 #include "Server.h"
-#include "EpocHandler.h"
+//#include "EpocHandler.h"
 #include <stdio.h>
 #include <tchar.h>
 #include "EpocClient.h"

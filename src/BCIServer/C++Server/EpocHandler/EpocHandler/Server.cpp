@@ -36,12 +36,12 @@ int Server::start(void){
     struct REQUESTPACKAGE package;
 
 	//Unsere Testschleife
-	/*while(true){
+	while(true){
 		struct EMOSTATEPACKAGE responsePackage;
 		rc = epoc.getDataEmoState(&responsePackage);
 		printf("%d\n", responsePackage.nSamplesTaken);
 		Sleep(100);
-	}*/
+	}
 
     while(1){
         rc = recvfrom(udpSocket, (char*)&package, sizeof(REQUESTPACKAGE), 0, (SOCKADDR*)&remoteAddr, &remoteAddrLen);
