@@ -106,44 +106,46 @@ struct BWSetup {
 // frequency just above freq1.  So, to get 6 bands in one octave from
 // 128Hz to 256Hz, for example, set sy=6, freq0=128, freq1=256.
 
+// Martin: example is obviously wrong, it would be freq0=256, freq1=128
+
 struct BWAnal {
-   BWFile *file;
-   BWBlock **blk;   // List of blocks loaded
-   int n_blk;       // Number of blocks in list
-   int bsiz;        // Block size
-   int bnum;        // Number of block at front of list
-   int half;        // Does this filter only require the left half of the data ? 0 no, 1 yes
+    BWFile *file;
+    BWBlock **blk;   // List of blocks loaded
+    int n_blk;       // Number of blocks in list
+    int bsiz;        // Block size
+    int bnum;        // Number of block at front of list
+    int half;        // Does this filter only require the left half of the data ? 0 no, 1 yes
 
-   fftw_plan *plan; // Big list of FFTW plans (see note below for ordering)
-   int m_plan;      // Maximum plans (i.e. allocated size of plan[])
+    fftw_plan *plan; // Big list of FFTW plans (see note below for ordering)
+    int m_plan;      // Maximum plans (i.e. allocated size of plan[])
 
-   int inp_siz;     // Size of data in inp[], or 0 if not valid
-   fftw_real *inp;  // FFT'd input data (half-complex)
-   fftw_real *wav;  // FFT'd wavelet (real)
-   fftw_real *tmp;  // General workspace (complex), also used by IIR
-   fftw_real *out;  // Output (complex)
+    int inp_siz;     // Size of data in inp[], or 0 if not valid
+    fftw_real *inp;  // FFT'd input data (half-complex)
+    fftw_real *wav;  // FFT'd wavelet (real)
+    fftw_real *tmp;  // General workspace (complex), also used by IIR
+    fftw_real *out;  // Output (complex)
 
-   // Publically readable unchanging information
-   int n_chan;      // Number of channels in input file
-   double rate;     // Sample rate in input file
+    // Publically readable unchanging information
+    int n_chan;      // Number of channels in input file
+    double rate;     // Sample rate in input file
 
-   // Publically readable changing information
-   BWSetup c;       // Current setup
-   float *sig;      // Signal mid-point values: sig[x], or NAN for sync errors
-   float *sig0;     // Signal minimum values: sig0[x], or NAN for sync errors
-   float *sig1;     // Signal maximum values: sig1[x], or NAN for sync errors
-   float *mag;      // Magnitude information: mag[x+y*sx]
-   float *est;      // Estimated nearby peak frequencies: est[x+y*sx], or NAN if can't calc
-   float *freq;     // Centre-frequency of each line (Hz): freq[y]
-   float *wwid;     // Logical width of window in samples: wwid[y]
-   int *awwid;      // Actual width of window, taking account of IIR tail: awwid[y]
-   int *fftp;       // FFT plan to use (index into ->plan[], fftp[y]%3==0)
-   double *iir;     // IIR filter coefficients: iir[y*3], iir[y*3+1], iir[y*3+2]
-   int yy;      // Number of lines currently correctly calculated in arrays
-   int sig_wind;    // Are the ->sig arrays windowed ? 0 no, 1 yes
+    // Publically readable changing information
+    BWSetup c;       // Current setup
+    float *sig;      // Signal mid-point values: sig[x], or NAN for sync errors
+    float *sig0;     // Signal minimum values: sig0[x], or NAN for sync errors
+    float *sig1;     // Signal maximum values: sig1[x], or NAN for sync errors
+    float *mag;      // Magnitude information: mag[x+y*sx]
+    float *est;      // Estimated nearby peak frequencies: est[x+y*sx], or NAN if can't calc
+    float *freq;     // Centre-frequency of each line (Hz): freq[y]
+    float *wwid;     // Logical width of window in samples: wwid[y]
+    int *awwid;      // Actual width of window, taking account of IIR tail: awwid[y]
+    int *fftp;       // FFT plan to use (index into ->plan[], fftp[y]%3==0)
+    double *iir;     // IIR filter coefficients: iir[y*3], iir[y*3+1], iir[y*3+2]
+    int yy;      // Number of lines currently correctly calculated in arrays
+    int sig_wind;    // Are the ->sig arrays windowed ? 0 no, 1 yes
    
-   // Publically writable information
-   BWSetup req;     // Requested setup
+    // Publically writable information
+    BWSetup req;     // Requested setup
 };
 
 // Storage of plans in aa->plan[]: For index 'a', a%3 gives the type
@@ -160,15 +162,28 @@ struct BWAnal {
 
 // Martin's debug prints:
 void printBWSetup(BWSetup* setup){
-    printf("Analysis type: %8d\n", setup->typ);
-    printf("Offset:        %8d\n", setup->off);
-    printf("Channel:       %8d\n", setup->chan);
-    printf("Time-base:     %8d\n", setup->tbase);
-    printf("Size-X:        %8d\n", setup->sx);
-    printf("Size-Y:        %8d\n", setup->sy);
-    printf("Top-Freq.:     %8f\n", setup->freq0);
-    printf("Bottom-Freq.:  %8f\n", setup->freq1);
-    printf("WWRation:      %8f\n", setup->wwrat);
+    printf("Analysis type: %10d\n", setup->typ);
+    printf("Offset:        %10d\n", setup->off);
+    printf("Channel:       %10d\n", setup->chan);
+    printf("Time-base:     %10d\n", setup->tbase);
+    printf("Size-X:        %10d\n", setup->sx);
+    printf("Size-Y:        %10d\n", setup->sy);
+    printf("Top-Freq.:     %10f\n", setup->freq0);
+    printf("Bottom-Freq.:  %10f\n", setup->freq1);
+    printf("WWidthRatio:   %10f\n", setup->wwrat);
+}
+
+void printBWSAnal(BWAnal* aa){
+    printf("N. of Blocks:  %10d\n", aa->n_blk);
+    printf("Block size:    %10d\n", aa->bsiz);
+    printf("FrontBlockNum: %10d\n", aa->bnum);
+    printf("Left half only:%10d\n", aa->half);
+    printf("Max. plans:    %10d\n", aa->m_plan);
+    printf("inp[] size:    %10d\n", aa->inp_siz);
+    printf("N. of Channels:%10d\n", aa->n_chan);
+    printf("Sample rate:   %10f\n", aa->rate);
+    printf("Curr. lines:   %10d\n", aa->yy);
+    printf("Windowed:      %10d\n", aa->sig_wind);
 }
 
 
@@ -385,10 +400,12 @@ void bwanal_start(BWAnal *aa) {
    int maxsiz= 0;
    int analtyp;
 
-   if(DEBUG_ON){ // added by Martin...
-        printf("---------- bwanal_start: ----------\n");
-        printf("Requested setup\n");
+   if(DEBUG_ON){ // added by Martin...                             <----- Debug-Print here -----
+        printf("---------- bwanal_start (begin): ----------\n");
+        printf("Requested setup:\n");
         printBWSetup(&(aa->req));
+        printf("BWAnal:\n");
+        printBWSAnal(aa);
     }
 
     memcpy(&x, &aa->c, sizeof(BWSetup));
@@ -524,6 +541,14 @@ void bwanal_start(BWAnal *aa) {
 
     // Ready to start filling in lines
     aa->yy= 0;
+
+    if(DEBUG_ON){ // added by Martin...                             <----- Debug-Print here -----
+        printf("----------- bwanal_start (end): -----------\n");
+        printf("Requested setup:\n");
+        printBWSetup(&(aa->req));
+        printf("BWAnal:\n");
+        printBWSAnal(aa);
+    }
 }
 
 //
@@ -634,8 +659,7 @@ bwanal_window(BWAnal *aa, int xx, int yy) {
 //  0 all done.
 //
 
-int 
-bwanal_calc(BWAnal *aa) {
+int bwanal_calc(BWAnal *aa) {
    int yy, bas, pl, siz, siz2, a, b, c;
    double wwid, freq, dmy, adj, wadj;
    double freq_tb_pha;      // Phase difference (0..1) due to 'tbase' samples at 'freq'
@@ -656,63 +680,63 @@ bwanal_calc(BWAnal *aa) {
    sx= aa->c.sx;
    tbase= aa->c.tbase;
 
-   // Handle IIR stuff separately as it doesn't need any FFTs
-   if (aa->c.typ != 0) {
-      double buf[4];        // IIR buffer
-      double val, cc, ss;
-      siz= aa->awwid[yy];
-      siz2= siz/2;
-      start= siz2;
+    // Handle IIR stuff separately as it doesn't need any FFTs
+    if (aa->c.typ != 0) {
+        double buf[4];        // IIR buffer
+        double val, cc, ss;
+        siz= aa->awwid[yy];
+        siz2= siz/2;
+        start= siz2;
   
-      copy_samples(aa, aa->tmp, aa->c.off - start, 
-           aa->c.chan, start + sx*tbase, 0);
+        copy_samples(aa, aa->tmp, aa->c.off - start, 
+            aa->c.chan, start + sx*tbase, 0);
       
-      memset(buf, 0, sizeof(buf));
-      sincos_init(sincos, freq);
-      for (a= 0, b= 0, c=start; b<sx; ) {
-     val= aa->tmp[a++];
-     cc= iir_step(&buf[0], &aa->iir[yy*3], val * sincos[0]);    //cos(ang));
-     ss= iir_step(&buf[2], &aa->iir[yy*3], val * sincos[1]);    //sin(ang));
-     //ang += freq * 2 * M_PI;
-     sincos_step(sincos);
+        memset(buf, 0, sizeof(buf));
+        sincos_init(sincos, freq);
+        for (a= 0, b= 0, c=start; b<sx; ) {
+            val= aa->tmp[a++];
+            cc= iir_step(&buf[0], &aa->iir[yy*3], val * sincos[0]);    //cos(ang));
+            ss= iir_step(&buf[2], &aa->iir[yy*3], val * sincos[1]);    //sin(ang));
+            //ang += freq * 2 * M_PI;
+            sincos_step(sincos);
      
-     if (--c <= 0) {
-        aa->mag[bas+b]= hypot(cc, ss);
-        aa->est[bas+b]= 0;
-        b++;
-        c= tbase;
-     }
-      }
-      return ++aa->yy < aa->c.sy; 
-   }
+            if (--c <= 0) {
+                aa->mag[bas+b]= hypot(cc, ss);
+                aa->est[bas+b]= 0;
+                b++;
+                c= tbase;
+            }
+        }
+        return ++aa->yy < aa->c.sy; 
+    }
 
-   // Remainder is FFT-based convolution stuff (typ == 0)
-   pl= aa->fftp[yy];
-   siz= PLAN_SIZE(pl);
-   siz2= siz/2;
+    // Remainder is FFT-based convolution stuff (typ == 0)
+    pl= aa->fftp[yy];
+    siz= PLAN_SIZE(pl);
+    siz2= siz/2;
 
-   // Setup input data if not done already
-   if (siz != aa->inp_siz) {
-      copy_samples(aa, aa->tmp, aa->c.off + (sx*tbase)/2 - siz2, 
-           aa->c.chan, siz, 0);
-      rfftw_one(aa->plan[pl], aa->tmp, aa->inp);
-      aa->inp_siz= siz;
-   }
+    // Setup input data if not done already
+    if (siz != aa->inp_siz) {
+        copy_samples(aa, aa->tmp, aa->c.off + (sx*tbase)/2 - siz2, 
+            aa->c.chan, siz, 0);
+        rfftw_one(aa->plan[pl], aa->tmp, aa->inp);
+        aa->inp_siz= siz;
+    }
 
-   // Calculate combined window and AM-carrier
-   p= aa->tmp;
-   for (a= 0; a<siz; a++) p[a]= 0.0;
-   p[0]= 1.0;
-   wadj= 1.0;
-   for (a= 1; a<=wid; a++) {
-      double ang= a/wwid * (M_PI * 1.0);
-      double mag= 0.42 + 0.5 * cos(ang) + 0.08 * cos(2*ang);    // Blackman window
-      double ang2= a * freq * (2 * M_PI);
-      double re= mag * cos(ang2);
-      double im= mag * sin(ang2);
-      p[a]= re; p[siz-a-1]= im;
-      wadj += 2 * mag;
-   }
+    // Calculate combined window and AM-carrier
+    p= aa->tmp;
+    for (a= 0; a<siz; a++) p[a]= 0.0;
+    p[0]= 1.0;
+    wadj= 1.0;
+    for (a= 1; a<=wid; a++) {
+        double ang= a/wwid * (M_PI * 1.0);
+        double mag= 0.42 + 0.5 * cos(ang) + 0.08 * cos(2*ang);    // Blackman window
+        double ang2= a * freq * (2 * M_PI);
+        double re= mag * cos(ang2);
+        double im= mag * sin(ang2);
+        p[a]= re; p[siz-a-1]= im;
+        wadj += 2 * mag;
+    }
 
    // Transform it
    rfftw_one(aa->plan[pl+1], aa->tmp, aa->wav);

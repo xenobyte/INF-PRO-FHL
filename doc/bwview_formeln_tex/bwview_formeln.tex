@@ -21,7 +21,7 @@
 \definecolor{keywcolor}{rgb}{0.6,0,0.5}
 \definecolor{dkgreen}{rgb}{0,1,0}
 \lstset{ %
-  linewidth=15.7cm,
+  linewidth=\textwidth,
   language=C,                % the language of the code
   basicstyle=\footnotesize,           % the size of the fonts that are used for the code
   numbers=left,                   % where to put the line-numbers
@@ -73,30 +73,73 @@ Die Datei \emph{analysis.c} enth"alt die Funktionen zur Analyse der EEG-Daten.
 \end{itemize} 
 Im folgenden wird vorerst nur die Analyse mit Analyse-Typ 0 (Blackman-Fenster) betrachtet, da wir in der Anwendung bisher auch nur diese genutzt haben.
 
-\subsection{struct BWSetup} Ein Struct mit den grundlegenden Parametern:
+\subsection{struct BWSetup} Ein Struct mit den grundlegenden Ausf"uhrungsparametern:
+\subsubsection{Definition} Der Struct ist folgenderma"sen definiert:
 
-\begin{lstlisting}
-typedef struct BWSetup BWSetup;
-
+\begin{lstlisting}[firstnumber=91]
 struct BWSetup {
     int typ;         // Analyse-Typ (0-2, s.o.)
     int off;         // Offset im input file (in samples, gezaehlt ab 0)
     int chan;        // anzuzeigender Kanal (gezaehlt ab 0)
     int tbase;       // Time-base (Samples pro Datenpunkt (horizontal))
     int sx;          // Zahl der zu berechnenden Spalten (size-X)
-    int sy;          // Zahl der zu berechnenden Spalten (size-Y)
+    int sy;          // Zahl der zu berechnenden Zeilen (size-Y)
     double freq0, freq1; // oberste und unterste Frequenz (Achtung: s.u.)
     double wwrat;    // Verhaeltnis von Fensterbreite zur Wellenlaenge der Mittenfrequenz
 };
-
 \end{lstlisting}
 
-\subsection{Oberste und unterste Frequenz} Erl"auterung zu den beiden Frequenzen \emph{freq0} und \emph{freq1} aus dem struct BWSetup (s.o.):
-Auf die Zeilen (Anzahl: BWSetup.sy) werden "aqudistante Frequenzb"ander (\emph{noch zu "ubersetzen: in log-freq-space}) zwischen \emph{freq0} und \emph{freq1} verteilt. Das bedeutet, dass das oberste Band knapp unter \emph{freq0} und das unterste Band knapp "uber \emph{freq1} liegt.
-Um also z.B. sechs B"ander zwischen 128 Hz und 256 Hz zu erhalten, setzt man$BWSetup.sy=6$, $BWSetup.freq0=128$, $BWSetup.freq1=256$.
+\subsubsection{Zeilen- und Spaltenzahl} Die Werte f"ur \emph{sx} und \emph{sy} entsprechen der Anzahl aktuell darstellbarer Pixel (verstellbar durch Skalierung des GUI-Fensters).
 
-\emph{\textbf{Achtung(!):} obiges ist eine "Ubersetzung der Kommentare, die etwas widerspr"uchlich sind, was \emph{freq0} und \emph{freq1} angeht (und welches von beiden die obere und welches die untere Frequenz ist). \textbf{Nach allem, was bisher vom Code gesichtet wurde, ist  \emph{freq0} die untere und \emph{freq1} die obere Frequenz} (das Bespiel stimmt also, aber der Satz davor nicht).}
+\subsubsection{Oberste und unterste Frequenz}Auf die Zeilen (Anzahl: \emph{sy}) werden "aqudistante Frequenzb"ander (\emph{noch zu "ubersetzen: in log-freq-space}) zwischen \emph{freq0} und \emph{freq1} verteilt. Das bedeutet, dass das oberste Band knapp unter \emph{freq0} und das unterste Band knapp "uber \emph{freq1} liegt.
+Um also z.B. sechs B"ander zwischen 128 Hz und 256 Hz zu erhalten, setzt man$BWSetup.sy=6$, $BWSetup.freq0=256$, $BWSetup.freq1=128$.
 
+
+\subsection{struct BWAnal} Ein Struct mit detaillierten Parametern f"ur die Analyse sowie den entsprechenden Daten-Arrays:
+ 
+\subsubsection{Definition} Der Struct ist folgenderma"sen definiert:
+
+\begin{lstlisting}[firstnumber=109]
+struct BWAnal {
+    BWFile *file;
+    BWBlock **blk;   // Liste der geladenen Bloecke
+    int n_blk;       // Anzahl Bloecke in der Liste 
+    int bsiz;        // Blockgroesse
+    int bnum;        // Nummer des vordersten Blocks in der Liste
+    int half;        // Benoetigt dieser Filter nur die linke Haelfte der Daten ? 0 Nein, 1 Ja
+
+    fftw_plan *plan; // Big list of FFTW plans (see note below for ordering)
+    int m_plan;      // Maximum plans (i.e. allocated size of plan[])
+
+    int inp_siz;     // Size of data in inp[], or 0 if not valid
+    fftw_real *inp;  // FFT'd input data (half-complex)
+    fftw_real *wav;  // FFT'd wavelet (real)
+    fftw_real *tmp;  // General workspace (complex), also used by IIR
+    fftw_real *out;  // Output (complex)
+
+    // "Oeffentlich" lesbare, nicht veraenderliche Informationen:
+    int n_chan;      // Anzahl Kanaele in Input-Datei
+    double rate;     // Abtastrate
+
+    // "Oeffentlich" lesbare, sich veraendernde Informationen:
+    BWSetup c;       // Aktuelles Setup
+    float *sig;      // Signal mid-point values: sig[x], or NAN for sync errors
+    float *sig0;     // Signal minimum values: sig0[x], or NAN for sync errors
+    float *sig1;     // Signal maximum values: sig1[x], or NAN for sync errors
+    float *mag;      // Magnitude information: mag[x+y*sx]
+    float *est;      // Estimated nearby peak frequencies: est[x+y*sx], or NAN if can't calc
+    float *freq;     // Centre-frequency of each line (Hz): freq[y]
+    float *wwid;     // Logical width of window in samples: wwid[y]
+    int *awwid;      // Actual width of window, taking account of IIR tail: awwid[y]
+    int *fftp;       // FFT plan to use (index into ->plan[], fftp[y]%3==0)
+    double *iir;     // IIR filter coefficients: iir[y*3], iir[y*3+1], iir[y*3+2]
+    int yy;      // Number of lines currently correctly calculated in arrays
+    int sig_wind;    // Are the ->sig arrays windowed ? 0 no, 1 yes
+   
+    // "Oeffentlich" schreibbare Informationen:
+    BWSetup req;     // Angefordertes Setup
+};
+\end{lstlisting}
 
 \subsection{Makro PLAN\_SIZE(n)} Ein Makro zur Berechnung, wie gro"s dass Array f"ur einen fftw-\emph{plan} sein muss. 
 
@@ -129,7 +172,7 @@ $PLAN\_SIZE(n) = \begin{cases}
 Block size $bsiz=1024$
 
 
-\subsection{void bwanal\_start(BWAnal *aa)} Die Funktion \emph{bwanal\_start(BWAnal *aa)} Startet die Berechnungen.
+\subsection{void bwanal\_start(BWAnal *aa)} Die Funktion \emph{bwanal\_start(BWAnal *aa)} startet die Berechnungen. Sie wird aufgerufen von der \emph{main}-Funktion (siehe \emph{bwview.c}).
 
 \emph{Vorbemerkung:} Von den drei
 
@@ -155,7 +198,7 @@ $siz= sx\cdot tbase + \lfloor wwid_a \rfloor + 2 + 10$
 
 $b= \lfloor \log_2\left(siz\right)\rfloor \cdot 6$
 
-\textbf{Solange  $PLAN\_SIZE(b) > siz$: \{} $b=b-1$\textbf{\}}
+Solange  $PLAN\_SIZE(b) > siz$: \{ $b=b-1$\}
 
 Index auf zu benutzenden fft Plan: $fftp_a = b$
 
@@ -163,7 +206,7 @@ Dazugeh"orige Fenstergr"o"se: $awwid_a=PLAN\_SIZE(b)$
 
 Maximale Plangr"o"se: $maxsiz= PLAN\_SIZE(b)$;
 
-\textbf{\}}
+\textbf{\} // Ende f"ur jede Zeile}
 
 \emph{to be continued...}
 
