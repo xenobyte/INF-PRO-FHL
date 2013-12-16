@@ -59,6 +59,14 @@
 
 Dieses Dokument ist \emph{work in progress} und dient vorerst nur der Sammlung diverser (aus dem Quellcode von bwview extrahierter) Formeln.
 
+\section{Nutzer-Parameter}
+
+Eine (\emph{noch unvollst"andige}) Sammlung der Parameter, die der Nutzer manipulieren kann:
+
+\subsection{Gain for signal display (Taste s)} Wirkt sich nur auf die (untransformierte) Zeit-Amplitude-Darstellung am oberen Rand des Fensters, nicht auf die Signalanalyse aus. Wert ist gespeichert in der globalen Variable \emph{s\_gain}. Verwendet wird dieser Wert in der Funktion \emph{void draw\_signal(BWAnal *aa)} in \emph{display.c}.
+
+\subsection{Brightness of main display (Taste b)} Wirkt sich auf die Darstellung im Hauptfenster (nicht auf die Signalanalyse) aus.  Wert ist gespeichert in der globalen Variable \emph{s\_bri}. Verwendet wird dieser Wert in der Funktion \emph{void draw\_mag\_lines(BWAnal *aa, int lin, int cnt)} in \emph{display.c} - dort werden die Ergebniswerte der Analyse vor dem Plotten durch Multiplikation mit  \emph{s\_bri} skaliert .
+
 \section{analysis.c}
 
 Die Datei \emph{analysis.c} enth"alt die Funktionen zur Analyse der EEG-Daten.
@@ -126,7 +134,7 @@ struct BWAnal {
     float *sig;      // Signal mid-point values: sig[x], or NAN for sync errors
     float *sig0;     // Signal minimum values: sig0[x], or NAN for sync errors
     float *sig1;     // Signal maximum values: sig1[x], or NAN for sync errors
-    float *mag;      // Magnitude information: mag[x+y*sx]
+    float *mag;      // Magnitude information: mag[x+y*sx] - dies ist der Wert, der am Ende geplottet wird
     float *est;      // Estimated nearby peak frequencies: est[x+y*sx], or NAN if can't calc
     float *freq;     // Centre-frequency of each line (Hz): freq[y]
     float *wwid;     // Logical width of window in samples: wwid[y]
@@ -205,6 +213,34 @@ Index auf zu benutzenden fft Plan: $fftp_a = b$
 Dazugeh"orige Fenstergr"o"se: $awwid_a=PLAN\_SIZE(b)$
 
 Maximale Plangr"o"se: $maxsiz= PLAN\_SIZE(b)$;
+
+\textbf{\} // Ende f"ur jede Zeile}
+
+$a = fftp_{sy-1} + 3$
+
+falls $a > mplan$: allokiere die Plan-Liste $plan$ neu f"ur $a$ Pl"ane, kopiere die Pl"ane aus der alten Liste hinein (kurzum: vergr"ossere $plan$, um Platz f"ur $a$ Pl"ane zu bieten).
+
+\textbf{F"ur jede Zeile $a<sy$:\{}
+
+$ii = fftp_a$
+
+$siz = PLAN\_SIZE(ii)$
+
+\textbf{F"ur jedes Zeile $b\in\left[0,1,2\right]$:\{}
+
+$c =  ii + b$
+
+\textbf{wenn plan\_{c} noch nicht existiert \{}
+
+wenn $b=0$ : $plan_c = $\emph{rfftw\_create\_plan(siz, FFTW\_REAL\_TO\_COMPLEX, FFTW\_ESTIMATE $\vert$ FFTW\_USE\_WISDOM)}
+
+wenn $b=1$ : $plan_c = $\emph{rfftw\_create\_plan(siz, FFTW\_COMPLEX\_TO\_REAL, FFTW\_ESTIMATE $\vert$ FFTW\_USE\_WISDOM)}
+
+wenn $b=2$ : $plan_c = $\emph{fftw\_create\_plan(siz, FFTW\_BACKWARD, FFTW\_ESTIMATE $\vert$ FFTW\_USE\_WISDOM)}
+
+\textbf{\}} // Ende wenn
+
+\textbf{\} // Ende f"ur jedes $b$}
 
 \textbf{\} // Ende f"ur jede Zeile}
 
