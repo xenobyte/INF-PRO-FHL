@@ -21,12 +21,4 @@ public class IntegerMessage implements Message{
         return l;
     }
 
-    @Override
-    public LinkedList<Object> toOSCData() {
-        LinkedList<Object> l = new LinkedList<Object>();
-        l.add(address);
-        l.add(data);
-        return l;
-    }
-
 }

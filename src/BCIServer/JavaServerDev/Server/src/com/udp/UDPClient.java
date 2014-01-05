@@ -14,7 +14,7 @@ import dataPackages.EmoState;
 import dataPackages.RawData;
 
 
-public class UDPClient {
+public class UDPClient implements DataSource{
     DatagramSocket udpSocket;
     InetAddress serverAddress;
     int serverPort;

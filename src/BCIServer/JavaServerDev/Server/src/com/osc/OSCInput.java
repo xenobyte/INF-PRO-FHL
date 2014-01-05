@@ -10,6 +10,7 @@ import controll.Controller;
 import event.AlwaysSendEvent;
 import event.OneTimeEvent;
 import event.condition.Condition;
+import event.condition.AbstractCondition;
 import event.condition.FloatCondition;
 import event.condition.IntegerCondition;
 import event.condition.StringCondition;

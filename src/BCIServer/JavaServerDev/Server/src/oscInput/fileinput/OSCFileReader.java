@@ -2,7 +2,6 @@ package oscInput.fileinput;
 
 import java.io.*;
 
-import oscInput.StringParser;
 
 public class OSCFileReader {
 

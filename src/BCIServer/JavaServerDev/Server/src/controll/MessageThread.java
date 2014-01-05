@@ -36,7 +36,7 @@ public class MessageThread extends Thread {
                 while (itEvents.hasNext()) {
                     Event e = itEvents.next();
                     if (ctrl.getEEGData() != null) {
-                        if (e.checkConditon(eeg)) {
+                        if (e.checkCondition(eeg)) {
 
                             portOut.send(e.getMessages(eeg));
                         }
@@ -48,7 +48,7 @@ public class MessageThread extends Thread {
 
             blockMutex.unlock();
             try {
-                Thread.sleep(waitTime);
+                Thread.sleep(waitTime - (System.currentTimeMillis() % waitTime));
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

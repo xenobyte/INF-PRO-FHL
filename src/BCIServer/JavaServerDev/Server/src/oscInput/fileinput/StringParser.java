@@ -1,4 +1,4 @@
-package oscInput;
+package oscInput.fileinput;
 
 import java.io.IOException;
 import java.net.InetAddress;

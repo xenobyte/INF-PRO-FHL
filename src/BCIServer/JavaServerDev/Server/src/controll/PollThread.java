@@ -1,13 +1,13 @@
 package controll;
 
-import com.udp.UDPClient;
+import com.udp.DataSource;
 
 public class PollThread extends Thread {
-    private final UDPClient udpClient;
+    private final DataSource udpClient;
     private final int waitTime;
     private final Controller ctrl;
 
-    public PollThread(UDPClient u, double f, Controller c) {
+    public PollThread(DataSource u, double f, Controller c) {
         udpClient = u;
         waitTime = (int) (1000 / f);
         ctrl = c;
@@ -17,7 +17,7 @@ public class PollThread extends Thread {
         while (true) {
             ctrl.setEEGData(udpClient.getEEGData());
             try {
-                Thread.sleep(waitTime);
+                Thread.sleep(waitTime - (System.currentTimeMillis() % waitTime));
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

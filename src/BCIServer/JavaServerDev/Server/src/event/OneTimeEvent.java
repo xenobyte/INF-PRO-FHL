@@ -3,11 +3,11 @@ package event;
 import java.util.LinkedList;
 
 import dataPackages.EEGData;
-
+import event.condition.AbstractCondition;
 import event.condition.Condition;
 import event.message.Message;
 
-public class OneTimeEvent extends Event{
+public class OneTimeEvent extends AbstractEvent{
     private boolean lastResult;
     
     
@@ -16,8 +16,8 @@ public class OneTimeEvent extends Event{
     }
 
     @Override
-    public boolean checkConditon(EEGData e) {
-        boolean b = super.checkConditon(e);
+    public boolean checkCondition(EEGData e) {
+        boolean b = super.checkCondition(e);
         boolean temp = b && !lastResult;
         lastResult = b;
         return temp;

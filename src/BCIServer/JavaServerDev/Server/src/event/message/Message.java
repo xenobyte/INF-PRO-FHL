@@ -7,5 +7,4 @@ import osc.OSCMessage;
 
 public interface Message {
     public LinkedList<OSCMessage> toMessage(EEGData e);
-    public LinkedList<Object> toOSCData();
 }

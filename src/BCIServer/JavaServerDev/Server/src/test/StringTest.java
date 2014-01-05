@@ -3,7 +3,7 @@ package test;
 import java.io.IOException;
 
 import constants.Constants;
-import oscInput.StringParser;
+import oscInput.fileinput.StringParser;
 
 public class StringTest {
 

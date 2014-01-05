@@ -1,8 +1,8 @@
 package controll;
 
 import java.util.HashMap;
-import dataPackages.EEGData;
 
+import dataPackages.EEGData;
 import event.Event;
 
 

@@ -10,8 +10,7 @@ public class Constants {
     
     public final static String SERVERIP = "localhost";
     public final static int SERVERPORT = 5000;
-    public final static int EVENTPORT = 5999;
     public final static int FORWARDINGPORT = 6000;
     public final static int OSCPORTIN = 7777;
-    public final static double POLLFREQUENCY = 2;
+    public final static double POLLFREQUENCY = 10;
 }

@@ -4,7 +4,7 @@ import java.util.LinkedList;
 
 import dataPackages.EEGData;
 
-public class StringCondition extends Condition {
+public class StringCondition extends AbstractCondition {
     private final String leftOperator;
     private final String condition;
     private final String rightOperator;
@@ -20,12 +20,4 @@ public class StringCondition extends Condition {
        return super.compare(super.getVariableValue(e, leftOperator), condition, super.getVariableValue(e, rightOperator));
     }
 
-    @Override
-    public LinkedList<Object> toOSCData() {
-        LinkedList<Object> l = new LinkedList<Object>();
-        l.add(leftOperator);
-        l.add(condition);
-        l.add(rightOperator);
-        return l;
-    }
 }
