@@ -179,7 +179,7 @@ int EpocHandler::updateData()
 				std::cout << " , " << (eventType == EE_EmoStateUpdated) << std::endl;
 			pEngagement =  ES_AffectivGetEngagementBoredomScore(eState);
 			pFrustration = ES_AffectivGetFrustrationScore(eState);
-			pMeditation = ES_AffectivGetExcitementShortTermScore(eState);
+			pMeditation = ES_AffectivGetMeditationScore(eState);
 			pExcitement = ES_AffectivGetExcitementShortTermScore(eState);
 			if(debug)
 				std::cout << "EmoState read " << pEngagement << ", " << pFrustration << ", " << pMeditation<<std::endl;
