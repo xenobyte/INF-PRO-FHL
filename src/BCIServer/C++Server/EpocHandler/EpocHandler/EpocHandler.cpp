@@ -42,7 +42,7 @@ int state;
 //Flag to see if we are connected
 bool connected;
 //In Debugmode there is more output
-const bool debug= false;
+const bool debug = false;
 
 //Flag to see if there is Data to be collected
 bool updated;
@@ -131,12 +131,14 @@ int EpocHandler::updateData()
 		std::cout << "2" <<std::endl;
 	DataHandle hData = EE_DataCreate();
 	EE_DataSetBufferSizeInSec(secs);
+	EE_Event_t eventType;
+	state = EE_EngineGetNextEvent(eEvent);
+	eventType = EE_EmoEngineEventGetType(eEvent); 
 	while(!useradded){
-		if (state = EE_EngineGetNextEvent(eEvent) == EDK_OK)
+		if ((state) == EDK_OK)
 		{
-			EE_Event_t eventType = EE_EmoEngineEventGetType(eEvent);
-			EE_EmoEngineEventGetUserId(eEvent, &userID);
-			EE_EmoEngineEventGetEmoState(eEvent, eState);
+			
+			EE_EmoEngineEventGetUserId(eEvent, &userID);			
 			// Log the EmoState if it has been updated
 			if (eventType == EE_UserAdded) {
 				if(debug)
@@ -144,10 +146,15 @@ int EpocHandler::updateData()
 				useradded = true;
 				EE_DataAcquisitionEnable(userID, true);
 				readytocollect = true;
+			}else{
+				if(debug)
+					std::cout << "No user added" << std::endl;
 			}
 		}
+		state = EE_EngineGetNextEvent(eEvent);
+		eventType = EE_EmoEngineEventGetType(eEvent);
 	}
-
+	
 	if (readytocollect)
 	{
 		if(debug)
@@ -161,16 +168,18 @@ int EpocHandler::updateData()
 		}
 
 		EE_DataUpdateHandle(0, hData);
-
+		EE_EmoEngineEventGetEmoState(eEvent, eState);
 		EE_DataGetNumberOfSample(hData, &nSamplesTaken);
 		if (debug)
 			std::cout << "Updated " << nSamplesTaken << std::endl;
 		if (nSamplesTaken != 0) {
 			if(debug)
 				std::cout << "EmoState read " <<std::endl;
+			if(debug)
+				std::cout << " , " << (eventType == EE_EmoStateUpdated) << std::endl;
 			pEngagement =  ES_AffectivGetEngagementBoredomScore(eState);
 			pFrustration = ES_AffectivGetFrustrationScore(eState);
-			pMeditation = ES_AffectivGetExcitementShortTermScore(eState);
+			pMeditation = ES_AffectivGetMeditationScore(eState);
 			pExcitement = ES_AffectivGetExcitementShortTermScore(eState);
 			if(debug)
 				std::cout << "EmoState read " << pEngagement << ", " << pFrustration << ", " << pMeditation<<std::endl;

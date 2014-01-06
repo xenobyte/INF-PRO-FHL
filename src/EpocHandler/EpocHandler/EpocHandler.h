@@ -25,6 +25,7 @@ public:
 	* @see EpocHandler::updateData()
 	* @return a map with {EE_DataChannel_t => double*} the number of entries
 	* in each double array is equal to the returnvalue of updateData()
+	* @todo encapsulate EE_DataChannel_t to a enum or something like that, which is easier to use, than EE_DataChannel
 	*/
 	std::map<EE_DataChannel_t, double*> getAllData();
 	/**
