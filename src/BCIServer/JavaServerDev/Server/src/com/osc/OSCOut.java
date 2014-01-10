@@ -15,7 +15,7 @@ public class OSCOut {
     
     public OSCOut(String serverAddress, int port) {
         try {
-            portOut = new OSCPortOut(InetAddress.getByName(serverAddress), 58100);
+            portOut = new OSCPortOut(InetAddress.getByName(serverAddress), port);
         } catch (SocketException e) {
             e.printStackTrace();
         } catch (UnknownHostException e) {

@@ -37,16 +37,16 @@ public class StringMessage implements Message {
                 }
                 break;
             case "emostate.meditation":
-                o.add(e.emoState.meditation);
+                o.add((float) e.emoState.meditation);
                 break;
             case "emostate.frustration":
-                o.add(e.emoState.frustration);
+                o.add((float) e.emoState.frustration);
                 break;
             case "emostate.excitement":
-                o.add(e.emoState.excitement);
+                o.add((float) e.emoState.excitement);
                 break;
             case "emostate.engagement":
-                o.add(e.emoState.engagement);
+                o.add((float) e.emoState.engagement);
                 break;
             case "=>rawdata":
                 ListIterator<RawData> lif = e.rawData.listIterator();
