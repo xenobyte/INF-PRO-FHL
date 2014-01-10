@@ -5,6 +5,7 @@ Brain Computer Interfaces Project (Hamburg University of Applied Sciences)
 
 Repository structure
 
+* abschlusspraesentation - final presentation drafts
 * doc - documentation
 * eegdata - eeg data samples
 * prot - meeting protocols
@@ -12,4 +13,4 @@ Repository structure
 * src - source code, VisualStudio Projects etc.
 * userprofiles - epoc user profiles
 * torcs-driver - Torcs robots based on the tutorial, slightly improved
-* praesentation - presentation drafts
+* zwischenraesentation - mid-term presentation drafts
