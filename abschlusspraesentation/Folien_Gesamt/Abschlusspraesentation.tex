@@ -8,6 +8,17 @@
 \usepackage[applemac]{inputenc} % inputencoding (MacOS) für Umlaute und Akzente
 \usepackage{multimedia}
 
+% für Code:
+\usepackage{listings}
+\usepackage{color}
+
+\lstset{ basicstyle=\footnotesize,        % the size of the fonts that are used for the code
+  commentstyle=\color{red},    % comment style
+%  frame=single,                    % adds a frame around the code
+  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+  keywordstyle=\color{blue},       % keyword style
+}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%% Die folgenden Befehle definieren das Grundlayout, blenden auf der
@@ -95,6 +106,39 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{bwview}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+\frametitle{bwview}
+
+\begin{center}
+\includegraphics[width=\textwidth]{Video_linkes_Bein.png}
+\end{center}
+
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{bwview - Arbeit am Code}
+\begin{block}{Fremder Code ist immer für eine Überraschung gut:}
+\begin{lstlisting}[language=C, basicstyle=\small]
+siz= aa->c.sx * aa->c.tbase + 
+        (int)aa->wwid[a] + 2 + 10;
+        // +2 for rounding, +10 for luck
+\end{lstlisting}
+\end{block}
+
+Unsere Arbeit am Quellcode:
+
+\begin{itemize}
+\item Nachvollziehen der Berechnungen
+\item Builds und build-Anleitungen für aktuelle Betriebssysteme
+\item Anpassen an fftw 3.X
+\end{itemize}
+
+\end{frame}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
