@@ -159,6 +159,41 @@ Unsere Arbeit am Quellcode:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
+\begin{frame}
+  \frametitle{Emotiv Epoc API}
+  
+Die Emotiv Epoc API in ist nativ C++ geschrieben.
+Sie ist dabei jedoch umständlich, und nur mäßig dokumentiert.\pause
+Deswegen: Entwicklung eines Wrappers für eine komfortablere Nutzung des EEG Headsets.
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Emotiv Epoc API Wrapper}
+  
+Der API Wrapper ist in C++ geschrieben.
+Bei der Entwicklung wurde auf objektorientierte Prinzipien geachtet.
+Es wurde ebenfalls eine allgemeine Schnittstelle definiert, die es ermöglicht mit minimalem Aufwand unterschiedliche EEG Headsets zu nutzen.
+Er liefert die Daten für den OSC-Server.
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Emotiv Epoc API Wrapper Funktionalitäten}
+
+  \begin{itemize}
+      \item Konzentration
+      \item Meditation
+      \item Frustration
+      \item Aufregung
+      \item Einzelwerte der 14 Elektroden
+      \item Gyroskop Werte
+      \item Timestamp
+      \item Counter
+   \end{itemize}
+
+\end{frame}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Verteilte Systeme mit OSC-Kopplung}
