@@ -16,8 +16,7 @@ class OscServer {
 public:
     OscServer();
     ~OscServer();
-    bool start(int *oscinfo);
-    int *gearToTorcs;
+    bool start(float *oscinfo);
 private:
     static void error(int num, const char *msg, const char *path);
     static int gearControl(const char *path, const char *types, lo_arg ** argv,
