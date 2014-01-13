@@ -66,7 +66,7 @@ class Driver {
    float getSteer();
    v2d getTargetPoint();   
    void *printHello(void);
-   int oscinfo;
+   static int oscinfo;
 
   private:
    /* utility functions */
