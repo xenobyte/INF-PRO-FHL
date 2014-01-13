@@ -83,6 +83,22 @@
 
 
 \begin{frame}
+  \frametitle{Emotiv-API}
+  
+  Die Emotiv-API (drei C-Header und entsprechende Binaries) bietet Zugriff auf Daten auf vier veschiedenen Ebenen:
+  
+\begin{enumerate}
+\item rohe Messwerte der 14 Elektroden und des Gyroskops
+\item Mimik-Ereignisse (''Expressiv Suite'')
+\item ''Emotions-Werte'' (''Affectiv Suite'')
+\item trainierte, wiedererkannte ''Gedanken''-Muster (''Cognitiv Suite'')
+\end{enumerate} 
+
+Wie die Daten der Ebenen 2-4 berechnet werden, bleibt leider ein Geheimnis der Hersteller-Firma.
+
+\end{frame}
+
+\begin{frame}
 \frametitle{Neurosky Mindwave}
 
 \begin{center}  
@@ -107,8 +123,15 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{bwview}
+%\subsection{bwview}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+\frametitle{Auswertung - erste Versuche}
+  
+\pgfimage[width=\textwidth]{linplot_linkes_bein.png}
+  
+\end{frame}
 
 \begin{frame}
 \frametitle{bwview}
@@ -236,11 +259,57 @@ Er liefert die Daten für den OSC-Server.
 %% der Name der section taucht nur im Inhaltsverzeichnis und im linken Rand auf.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\begin{frame}
+\frametitle{Torcs - The Open Racing Car Simulator}
+
+\begin{center}
+\includegraphics[width=\textwidth]{torcs-screenshot.png}
+\end{center}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Torcs - The Open Racing Car Simulator}
+
+%%%%% AUSSCHNEIDEN
+
+
+\begin{itemize}
+\item Open Source Lizenz - GPL
+\item 3D Rennspiel
+\item Fahrer programmierbar
+\item Gaspedalstellung per EEG
+\item http://torcs.sourceforge.net/
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Interaktion}
+\begin{center}
+\includegraphics[scale=0.5]{torcs.png}
+\end{center}
+\end{frame}
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Komposition für ein EEG}
+\subsection{Sonifikation von ''Gedanken''}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+
+\frametitle{Kooperation mit der HMTM Hannover}       
+\begin{center}  
+\pgfimage[width=.6\textwidth]{Hochschule_fuer_Musik_und_Theater_Hannover.jpg}
+\end{center}  
+
+Vergangene Woche: Besuch von Vincent Michalke, Student für Komposition an der HMTM Hannover.
+
+Erste Experimente ''EEG to CSound'' waren erfolgreich - im Folgesemester geht es weiter...
+
+
+\end{frame}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
