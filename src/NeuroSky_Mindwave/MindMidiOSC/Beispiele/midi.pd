@@ -1,8 +1,0 @@
-#N canvas 3053 337 450 300 10;
-#X obj 166 30 notein;
-#X floatatom 147 76 5 0 0 0 - - -;
-#X floatatom 182 105 5 0 0 0 - - -;
-#X floatatom 210 79 5 0 0 0 - - -;
-#X connect 0 0 1 0;
-#X connect 0 1 2 0;
-#X connect 0 2 3 0;

@@ -1,0 +1,7 @@
+Ein Java Programm das die Auswertung der Raw Daten in einer csv Datei speichert.
+Die Aufnamezeit ist vom Anwender frei einstellbar.
+
+
+Benötigte Hardware
+
+-Neurosky mindwave

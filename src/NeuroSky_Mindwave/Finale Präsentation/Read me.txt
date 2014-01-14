@@ -1,0 +1,7 @@
+Java Programm zur Steuerung von Guitarren Effekte.
+
+Benötigte Hardware
+
+Kinect + Neurosky mindwave
+
+
