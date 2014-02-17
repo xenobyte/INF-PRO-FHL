@@ -1,0 +1,5 @@
+/Server/createThread ssif FileTest localhost 58100 10
+/Server/startThread s FileTest
+/Server/blockThread s FileTest
+/Server/unblockThread s FileTest
+/Server/addEvent/AlwaysSend sssfss FileTest EmoState.Meditation > 0.5 /Test Emostate
